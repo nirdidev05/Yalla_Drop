@@ -37,9 +37,15 @@ fun CancelOrder(navController: NavHostController) {
                 style = MaterialTheme.typography.titleMedium,
             )
             RadioGroupExample()
-            Button(onClick = { /*TODO*/ } ,modifier = Modifier
-                    .size(110.dp, 35.dp)
-                .border(0.5.dp, MaterialTheme.colorScheme.onBackground, RoundedCornerShape(45)) // Apply border with the same rounded shape
+            Button(onClick = {
+                navController.navigate("CancelOrderAnimation")
+            } ,modifier = Modifier
+                .size(110.dp, 35.dp)
+                .border(
+                    0.5.dp,
+                    MaterialTheme.colorScheme.onBackground,
+                    RoundedCornerShape(45)
+                ) // Apply border with the same rounded shape
                 .clip(RoundedCornerShape(38))
 
             ) {

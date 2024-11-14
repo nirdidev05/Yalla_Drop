@@ -41,7 +41,7 @@ fun ActiveOrders(navController: NavHostController) {
                 OrderListButton(content = "Canceled", active = false,OrderState.CANCELED , navController)
             }
 
-            if(list.isEmpty())
+            if(!list.isEmpty())
                 Column( modifier = Modifier.fillMaxHeight()) {
                     HorizontalDivider(
                         thickness = 1.5.dp,

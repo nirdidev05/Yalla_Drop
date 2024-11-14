@@ -204,7 +204,7 @@ fun FoodCard(item:FoodItems , state:OrderState,navController: NavHostController)
                         ) {
                             Button(
                                 onClick = {
-                                    navController.navigate("CancelOrder")
+                                    navController.navigate("CancelOrderReasons")
                                 },
                                 modifier = Modifier
                                     .height(26.dp)

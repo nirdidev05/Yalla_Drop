@@ -48,8 +48,7 @@ fun LeaveReview(navController: NavHostController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 10.dp)
-                .padding(bottom = 40.dp),
+                .padding(horizontal = 10.dp),
             verticalArrangement = Arrangement.SpaceBetween,
         ) {
             Column (

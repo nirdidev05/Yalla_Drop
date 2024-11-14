@@ -14,6 +14,7 @@ val Pink40 = Color(0xFF7D5260)
 
 val Orange = Color(("#FFFF7622").toColorInt())
 val Orange31 =Color("#4FFC6E2A".toColorInt())
-val OrangeDark = Color(("#FFE95322").toColorInt())
+val OrangeBase = Color(("#FFE95322").toColorInt())
 val OrangeTransparent =  Color("#FFD8C7".toColorInt())
 val Gray = Color.Gray
+val CancelOrange  = Color("#FFBD69".toColorInt())

@@ -16,9 +16,10 @@ fun Navigation() {
         composable("ActiveOrders") { ActiveOrders(navController) }
         composable("CanceledOrders") { CanceledOrders(navController) }
         composable("CompletedOrders") { CompletedOrders(navController) }
-        composable("CancelOrder") { CancelOrder(navController) }
+        composable("CancelOrderReasons") { CancelOrder(navController) }
         composable("LeaveReview") { LeaveReview(navController) }
-
+        composable("CancelOrderAnimation") { CancelOrderAnimation(navController) }
+        //composable("ConfirmedOrderAnimation") { ConfirmedOrderAnimation(navController) }
 
 
     }

@@ -34,9 +34,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingPreview() {
     YallaDropTheme {
-        PrincipaleBackGroound(title = "My Title" ,){
-            Text(text = "Work!")
-        }
+        ConfirmedOrderAnimation()
     }
 }
 
