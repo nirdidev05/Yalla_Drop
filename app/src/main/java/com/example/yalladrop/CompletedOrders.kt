@@ -28,7 +28,7 @@ import androidx.navigation.NavHostController
 
 @Composable
 fun CompletedOrders(navController: NavHostController) {
-    PrincipaleBackGroound(title = "My Orders"  ){
+    PrincipaleBackGroound(title = "My Orders" , navController ){
         Column {
 
             Row(

@@ -27,7 +27,7 @@ import androidx.navigation.NavHostController
 
 @Composable
 fun CanceledOrders(navController: NavHostController) {
-    PrincipaleBackGroound(title = "My Orders"  ){
+    PrincipaleBackGroound(title = "My Orders" , navController ){
         Column {
 
             Row(

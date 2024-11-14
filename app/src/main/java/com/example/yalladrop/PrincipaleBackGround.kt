@@ -1,6 +1,7 @@
 package com.example.yalladrop
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -21,10 +22,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
+import androidx.navigation.NavHostController
 
 
 @Composable
-fun PrincipaleBackGroound(title: String, content:  @Composable() () -> Unit) {
+fun PrincipaleBackGroound(title: String, navController : NavHostController , content:  @Composable() () -> Unit ,) {
 
 
     Scaffold {
@@ -47,7 +49,11 @@ fun PrincipaleBackGroound(title: String, content:  @Composable() () -> Unit) {
                     Icon(
                         Icons.Default.ArrowBack,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onBackground
+                        tint = MaterialTheme.colorScheme.onBackground,
+                        modifier = Modifier.clickable {
+                            navController.popBackStack()
+
+                        }
                     )
                     Box(
                         modifier = Modifier

@@ -29,7 +29,7 @@ import java.time.LocalDateTime
 
 @Composable
 fun ActiveOrders(navController: NavHostController) {
-    PrincipaleBackGroound(title = "My Orders"  ){
+    PrincipaleBackGroound(title = "My Orders" , navController  ){
         Column {
 
             Row(

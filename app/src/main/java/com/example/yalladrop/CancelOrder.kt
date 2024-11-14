@@ -24,7 +24,7 @@ import androidx.navigation.NavHostController
 
 @Composable
 fun CancelOrder(navController: NavHostController) {
-    PrincipaleBackGroound(title = "Cancel Order" ) {
+    PrincipaleBackGroound(title = "Cancel Order" , navController ) {
         Column (
             modifier = Modifier.fillMaxSize() ,
             verticalArrangement = Arrangement.SpaceEvenly ,

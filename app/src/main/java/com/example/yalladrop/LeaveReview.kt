@@ -40,7 +40,7 @@ import androidx.navigation.NavHostController
 
 @Composable
 fun LeaveReview(navController: NavHostController) {
-    PrincipaleBackGroound(title = "Leave Review") {
+    PrincipaleBackGroound(title = "Leave Review" , navController) {
         var currentRating by remember { mutableStateOf(3) }
         val text = rememberSaveable { mutableStateOf("") }
 
