@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingPreview() {
     YallaDropTheme {
-        ConfirmedOrderAnimation()
+        Navigation()
     }
 }
 

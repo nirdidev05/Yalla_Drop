@@ -18,6 +18,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material.icons.rounded.StarOutline
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -112,21 +113,21 @@ fun LeaveReview(navController: NavHostController) {
                 modifier = Modifier.fillMaxWidth().padding(10.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Button(onClick = { /*TODO*/ } ,modifier = Modifier
-                    .size(150.dp, 35.dp)
-                    .border(0.5.dp, MaterialTheme.colorScheme.onBackground, RoundedCornerShape(45)) // Apply border with the same rounded shape
-                    .clip(RoundedCornerShape(38))
-
+                Button(onClick = { /*TODO*/ } ,
+                        modifier = Modifier
+                        .size(150.dp, 35.dp)
+                    .clip(RoundedCornerShape(38)),
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
                 ) {
-                    Text(text = "Submit" , style = MaterialTheme.typography.labelMedium , color = Color.White)
-                }
+                Text(text = "Cancel" , style = MaterialTheme.typography.labelMedium ,color =  MaterialTheme.colorScheme.onBackground)
+            }
                 Button(onClick = { /*TODO*/ } ,modifier = Modifier
                     .size(150.dp, 35.dp)
                     .border(0.5.dp,MaterialTheme.colorScheme.onBackground, RoundedCornerShape(45)) // Apply border with the same rounded shape
                     .clip(RoundedCornerShape(38))
 
                 ) {
-                    Text(text = "Cancel" , style = MaterialTheme.typography.labelMedium , color = Color.White)
+                    Text(text = "Submit" , style = MaterialTheme.typography.labelMedium , color = Color.White)
                 }
             }
         }

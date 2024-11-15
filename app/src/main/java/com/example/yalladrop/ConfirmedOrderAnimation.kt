@@ -36,7 +36,6 @@ import kotlinx.coroutines.delay
 import androidx.compose.runtime.*
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -46,7 +45,7 @@ import com.example.yalladrop.ui.theme.OrangeBase
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun ConfirmedOrderAnimation() {
+fun ConfirmedOrderAnimation(navController: NavHostController) {
     var currentImageIndex by remember { mutableStateOf<Int>(0) }
 
     // List of image resources
