@@ -18,3 +18,4 @@ val OrangeBase = Color(("#FFE95322").toColorInt())
 val OrangeTransparent =  Color("#FFD8C7".toColorInt())
 val Gray = Color.Gray
 val CancelOrange  = Color("#FFBD69".toColorInt())
+val ConfirmedYellow = Color("#F5CB58".toColorInt())

@@ -40,6 +40,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.yalladrop.ui.theme.ConfirmedYellow
 import com.example.yalladrop.ui.theme.OrangeBase
 
 
@@ -59,7 +60,7 @@ fun ConfirmedOrderAnimation(navController: NavHostController) {
             innerPadding ->  Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = CancelOrange)
+            .background(color = ConfirmedYellow)
             .padding(start = 10.dp, end = 10.dp, bottom = 50.dp),
 
         ) {

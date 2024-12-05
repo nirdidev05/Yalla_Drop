@@ -2,6 +2,7 @@ package com.example.yalladrop
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,6 +21,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,10 +36,16 @@ import androidx.navigation.NavHostController
 
 
 @Composable
-fun FoodCard(item:FoodItems , state:OrderState,navController: NavHostController)
+fun FoodCard(
+    item: FoodItems,
+    state: OrderState,
+    navController: NavHostController,
+    lastItem: Boolean
+)
 {
 
-    Column {
+    Column (
+    ){
         Box(
             modifier = Modifier
                 .height(100.dp)
@@ -107,10 +115,11 @@ fun FoodCard(item:FoodItems , state:OrderState,navController: NavHostController)
                                     +"${(if (item.date.minute < 10) "0" else "") +item.date.minute}",
                             style = MaterialTheme.typography.labelSmall
                         )
+                        if(state != OrderState.INPROGRESS){
                         Text(
                             text = "${item.numItem} items",
                             style = MaterialTheme.typography.labelSmall
-                        )
+                        )}
                     }
                     if (state == OrderState.COMPLETED)
                     {
@@ -158,7 +167,7 @@ fun FoodCard(item:FoodItems , state:OrderState,navController: NavHostController)
                             )
                         }
                         Button(
-                            onClick = { /*TODO*/ },
+                            onClick = { navController.navigate("ConfirmeOrder") },
                             modifier = Modifier
                                 .height(26.dp)
                                 .width(110.dp)
@@ -194,8 +203,61 @@ fun FoodCard(item:FoodItems , state:OrderState,navController: NavHostController)
 
 
                     }
+                    else if (state == OrderState.INPROGRESS)
+                    {
+                        var itemNum by remember { mutableStateOf(item.numItem)}
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+
+                        ) {
+                            Button(
+                                onClick = {
+                                    navController.navigate("CancelOrderReasons")
+                                },
+                                modifier = Modifier
+                                    .height(26.dp)
+                                    .clip(RoundedCornerShape(38)),
+                                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
+
+
+                                ) {
+                                Text(
+                                    text = "Cancel Order",
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = Color("#E95322".toColorInt())
+                                )
+                            }
+                            Row (verticalAlignment = Alignment.CenterVertically){
+
+                                    Image(
+                                        painter = painterResource(id = R.drawable.minceicon),
+                                        contentDescription = null,
+                                        modifier = Modifier.size(30.dp).clickable{item.numItem-- ; itemNum = item.numItem}
+                                    )
+
+                                Text(
+                                    text = "${itemNum}",
+                                    style = MaterialTheme.typography.labelMedium,
+                                    fontSize = 18.sp,
+                                    modifier = Modifier.padding(horizontal = 5.dp)
+
+                                   )
+
+                                    Image(
+                                        painter = painterResource(id = R.drawable.addicon),
+                                        contentDescription = null,
+                                        modifier = Modifier.size(30.dp).clickable{item.numItem++ ; itemNum = item.numItem }
+                                    )
+
+                            }
+                        }
+
+                    }
                     else
                     {
+
+
 
                         Row(
                             modifier = Modifier.fillMaxWidth(),
@@ -244,6 +306,7 @@ fun FoodCard(item:FoodItems , state:OrderState,navController: NavHostController)
                 }
             }
         }
+        if(!lastItem)
         HorizontalDivider(thickness = 1.5.dp , color = Color("#FFD8C7".toColorInt()) , modifier = Modifier.padding(top = 10.dp , bottom = 15.dp))
 
     }

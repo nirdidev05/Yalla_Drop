@@ -19,11 +19,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.core.graphics.toColorInt
 import androidx.navigation.NavHostController
 import java.time.LocalDateTime
 
@@ -59,7 +57,12 @@ fun ActiveOrders(navController: NavHostController) {
                     ) {
 
                         itemsIndexed(list) { index, item ->
-                            FoodCard(item = item , state = OrderState.ACTIVE, navController)
+                            FoodCard(
+                                item = item,
+                                state = OrderState.ACTIVE,
+                                navController,
+                                if(list.size == index+1) true else false
+                            )
                         }
                     }
                 }
@@ -105,4 +108,15 @@ var list= listOf(
         numItem = 2 ,
         date = LocalDateTime.now() ,
         painterId =  R.drawable.images
-    ) ,)
+    ) ,
+    FoodItems(name = "Coffee ZOUBIR" , price = 100 ,
+        numItem = 2 ,
+        date = LocalDateTime.now() ,
+        painterId =  R.drawable.images
+    ) ,
+    FoodItems(name = "Coffee ZOUBIR" , price = 100 ,
+        numItem = 2 ,
+        date = LocalDateTime.now() ,
+        painterId =  R.drawable.images
+    ) ,
+    )

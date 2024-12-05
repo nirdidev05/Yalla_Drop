@@ -20,6 +20,7 @@ fun Navigation() {
         composable("LeaveReview") { LeaveReview(navController) }
         composable("CancelOrderAnimation") { CancelOrderAnimation(navController) }
         composable("ConfirmedOrderAnimation") { ConfirmedOrderAnimation(navController) }
+        composable("ConfirmeOrder")  {  ConfirmeOrder(navController)}
 
 
     }
