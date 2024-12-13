@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun AffichageNotif() {
-    val hasNotifications = false // Variable indiquant s'il y a des notifications
+    val hasNotifications = true // Variable indiquant s'il y a des notifications
 
     Box(modifier = Modifier.fillMaxSize()) {
         // Barre de titre
