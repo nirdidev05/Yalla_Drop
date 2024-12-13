@@ -33,195 +33,138 @@ import androidx.compose.foundation.border
 fun Ajoutadr() {
     var nameState by remember { mutableStateOf(TextFieldValue("")) }
     var adressState by remember { mutableStateOf(TextFieldValue("")) } // État pour l'adresse
-
-    Box(modifier = Modifier.fillMaxSize()) {
-        Image(
-            painter = painterResource(id = R.drawable.orange),
-            contentDescription = null,
-            contentScale = ContentScale.FillBounds,
-            modifier = Modifier.fillMaxSize()
-        )
-
-        Column(
-            modifier = Modifier
-                .padding(20.dp)
-                .offset(y = 40.dp)
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.back),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(32.dp)
-                        .clickable {
-                            // Action pour le retour
-                        }
-                )
-
-                Text(
-                    text = "Add New Address",
-                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                    color = Color.White,
-                    fontSize = 32.sp,
-                    modifier = Modifier.weight(1f),
-                    textAlign = TextAlign.Center
-                )
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
+    val hasnotif = false
+    PageWithNavigationBar(hasnotif) {
+        Box(modifier = Modifier.fillMaxSize()) {
             Image(
-                painter = painterResource(id = R.drawable.home3),
-                contentDescription = " ",
-                modifier = Modifier
-                    .size(130.dp)
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
-                    .offset(x = 120.dp, y = 80.dp)
+                painter = painterResource(id = R.drawable.orange),
+                contentDescription = null,
+                contentScale = ContentScale.FillBounds,
+                modifier = Modifier.fillMaxSize()
             )
 
-            Spacer(modifier = Modifier.height(120.dp))
-
-            // Champs OutlinedTextField pour le nom
-            OutlinedTextField(
-                value = nameState,
-                onValueChange = { newText -> nameState = newText },
-                label = {
-                    Text(text = "Name", color = Color(0xFFFF7622))
-                },
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = Color(0xFFFF7622),
-                    unfocusedBorderColor = Color(0xFFFF7622),
-                    containerColor = Color(0xFFFC6E2A).copy(alpha = 0.31f)
-                ),
-                shape = RoundedCornerShape(15.dp),
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(60.dp)
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Champs OutlinedTextField pour l'adresse
-            OutlinedTextField(
-                value = adressState,
-                onValueChange = { newText -> adressState = newText },
-                label = {
-                    Text(
-                        text = "Address",
-                        color = Color(0xFFFF7622)
-                    )
-                },
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = Color(0xFFFF7622),
-                    unfocusedBorderColor = Color(0xFFFF7622),
-                    containerColor = Color(0xFFFC6E2A).copy(alpha = 0.31f)
-                ),
-                shape = RoundedCornerShape(15.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(60.dp)
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
+                    .padding(20.dp)
+                    .offset(y = 40.dp)
             ) {
-                Box( // Englobant le bouton pour la bordure
-                    modifier = Modifier
-                        .width(150.dp)
-                        .height(40.dp)
-                        .offset(y = -75.dp)
-                        .border(1.dp, Color(0xFFFF7622), RoundedCornerShape(30.dp)) // Bordure autour du bouton
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
                 ) {
-                    Button(
-                        onClick = { /* Action du bouton */ },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFFFC6E2A).copy(alpha = 0.31f)
-                        ),
-                        shape = RoundedCornerShape(30.dp),
-                        contentPadding = PaddingValues(0.dp), // Supprime le padding interne pour éviter l'agrandissement
-                        modifier = Modifier.fillMaxSize() // Remplit la Box englobante pour correspondre à la bordure
-                    ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.back),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(32.dp)
+                            .clickable {
+                                // Action pour le retour
+                            }
+                    )
+
+                    Text(
+                        text = "Add New Address",
+                        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                        color = Color.White,
+                        fontSize = 32.sp,
+                        modifier = Modifier.weight(1f),
+                        textAlign = TextAlign.Center
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Image(
+                    painter = painterResource(id = R.drawable.home3),
+                    contentDescription = " ",
+                    modifier = Modifier
+                        .size(130.dp)
+                        .padding(horizontal = 16.dp, vertical = 8.dp)
+                        .offset(x = 120.dp, y = 80.dp)
+                )
+
+                Spacer(modifier = Modifier.height(120.dp))
+
+                // Champs OutlinedTextField pour le nom
+                OutlinedTextField(
+                    value = nameState,
+                    onValueChange = { newText -> nameState = newText },
+                    label = {
+                        Text(text = "Name", color = Color(0xFFFF7622))
+                    },
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Color(0xFFFF7622),
+                        unfocusedBorderColor = Color(0xFFFF7622),
+                        containerColor = Color(0xFFFC6E2A).copy(alpha = 0.31f)
+                    ),
+                    shape = RoundedCornerShape(15.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(60.dp)
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Champs OutlinedTextField pour l'adresse
+                OutlinedTextField(
+                    value = adressState,
+                    onValueChange = { newText -> adressState = newText },
+                    label = {
                         Text(
-                            text = "Add New Address",
-                            fontSize = 14.sp,
+                            text = "Address",
                             color = Color(0xFFFF7622)
                         )
+                    },
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Color(0xFFFF7622),
+                        unfocusedBorderColor = Color(0xFFFF7622),
+                        containerColor = Color(0xFFFC6E2A).copy(alpha = 0.31f)
+                    ),
+                    shape = RoundedCornerShape(15.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(60.dp)
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Box( // Englobant le bouton pour la bordure
+                        modifier = Modifier
+                            .width(150.dp)
+                            .height(40.dp)
+                            .offset(y = -75.dp)
+                            .border(
+                                1.dp,
+                                Color(0xFFFF7622),
+                                RoundedCornerShape(30.dp)
+                            ) // Bordure autour du bouton
+                    ) {
+                        Button(
+                            onClick = { /* Action du bouton */ },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Color(0xFFFC6E2A).copy(alpha = 0.31f)
+                            ),
+                            shape = RoundedCornerShape(30.dp),
+                            contentPadding = PaddingValues(0.dp), // Supprime le padding interne pour éviter l'agrandissement
+                            modifier = Modifier.fillMaxSize() // Remplit la Box englobante pour correspondre à la bordure
+                        ) {
+                            Text(
+                                text = "Add New Address",
+                                fontSize = 14.sp,
+                                color = Color(0xFFFF7622)
+                            )
+                        }
                     }
                 }
             }
-        }
 
-        Image(
-            painter = painterResource(id = R.drawable.home),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .fillMaxWidth()
-                .offset(y = 885.dp)
-        )
 
-        Box(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.background),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .offset(y = 800.dp)
-            )
-
-            // Images cliquables avec offsets
-            Image(
-                painter = painterResource(id = R.drawable.home1),
-                contentDescription = "Image 1",
-                modifier = Modifier
-                    .size(30.dp)
-                    .offset(x = 35.dp, y = 825.dp)
-                    .clickable { /* Action pour la première image */ }
-            )
-            Image(
-                painter = painterResource(id = R.drawable.shopping),
-                contentDescription = "Image 2",
-                modifier = Modifier
-                    .size(30.dp)
-                    .offset(x = 115.dp, y = 825.dp)
-                    .clickable { /* Action pour la deuxième image */ }
-            )
-            Image(
-                painter = painterResource(id = R.drawable.heart),
-                contentDescription = "Image 3",
-                modifier = Modifier
-                    .size(30.dp)
-                    .offset(x = 190.dp, y = 825.dp)
-                    .clickable { /* Action pour la troisième image */ }
-            )
-            Image(
-                painter = painterResource(id = R.drawable.notification),
-                contentDescription = "Image 4",
-                modifier = Modifier
-                    .size(30.dp)
-                    .offset(x = 265.dp, y = 825.dp)
-                    .clickable { /* Action pour la quatrième image */ }
-            )
-            Image(
-                painter = painterResource(id = R.drawable.user),
-                contentDescription = "Image 5",
-                modifier = Modifier
-                    .size(30.dp)
-                    .offset(x = 350.dp, y = 825.dp)
-                    .clickable { /* Action pour la cinquième image */ }
-            )
         }
     }
 }
-
 @Preview(showBackground = true)
 @Composable
 fun PreviewAjoutadr() {

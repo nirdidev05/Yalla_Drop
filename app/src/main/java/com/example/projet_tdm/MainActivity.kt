@@ -22,7 +22,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-     AffichageNotif()
+
+  Myprofil()
         }
     }
 }

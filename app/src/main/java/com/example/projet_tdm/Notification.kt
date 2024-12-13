@@ -23,7 +23,8 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun AffichageNotif() {
-    val hasNotifications = true // Variable indiquant s'il y a des notifications
+    val hasnotif =false
+    PageWithNavigationBar (hasnotif){
 
     Box(modifier = Modifier.fillMaxSize()) {
         // Barre de titre
@@ -39,9 +40,9 @@ fun AffichageNotif() {
         )
 
         // Barre de navigation inférieure
-        BottomNavigationBar(hasNotifications)
+
     }
-}
+}}
 
 @Composable
 fun NotificationList(notifications: List<NotificationItem>) {
@@ -153,75 +154,9 @@ fun NotificationHeader() {
     }
 }
 
-@Composable
-fun NavigationIcon(iconRes: Int, onClick: () -> Unit = {}, tint: Color = Color.Unspecified) {
-    Image(
-        painter = painterResource(id = iconRes),
-        contentDescription = null,
-        modifier = Modifier
-            .size(30.dp)
-            .clickable { onClick() },
-        colorFilter = ColorFilter.tint(tint)
-    )
-}
 
-@Composable
-fun BottomNavigationBar(hasNotifications: Boolean) {
-    Image(
-        painter = painterResource(id = R.drawable.background),
-        contentDescription = null,
-        contentScale = ContentScale.Crop,
-        modifier = Modifier
-            .fillMaxWidth()
-            .offset(y = 800.dp)
-    )
-    Image(
-        painter = painterResource(id = R.drawable.home), // Remplacez "image_bas" par le nom de votre image
-        contentDescription = null,
-        contentScale = ContentScale.Crop,
-        modifier = Modifier
-            .fillMaxWidth() // Prend toute la largeur
-            .offset(y = 885.dp) // Positionne en bas
-    )
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp)
-            .offset(y = 825.dp), // Ajustez la position si nécessaire
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
 
-        // Icône Home
-        NavigationIcon(
-            iconRes = R.drawable.home1,
-            tint = Color.White // Assurez-vous que la couleur est visible
-        )
 
-        // Icône Shopping
-        NavigationIcon(
-            iconRes = R.drawable.shopping,
-            tint = Color.White
-        )
-
-        // Icône Favorites
-        NavigationIcon(
-            iconRes = R.drawable.heart,
-            tint = Color.White
-        )
-
-        // Icône Notifications
-        NavigationIcon(
-            iconRes = R.drawable.notification,
-            tint = if (hasNotifications) Color.Red else Color.White
-        )
-
-        // Icône Profile
-        NavigationIcon(
-            iconRes = R.drawable.user,
-            tint = Color.White
-        )
-    }
-}
 
 // Modèle de données pour une notification
 data class NotificationItem(

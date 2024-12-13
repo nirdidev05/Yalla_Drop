@@ -30,6 +30,8 @@ import android.graphics.BitmapFactory
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Noorder() {
+    val hasnotif =false
+    PageWithNavigationBar (hasnotif){
 
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -178,72 +180,9 @@ fun Noorder() {
             }
         }
 
-        // Pied de page avec les images cliquables
-        Image(
-            painter = painterResource(id = R.drawable.home),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .fillMaxWidth()
-                .offset(y = 885.dp)
-        )
 
-        Box(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.background),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .offset(y = 800.dp)
-            )
-
-            // Images cliquables avec offsets
-            Image(
-                painter = painterResource(id = R.drawable.home1),
-                contentDescription = "Image 1",
-                modifier = Modifier
-                    .size(30.dp)
-                    .offset(x = 35.dp, y = 825.dp)
-                    .clickable { /* Action pour la première image */ }
-            )
-            Image(
-                painter = painterResource(id = R.drawable.shopping),
-                contentDescription = "Image 2",
-                modifier = Modifier
-                    .size(30.dp)
-                    .offset(x = 115.dp, y = 825.dp)
-                    .clickable { /* Action pour la deuxième image */ }
-            )
-            Image(
-                painter = painterResource(id = R.drawable.heart),
-                contentDescription = "Image 3",
-                modifier = Modifier
-                    .size(30.dp)
-                    .offset(x = 190.dp, y = 825.dp)
-                    .clickable { /* Action pour la troisième image */ }
-            )
-            Image(
-                painter = painterResource(id = R.drawable.notification),
-                contentDescription = "Image 4",
-                modifier = Modifier
-                    .size(30.dp)
-                    .offset(x = 265.dp, y = 825.dp)
-                    .clickable { /* Action pour la quatrième image */ }
-            )
-            Image(
-                painter = painterResource(id = R.drawable.user),
-                contentDescription = "Image 5",
-                modifier = Modifier
-                    .size(30.dp)
-                    .offset(x = 350.dp, y = 825.dp)
-                    .clickable { /* Action pour la cinquième image */ }
-            )
-        }
     }
-}
+}}
 
 @Preview(showBackground = true)
 @Composable

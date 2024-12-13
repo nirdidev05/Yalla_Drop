@@ -35,6 +35,8 @@ fun Ajoutcrt() {
     var dateState by  remember { mutableStateOf(TextFieldValue("")) }
     var numberState by remember { mutableStateOf(TextFieldValue("")) }
     var numberState2 by remember { mutableStateOf(TextFieldValue("")) }// État pour le numéro de téléphone
+    val hasnotif =false
+    PageWithNavigationBar (hasnotif){
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
             painter = painterResource(id = R.drawable.orange),
@@ -110,7 +112,7 @@ fun Ajoutcrt() {
                 onValueChange = { newText ->
                     // Optionnel : Ajoutez une validation ici pour n'accepter que les chiffres
                     if (newText.text.all { it.isDigit() } || newText.text.isEmpty()) {
-                       numberState = newText // Mise à jour de l'état
+                        numberState = newText // Mise à jour de l'état
                     }
                 },
                 label = {
@@ -202,7 +204,11 @@ fun Ajoutcrt() {
                         .width(100.dp)
                         .height(40.dp)
                         .offset(y = -55.dp)
-                        .border(1.dp, Color(0xFFFF7622), RoundedCornerShape(30.dp)) // Bordure autour du bouton
+                        .border(
+                            1.dp,
+                            Color(0xFFFF7622),
+                            RoundedCornerShape(30.dp)
+                        ) // Bordure autour du bouton
                 ) {
                     Button(
                         onClick = { /* Action du bouton */ },
@@ -223,69 +229,7 @@ fun Ajoutcrt() {
             }
         }
 
-        Image(
-            painter = painterResource(id = R.drawable.home),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .fillMaxWidth()
-                .offset(y = 885.dp)
-        )
-
-        Box(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.background),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .offset(y = 800.dp)
-            )
-
-            // Images cliquables avec offsets
-            Image(
-                painter = painterResource(id = R.drawable.home1),
-                contentDescription = "Image 1",
-                modifier = Modifier
-                    .size(30.dp)
-                    .offset(x = 35.dp, y = 825.dp)
-                    .clickable { /* Action pour la première image */ }
-            )
-            Image(
-                painter = painterResource(id = R.drawable.shopping),
-                contentDescription = "Image 2",
-                modifier = Modifier
-                    .size(30.dp)
-                    .offset(x = 115.dp, y = 825.dp)
-                    .clickable { /* Action pour la deuxième image */ }
-            )
-            Image(
-                painter = painterResource(id = R.drawable.heart),
-                contentDescription = "Image 3",
-                modifier = Modifier
-                    .size(30.dp)
-                    .offset(x = 190.dp, y = 825.dp)
-                    .clickable { /* Action pour la troisième image */ }
-            )
-            Image(
-                painter = painterResource(id = R.drawable.notification),
-                contentDescription = "Image 4",
-                modifier = Modifier
-                    .size(30.dp)
-                    .offset(x = 265.dp, y = 825.dp)
-                    .clickable { /* Action pour la quatrième image */ }
-            )
-            Image(
-                painter = painterResource(id = R.drawable.user),
-                contentDescription = "Image 5",
-                modifier = Modifier
-                    .size(30.dp)
-                    .offset(x = 350.dp, y = 825.dp)
-                    .clickable { /* Action pour la cinquième image */ }
-            )
-        }
+    }
     }
 }
 

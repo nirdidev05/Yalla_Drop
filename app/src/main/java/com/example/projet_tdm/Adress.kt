@@ -29,6 +29,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.material3.Button
 import androidx.compose.foundation.layout.offset
+import androidx.compose.ui.graphics.ColorFilter
 
 @Composable
 fun AddressList() {
@@ -91,155 +92,90 @@ fun AddressItem(title: String, address: String) {
     }
 }
 
+
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Myadress() {
+    val hasNotifications1 = false
+    PageWithNavigationBar(hasNotifications1){
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        Image(
-            painter = painterResource(id = R.drawable.orange),
-            contentDescription = null,
-            contentScale = ContentScale.FillBounds,
-            modifier = Modifier.fillMaxSize()
-        )
 
-        Column(
-            modifier = Modifier
-                .padding(20.dp)
-                .offset(y = 40.dp)
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
+        Box(modifier = Modifier.fillMaxSize()) {
+            Image(
+                painter = painterResource(id = R.drawable.orange),
+                contentDescription = null,
+                contentScale = ContentScale.FillBounds,
+                modifier = Modifier.fillMaxSize()
+            )
+
+            Column(
+                modifier = Modifier
+                    .padding(20.dp)
+                    .offset(y = 40.dp)
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.back),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(32.dp)
-                        .clickable {
-                            // Action pour le retour
-                        }
-                )
-
-                Text(
-                    text = "Delivery Address",
-                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                    color = Color.White,
-                    fontSize = 32.sp,
-                    modifier = Modifier.weight(1f),
-                    textAlign = TextAlign.Center
-                )
-            }
-
-            Spacer(modifier = Modifier.height(55.dp))
-
-            // Liste des adresses (ajoutée ici)
-            AddressList()
-
-            Spacer(modifier = Modifier.height(16.dp)) // Ajuste l'espacement après la liste des adresses
-
-            // Bouton "Add New Address"
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center // Centrer le contenu dans la Box
-            ) {
-                Button(
-                    onClick = { /* Action du bouton */ },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFFFC6E2A).copy(alpha = 0.31f) // Couleur orange avec opacité
-                    ),
-                    shape = RoundedCornerShape(30.dp), // Coins plus arrondis
-                    modifier = Modifier
-                        .width(150.dp) // Largeur du bouton
-                        .height(40.dp) // Hauteur du bouton
-                        .offset(y = -75.dp),
-                    contentPadding = PaddingValues() // Supprime les marges internes pour un alignement optimal
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
                 ) {
-                    Box(
-                        contentAlignment = Alignment.Center, // Centre le contenu à l'intérieur du bouton
-                        modifier = Modifier.fillMaxSize() // Remplit l'espace du bouton pour garantir le centrage
+                    Image(
+                        painter = painterResource(id = R.drawable.back),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(32.dp)
+                            .clickable {
+                                // Action pour le retour
+                            }
+                    )
+
+                    Text(
+                        text = "Delivery Address",
+                        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                        color = Color.White,
+                        fontSize = 32.sp,
+                        modifier = Modifier.weight(1f),
+                        textAlign = TextAlign.Center
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(55.dp))
+
+                // Liste des adresses (ajoutée ici)
+                AddressList()
+
+                Spacer(modifier = Modifier.height(16.dp)) // Ajuste l'espacement après la liste des adresses
+
+                // Bouton "Add New Address"
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center // Centrer le contenu dans la Box
+                ) {
+                    Button(
+                        onClick = { /* Action du bouton */ },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFFFC6E2A).copy(alpha = 0.31f) // Couleur orange avec opacité
+                        ),
+                        shape = RoundedCornerShape(30.dp), // Coins plus arrondis
+                        modifier = Modifier
+                            .width(150.dp) // Largeur du bouton
+                            .height(40.dp) // Hauteur du bouton
+                            .offset(y = -75.dp),
+                        contentPadding = PaddingValues() // Supprime les marges internes pour un alignement optimal
                     ) {
-                        Text(
-                            text = "Add New Address",
-                            fontSize = 14.sp,
-                            color = Color(0xFFFF7622) // Couleur du texte
-                        )
+                        Box(
+                            contentAlignment = Alignment.Center, // Centre le contenu à l'intérieur du bouton
+                            modifier = Modifier.fillMaxSize() // Remplit l'espace du bouton pour garantir le centrage
+                        ) {
+                            Text(
+                                text = "Add New Address",
+                                fontSize = 14.sp,
+                                color = Color(0xFFFF7622) // Couleur du texte
+                            )
+                        }
                     }
                 }
             }
-        }
 
-        // Autres images et éléments de l'interface
-        Image(
-            painter = painterResource(id = R.drawable.home), // Remplacez "image_bas" par le nom de votre image
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .fillMaxWidth() // Prend toute la largeur
-                .offset(y = 885.dp) // Positionne en bas
-        )
-        Box(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.background), // Remplacez "image_bas" par le nom de votre image
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxWidth() // Prend toute la largeur
-                    .offset(y = 800.dp) // Positionne en bas
-            )
-            // Image cliquable 1
-            Image(
-                painter = painterResource(id = R.drawable.home1), // Remplacez "image1" par le nom de votre image
-                contentDescription = "Image 1",
-                modifier = Modifier
-                    .size(30.dp) // Taille de l'image cliquable
-                    .offset(x = 35.dp, y = 825.dp) // Position relative
-                    .clickable {
-                        // Action pour la première image
-                    }
-            )
-            Image(
-                painter = painterResource(id = R.drawable.shopping), // Remplacez "image1" par le nom de votre image
-                contentDescription = "Image 2",
-                modifier = Modifier
-                    .size(30.dp) // Taille de l'image cliquable
-                    .offset(x = 115.dp, y = 825.dp) // Position relative
-                    .clickable {
-                        // Action pour la première image
-                    }
-            )
-            Image(
-                painter = painterResource(id = R.drawable.heart), // Remplacez "image1" par le nom de votre image
-                contentDescription = "Image 3",
-                modifier = Modifier
-                    .size(30.dp) // Taille de l'image cliquable
-                    .offset(x = 190.dp, y = 825.dp) // Position relative
-                    .clickable {
-                        // Action pour la première image
-                    }
-            )
-            Image(
-                painter = painterResource(id = R.drawable.notification), // Remplacez "image1" par le nom de votre image
-                contentDescription = "Image 4",
-                modifier = Modifier
-                    .size(30.dp) // Taille de l'image cliquable
-                    .offset(x = 265.dp, y = 825.dp) // Position relative
-                    .clickable {
-                        // Action pour la première image
-                    }
-            )
-            Image(
-                painter = painterResource(id = R.drawable.user), // Remplacez "image1" par le nom de votre image
-                contentDescription = "Image 5",
-                modifier = Modifier
-                    .size(30.dp) // Taille de l'image cliquable
-                    .offset(x = 350.dp, y = 825.dp) // Position relative
-                    .clickable {
-                        // Action pour la première image
-                    }
-            )
+            // Autres images et éléments de l'interface
 
         }
     }

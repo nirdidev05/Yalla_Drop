@@ -163,6 +163,8 @@ fun PaymentItem3(title: String) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Payment() {
+    val hasnotif =false
+    PageWithNavigationBar (hasnotif){
 
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
@@ -239,80 +241,9 @@ fun Payment() {
             }
         }
 
-        // Autres images et éléments de l'interface
-        Image(
-            painter = painterResource(id = R.drawable.home), // Remplacez "image_bas" par le nom de votre image
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .fillMaxWidth() // Prend toute la largeur
-                .offset(y = 885.dp) // Positionne en bas
-        )
-        Box(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.background), // Remplacez "image_bas" par le nom de votre image
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxWidth() // Prend toute la largeur
-                    .offset(y = 800.dp) // Positionne en bas
-            )
-            // Image cliquable 1
-            Image(
-                painter = painterResource(id = R.drawable.home1), // Remplacez "image1" par le nom de votre image
-                contentDescription = "Image 1",
-                modifier = Modifier
-                    .size(30.dp) // Taille de l'image cliquable
-                    .offset(x = 35.dp, y = 825.dp) // Position relative
-                    .clickable {
-                        // Action pour la première image
-                    }
-            )
-            Image(
-                painter = painterResource(id = R.drawable.shopping), // Remplacez "image1" par le nom de votre image
-                contentDescription = "Image 2",
-                modifier = Modifier
-                    .size(30.dp) // Taille de l'image cliquable
-                    .offset(x = 115.dp, y = 825.dp) // Position relative
-                    .clickable {
-                        // Action pour la première image
-                    }
-            )
-            Image(
-                painter = painterResource(id = R.drawable.heart), // Remplacez "image1" par le nom de votre image
-                contentDescription = "Image 3",
-                modifier = Modifier
-                    .size(30.dp) // Taille de l'image cliquable
-                    .offset(x = 190.dp, y = 825.dp) // Position relative
-                    .clickable {
-                        // Action pour la première image
-                    }
-            )
-            Image(
-                painter = painterResource(id = R.drawable.notification), // Remplacez "image1" par le nom de votre image
-                contentDescription = "Image 4",
-                modifier = Modifier
-                    .size(30.dp) // Taille de l'image cliquable
-                    .offset(x = 265.dp, y = 825.dp) // Position relative
-                    .clickable {
-                        // Action pour la première image
-                    }
-            )
-            Image(
-                painter = painterResource(id = R.drawable.user), // Remplacez "image1" par le nom de votre image
-                contentDescription = "Image 5",
-                modifier = Modifier
-                    .size(30.dp) // Taille de l'image cliquable
-                    .offset(x = 350.dp, y = 825.dp) // Position relative
-                    .clickable {
-                        // Action pour la première image
-                    }
-            )
 
-        }
     }
+}
 }
 
 @Preview(showBackground = true)
