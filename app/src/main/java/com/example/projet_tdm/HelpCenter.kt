@@ -97,7 +97,7 @@ fun HelpPagecentre() {
                         onClick = {
                             // Action pour le bouton Contact Us
                             val intent = Intent(Intent.ACTION_DIAL).apply {
-                                data = Uri.parse("tel:0558596209")
+                                data = Uri.parse("tel:0588997700")
                             }
                             context.startActivity(intent)
                         },
