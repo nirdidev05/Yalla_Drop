@@ -1,5 +1,6 @@
 package com.example.yalladrop.ui.theme
 
+import android.graphics.drawable.GradientDrawable
 import androidx.compose.ui.graphics.Color
 import androidx.core.graphics.toColorInt
 
@@ -13,6 +14,8 @@ val Pink40 = Color(0xFF7D5260)
 
 
 val Orange = Color(("#FFFF7622").toColorInt())
+val Orangegradient = Color(("#CCFF7622").toColorInt())
+val Gradient = Color(("#003751FF").toColorInt())
 val Orange31 =Color("#4FFC6E2A".toColorInt())
 val OrangeBase = Color(("#FFE95322").toColorInt())
 val OrangeTransparent =  Color("#FFD8C7".toColorInt())
