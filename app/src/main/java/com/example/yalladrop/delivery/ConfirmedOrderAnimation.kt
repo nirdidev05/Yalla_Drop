@@ -1,4 +1,4 @@
-package com.example.yalladrop
+package com.example.yalladrop.delivery
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -31,7 +31,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import com.example.yalladrop.ui.theme.CancelOrange
 import kotlinx.coroutines.delay
 import androidx.compose.runtime.*
 import androidx.compose.ui.draw.clip
@@ -40,6 +39,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.yalladrop.R
 import com.example.yalladrop.ui.theme.ConfirmedYellow
 import com.example.yalladrop.ui.theme.OrangeBase
 

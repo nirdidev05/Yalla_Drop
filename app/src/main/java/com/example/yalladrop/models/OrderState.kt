@@ -1,4 +1,4 @@
-package com.example.yalladrop
+package com.example.yalladrop.models
 
 enum class OrderState {
     COMPLETED,

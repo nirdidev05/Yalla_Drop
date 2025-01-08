@@ -1,4 +1,4 @@
-package com.example.yalladrop
+package com.example.yalladrop.models
 
 import android.util.Patterns
 import androidx.compose.foundation.clickable
@@ -30,17 +30,17 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
 import androidx.lifecycle.ViewModel
-import androidx.navigation.NavHostController
 
 
 @Composable
-fun TextFieldValidation(
+fun TextFieldOutlined(
     value: String,
     placeholder: String,
-    label: String,
+    label: String = "",
     onChange: (String) -> Unit,
     isError: Boolean,
     icon: ImageVector,
@@ -48,14 +48,17 @@ fun TextFieldValidation(
     isPassword: Boolean = false,
     imeAction: ImeAction = ImeAction.Next,
     keyboardType: KeyboardType = KeyboardType.Text,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    unfocusedcontainercolor : Color = Color.White,
+    unfocusedbordercolor : Color =Color.Gray ,
+    size : Dp = 16.dp
 ) {
 
     var showPassword by rememberSaveable { mutableStateOf(false) }
 
     Column(
         horizontalAlignment = Alignment.Start,
-        modifier = modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth(),
     ) {
         OutlinedTextField(
             value = value,
@@ -90,22 +93,25 @@ fun TextFieldValidation(
                     null
                 }
             },
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth(),
+
             keyboardOptions = KeyboardOptions(
                 keyboardType = keyboardType,
                 imeAction = imeAction
             ),
             colors = OutlinedTextFieldDefaults.colors(
+                unfocusedContainerColor = unfocusedcontainercolor ,
+                focusedContainerColor =  unfocusedcontainercolor,
                 unfocusedTextColor = Color.Gray,
-                unfocusedBorderColor = Color.Gray,
+                unfocusedBorderColor = unfocusedbordercolor,
                 focusedTextColor = MaterialTheme.colorScheme.primary,
                 focusedBorderColor = MaterialTheme.colorScheme.primary,
                 errorBorderColor = Color.Red,
                 focusedLabelColor = MaterialTheme.colorScheme.primary ,
                 unfocusedLabelColor = Color("#8E8E93".toColorInt()),
             ),
-            shape = RoundedCornerShape(16.dp),
+            shape = RoundedCornerShape(size),
             visualTransformation = if (isPassword){
                 if (showPassword) VisualTransformation.None else PasswordVisualTransformation()
             } else { VisualTransformation.None },
@@ -124,6 +130,7 @@ fun TextFieldValidation(
         }
     }
 }
+
 
 
 class TextFieldViewModel: ViewModel() {
@@ -245,12 +252,10 @@ class TextFieldViewModel: ViewModel() {
     }
 
 
-    fun validateForm(navController: NavHostController, destination :  String ) {
+    fun validateForm( ) {
         if (validateName()  &&  validateEmail() && validatePhone() && validatePassword() && validateConfirmPassword()) {
-            if(destination!= "")
-            navController.navigate(destination){
-                popUpTo(0) { inclusive = true } // Clear the entire back stack
-            }
+
+
         }
     }
 }

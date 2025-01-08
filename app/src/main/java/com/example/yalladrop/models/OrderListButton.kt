@@ -1,4 +1,4 @@
-package com.example.yalladrop
+package com.example.yalladrop.models
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.size
@@ -12,12 +12,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.core.graphics.toColorInt
 import androidx.navigation.NavHostController
 
 
 @Composable
-fun OrderListButton(content : String , active: Boolean , state: OrderState,navController: NavHostController){
+fun OrderListButton(content : String, active: Boolean, state: OrderState, navController: NavHostController){
 
     if (active)
         Button(onClick = {

@@ -1,4 +1,4 @@
-package com.example.yalladrop
+package com.example.yalladrop.delivery
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -32,6 +32,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.navigation.NavHostController
+import com.example.yalladrop.models.PrincipaleBackGroound
+import com.example.yalladrop.models.FoodCard
+import com.example.yalladrop.models.FoodItems
+import com.example.yalladrop.models.OrderState
+import com.example.yalladrop.orders.list
 
 @Composable
 fun ConfirmeOrder(navController:NavHostController){
@@ -53,6 +58,7 @@ fun ConfirmeOrder(navController:NavHostController){
 
         Column(modifier = Modifier
             .fillMaxWidth()
+            .padding(bottom = 100.dp)
             .verticalScroll(rememberScrollState())
         ) {
             Text(text = "Shipping Address" , style = MaterialTheme.typography.titleMedium, fontSize = 24.sp, modifier = Modifier.padding(5.dp))
@@ -97,65 +103,18 @@ fun ConfirmeOrder(navController:NavHostController){
 
 
                     listCard.forEach {  item ->
-                        FoodCard(item = item, state = OrderState.INPROGRESS, navController, lastItem =  false)
+                        FoodCard(item = item, state = OrderState.INPROGRESS, navController, lastItem =  false )
                     }
 
 
-            Row(horizontalArrangement = Arrangement.SpaceBetween , modifier = Modifier.fillMaxWidth()) {
-                Text(
-                    text = "SubTotal",
-                    style = MaterialTheme.typography.displayMedium,
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 20.sp,
-                    modifier = Modifier.padding(bottom = 10.dp)
-                )
-                Text(
-                    text = "320 DA",
-                    style = MaterialTheme.typography.displayMedium,
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 20.sp,
-                    modifier = Modifier.padding(bottom = 10.dp)
-                )
-            }
-            Row(horizontalArrangement = Arrangement.SpaceBetween  , modifier = Modifier.fillMaxWidth())  {
-                Text(
-                    text = "Delivery",
-                    style = MaterialTheme.typography.displayMedium,
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 20.sp,
-                    modifier = Modifier.padding(bottom = 15.dp)
-                )
-                Text(
-                    text = "200 DA",
-                    style = MaterialTheme.typography.displayMedium,
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 20.sp,
-                    modifier = Modifier.padding(bottom = 10.dp)
-                )
-            }
-            HorizontalDivider(thickness = 1.5.dp , color = Color("#FFD8C7".toColorInt()) , modifier = Modifier.padding(top = 5.dp , bottom = 10.dp))
-            Row (horizontalArrangement = Arrangement.SpaceBetween , modifier = Modifier.fillMaxWidth()) {
-                Text(
-                    text = "Total",
-                    style = MaterialTheme.typography.displayMedium,
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 20.sp
-                )
-                Text(
-                    text = "520 DA",
-                    style = MaterialTheme.typography.displayMedium,
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 20.sp,
-                    modifier = Modifier.padding(bottom = 10.dp)
-                )
-            }
+
             Box (
                 modifier = Modifier.fillMaxWidth(),
                 contentAlignment = Alignment.Center
             ){
                 Button(
                     onClick = {
-                        navController.navigate("CancelOrderReasons")
+                        navController.navigate("Payment")
                     },
                     modifier = Modifier
                         .padding(top = 10.dp)
@@ -172,6 +131,8 @@ fun ConfirmeOrder(navController:NavHostController){
                     )
                 }
             }
+
+
 
 
         }

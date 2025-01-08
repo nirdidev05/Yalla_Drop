@@ -1,4 +1,4 @@
-package com.example.yalladrop
+package com.example.yalladrop.orders
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -22,6 +22,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.yalladrop.models.CustomAreaText
+import com.example.yalladrop.models.PrincipaleBackGroound
 
 @Composable
 fun CancelOrder(navController: NavHostController) {

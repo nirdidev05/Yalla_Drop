@@ -1,6 +1,5 @@
-package com.example.yalladrop
+package com.example.yalladrop.auth
 
-import android.util.Patterns
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -15,52 +14,47 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material.icons.rounded.Email
 import androidx.compose.material.icons.rounded.Password
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
-import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
+import com.example.yalladrop.R
+import com.example.yalladrop.models.TextFieldOutlined
 
 @Composable
 fun LoginViaAcccount(
     navController: NavHostController ,
-    viewModel: TextFieldViewModel
 ) {
     val focusManager = LocalFocusManager.current
 
-
+    var emailValue by remember { mutableStateOf("") }
+    var emailError by remember { mutableStateOf("") }
+    fun setEmail(value: String){
+        emailValue = value
+    }
+    var passwordValue by remember { mutableStateOf("") }
+    var passwordError by remember { mutableStateOf("") }
+    fun setPassword(value: String){
+        passwordValue = value
+    }
 
     Column(modifier = Modifier.fillMaxSize().padding(top = 20.dp).padding(20.dp),) {
         Row(
@@ -102,26 +96,26 @@ fun LoginViaAcccount(
                     fontSize = 20.sp
                 )
             }
-            TextFieldValidation(
-                value = viewModel.emailValue,
-                onChange = viewModel::setEmail,
+            TextFieldOutlined(
+                value = emailValue,
+                onChange = {setEmail(it)},
                 placeholder = "Enter your email",
-                isError = viewModel.emailError.isNotEmpty(),
+                isError = emailError.isNotEmpty(),
                 icon = Icons.Rounded.Email,
-                errorMessage = viewModel.emailError,
+                errorMessage = emailError,
                 keyboardType = KeyboardType.Email,
                 label = "Email",
                 modifier = Modifier
             )
             Spacer(modifier = Modifier.height(10.dp))
-            TextFieldValidation(
-                value = viewModel.passwordValue,
-                onChange = viewModel::setPassword,
+            TextFieldOutlined(
+                value = passwordValue,
+                onChange = {setPassword(it)},
                 placeholder = "Enter your password",
-                isError = viewModel.passwordError.isNotEmpty(),
+                isError = passwordError.isNotEmpty(),
                 icon = Icons.Rounded.Password,
                 isPassword = true,
-                errorMessage = viewModel.passwordError,
+                errorMessage = passwordError,
                 label = "Password",
                 modifier = Modifier
             )
@@ -132,7 +126,15 @@ fun LoginViaAcccount(
                 Button(
                     onClick = {
                         focusManager.clearFocus()
-                        viewModel.validateForm(navController , "ActiveOrders")
+                        emailError = validateEmail(emailValue)
+                        passwordError= validatePassword(passwordValue)
+
+                        if(emailError.isEmpty() && passwordError.isEmpty())
+                        {
+                            navController.navigate("ActiveOrders") {
+                                popUpTo(0) { inclusive = true } // Clear the entire back stack
+                            }
+                        }
 
 
 
@@ -164,7 +166,7 @@ fun LoginViaAcccount(
                 Button(
                     onClick = {
 
-
+                        navController.navigate("CreateAccount")
                     },
 
                     modifier = Modifier

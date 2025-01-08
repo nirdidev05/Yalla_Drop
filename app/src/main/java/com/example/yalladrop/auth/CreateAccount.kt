@@ -1,5 +1,6 @@
-package com.example.yalladrop
+package com.example.yalladrop.auth
 
+import android.util.Patterns
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -24,6 +25,10 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,18 +42,50 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.navigation.NavHostController
+import com.example.yalladrop.R
+import com.example.yalladrop.models.TextFieldOutlined
 
 
 @Composable
 fun CreateAccount(
     navController: NavHostController,
-    viewModel: TextFieldViewModel
 ) {
     val focusManager = LocalFocusManager.current
+    var nameValue by remember { mutableStateOf("") }
+    var nameError by remember { mutableStateOf("") }
+    fun setName(value: String){
+        nameValue = value
+    }
+
+    var phoneValue by remember { mutableStateOf("") }
+    var phoneError by remember { mutableStateOf("") }
+    fun setPhone(value: String){
+        phoneValue = value
+    }
+
+    var emailValue by remember { mutableStateOf("") }
+    var emailError by remember { mutableStateOf("") }
+    fun setEmail(value: String){
+        emailValue = value
+    }
+    var passwordValue by remember { mutableStateOf("") }
+    var passwordError by remember { mutableStateOf("") }
+    fun setPassword(value: String){
+        passwordValue = value
+    }
+
+    var confirmPasswordValue by remember { mutableStateOf("") }
+    var confirmPasswordError by remember { mutableStateOf("") }
+    fun setConfirmPassword(value: String){
+        confirmPasswordValue = value
+    }
 
 
 
-    Column(modifier = Modifier.fillMaxSize().padding(top = 20.dp).padding(20.dp),) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .padding(top = 20.dp)
+        .padding(20.dp),) {
         Row(
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically
@@ -59,7 +96,7 @@ fun CreateAccount(
                 modifier = Modifier
                     .size(30.dp, 30.dp)
                     .padding(end = 10.dp)
-                    .clickable{
+                    .clickable {
                         navController.navigate("LoginPge") {
                             popUpTo(0) { inclusive = true } // Clear the entire back stack
                         }
@@ -86,62 +123,62 @@ fun CreateAccount(
                     fontSize = 20.sp
                 )
             }
-            TextFieldValidation(
-                value = viewModel.nameValue,
-                onChange = viewModel::setName,
+            TextFieldOutlined(
+                value = nameValue,
+                onChange = {setName(it)},
                 placeholder = "Enter your Name",
-                isError = viewModel.nameError.isNotEmpty(),
+                isError = nameError.isNotEmpty(),
                 icon = Icons.Rounded.Person,
-                errorMessage = viewModel.nameError,
+                errorMessage = nameError,
                 keyboardType = KeyboardType.Text,
                 label = "Name",
                 modifier = Modifier
             )
             Spacer(modifier = Modifier.height(10.dp))
-            TextFieldValidation(
-                value = viewModel.emailValue,
-                onChange = viewModel::setEmail,
+            TextFieldOutlined(
+                value = emailValue,
+                onChange = { setEmail(it)},
                 placeholder = "Enter your email",
-                isError = viewModel.emailError.isNotEmpty(),
+                isError = emailError.isNotEmpty(),
                 icon = Icons.Rounded.Email,
-                errorMessage = viewModel.emailError,
+                errorMessage = emailError,
                 keyboardType = KeyboardType.Email,
                 label = "Email",
                 modifier = Modifier
             )
             Spacer(modifier = Modifier.height(10.dp))
-            TextFieldValidation(
-                value = viewModel.phoneValue,
-                onChange = viewModel::setPhone,
+            TextFieldOutlined(
+                value = phoneValue,
+                onChange = { setPhone(it)},
                 placeholder = "Enter your phone number",
-                isError = viewModel.phoneError.isNotEmpty(),
+                isError = phoneError.isNotEmpty(),
                 icon = Icons.Rounded.Phone,
-                errorMessage = viewModel.phoneError,
+                errorMessage = phoneError,
                 keyboardType = KeyboardType.Number,
                 label = "Phone number",
                 modifier = Modifier
             )
             Spacer(modifier = Modifier.height(10.dp))
-            TextFieldValidation(
-                value = viewModel.passwordValue,
-                onChange = viewModel::setPassword,
+            TextFieldOutlined(
+                value = passwordValue,
+                onChange = {setPassword(it)},
                 placeholder = "Enter your password",
-                isError = viewModel.passwordError.isNotEmpty(),
+                isError = passwordError.isNotEmpty(),
                 icon = Icons.Rounded.Password,
                 isPassword = true,
-                errorMessage = viewModel.passwordError,
+                errorMessage = passwordError,
                 label = "Password",
                 modifier = Modifier
             )
             Spacer(modifier = Modifier.height(10.dp))
-            TextFieldValidation(
-                value = viewModel.confirmPasswordValue,
-                onChange = viewModel::setConfirmPassword,
+            TextFieldOutlined(
+                value = confirmPasswordValue,
+                onChange = {setConfirmPassword(it)},
                 placeholder = "Confirm your password",
-                isError = viewModel.confirmPasswordError.isNotEmpty(),
+                isError = confirmPasswordError.isNotEmpty(),
                 icon = Icons.Rounded.Password,
                 isPassword = true,
-                errorMessage = viewModel.confirmPasswordError,
+                errorMessage = confirmPasswordError,
                 label = "Confirm password",
                 modifier = Modifier
             )
@@ -152,8 +189,16 @@ fun CreateAccount(
                 Button(
                     onClick = {
                         focusManager.clearFocus()
-                        viewModel.validateForm(navController , "")
+                        nameError= validateName(nameValue)
+                        emailError = validateEmail(emailValue)
+                        phoneError = validatePhone(phoneValue)
+                        passwordError= validatePassword(passwordValue)
+                        confirmPasswordError = validateConfirmPassword(confirmPasswordValue,passwordValue)
 
+                        if(nameError.isEmpty() && phoneError.isEmpty() && emailError.isEmpty() && passwordError.isEmpty() && confirmPasswordError.isEmpty())
+                        {
+                            navController.navigate("ActiveOrders")
+                        }
                     },
 
                     modifier = Modifier
@@ -214,3 +259,75 @@ fun CreateAccount(
     }
 }
 
+
+ fun validateName(nameValue : String): String {
+    val name= nameValue.trim()
+    var isValid = true
+    var errorMessage = ""
+    if (name.isBlank() || name.isEmpty()) {
+        errorMessage = "Please fill name field"
+        isValid = false
+    } else if( !( name.matches(Regex("^[a-zA-Z]+(\\s[a-zA-Z]+)*$")) && name.filter { it.isLetter() }.length >= 3) ){
+        errorMessage = "Wrong name Format"
+        isValid = false
+    }
+   return errorMessage
+}
+
+ fun validatePhone(phoneValue : String): String {
+    val phone= phoneValue.trim()
+    var isValid = true
+    var errorMessage = ""
+    if (phone.isBlank() || phone.isEmpty()) {
+        errorMessage = "Please fill your phone number"
+        isValid = false
+    } else if( !phone.matches(Regex("^(\\+213[567]|0[567])\\d{8}$")) ){
+        errorMessage = "Wrong phone number Format"
+        isValid = false
+    }
+   return errorMessage
+}
+
+ fun validateEmail(emailValue : String): String {
+    val email = emailValue.trim()
+    var isValid = true
+    var errorMessage = ""
+    if (email.isBlank() || email.isEmpty()) {
+        errorMessage = "Please fill email field"
+        isValid = false
+    } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        errorMessage = "Wrong email Format"
+        isValid = false
+    }
+    return errorMessage
+}
+
+ fun validatePassword(passwordValue : String): String {
+    val password = passwordValue
+    var isValid = true
+    var errorMessage = ""
+
+    if (password.isBlank() || password.isEmpty()) {
+        errorMessage = "Please fill password field"
+        isValid = false
+    } else if (password.length < 8) {
+        errorMessage = "Password must more than 8 character"
+        isValid = false
+    }
+    return errorMessage
+}
+
+private fun validateConfirmPassword(confirmPasswordValue : String , passwordValue: String): String {
+    val confirmPassword = confirmPasswordValue
+    var isValid = true
+    var errorMessage = ""
+
+    if (confirmPassword.isBlank() || confirmPassword.isEmpty()) {
+        errorMessage = "Please confirm your password"
+        isValid = false
+    } else if (confirmPassword != passwordValue) {
+        errorMessage = "Incorrect confirmation"
+        isValid = false
+    }
+    return errorMessage
+}

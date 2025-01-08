@@ -1,5 +1,4 @@
-package com.example.yalladrop
-
+package com.example.yalladrop.orders
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -23,9 +22,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.yalladrop.models.PrincipaleBackGroound
+import com.example.yalladrop.R
+import com.example.yalladrop.models.FoodCard
+import com.example.yalladrop.models.OrderListButton
+import com.example.yalladrop.models.OrderState
 
 @Composable
-fun CompletedOrders(navController: NavHostController) {
+fun CanceledOrders(navController: NavHostController) {
     PrincipaleBackGroound(title = "My Orders" , navController ){
         Column {
 
@@ -34,8 +38,9 @@ fun CompletedOrders(navController: NavHostController) {
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 OrderListButton(content = "Active", active = false, OrderState.ACTIVE , navController)
-                OrderListButton(content = "Completed", active = true, OrderState.COMPLETED , navController)
-                OrderListButton(content = "Canceled", active = false,OrderState.CANCELED , navController)
+                OrderListButton(content = "Completed", active = false, OrderState.COMPLETED , navController)
+                OrderListButton(content = "Canceled", active = true,
+                    OrderState.CANCELED , navController)
             }
 
             if(!list.isEmpty())
@@ -58,9 +63,9 @@ fun CompletedOrders(navController: NavHostController) {
                         itemsIndexed(list) { index, item ->
                             FoodCard(
                                 item = item,
-                                state = OrderState.COMPLETED,
-                               navController,
-                                if(list.size == index +1) true else false
+                                state = OrderState.CANCELED,
+                                navController,
+                                if(list.size == index +1) true else false,
                             )
                         }
                     }

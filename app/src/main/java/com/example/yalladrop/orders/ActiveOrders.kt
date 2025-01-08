@@ -1,4 +1,4 @@
-package com.example.yalladrop
+package com.example.yalladrop.orders
 
 
 import androidx.compose.foundation.Image
@@ -23,6 +23,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.yalladrop.models.PrincipaleBackGroound
+import com.example.yalladrop.R
+import com.example.yalladrop.models.FoodCard
+import com.example.yalladrop.models.FoodItems
+import com.example.yalladrop.models.OrderListButton
+import com.example.yalladrop.models.OrderState
 import java.time.LocalDateTime
 
 @Composable
@@ -36,7 +42,8 @@ fun ActiveOrders(navController: NavHostController) {
             ) {
                 OrderListButton(content = "Active", active = true, OrderState.ACTIVE , navController)
                 OrderListButton(content = "Completed", active = false, OrderState.COMPLETED , navController)
-                OrderListButton(content = "Canceled", active = false,OrderState.CANCELED , navController)
+                OrderListButton(content = "Canceled", active = false,
+                    OrderState.CANCELED , navController)
             }
 
             if(!list.isEmpty())
@@ -61,7 +68,7 @@ fun ActiveOrders(navController: NavHostController) {
                                 item = item,
                                 state = OrderState.ACTIVE,
                                 navController,
-                                if(list.size == index+1) true else false
+                                if(list.size == index+1) true else false,
                             )
                         }
                     }

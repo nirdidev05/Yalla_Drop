@@ -1,4 +1,4 @@
-package com.example.yalladrop
+package com.example.yalladrop.models
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.navigation.NavHostController
+import com.example.yalladrop.R
 
 
 @Composable
@@ -40,7 +41,7 @@ fun FoodCard(
     item: FoodItems,
     state: OrderState,
     navController: NavHostController,
-    lastItem: Boolean
+    lastItem: Boolean,
 )
 {
 
@@ -213,7 +214,7 @@ fun FoodCard(
                         ) {
                             Button(
                                 onClick = {
-                                    navController.navigate("CancelOrderReasons")
+                                    /*TODO*/
                                 },
                                 modifier = Modifier
                                     .height(26.dp)
@@ -233,7 +234,12 @@ fun FoodCard(
                                     Image(
                                         painter = painterResource(id = R.drawable.minceicon),
                                         contentDescription = null,
-                                        modifier = Modifier.size(30.dp).clickable{item.numItem-- ; itemNum = item.numItem}
+                                        modifier = Modifier.size(30.dp).
+                                        clickable{
+                                            if (item.numItem != 1){
+                                                item.numItem-- ;
+                                            };
+                                            itemNum = item.numItem}
                                     )
 
                                 Text(
@@ -247,7 +253,11 @@ fun FoodCard(
                                     Image(
                                         painter = painterResource(id = R.drawable.addicon),
                                         contentDescription = null,
-                                        modifier = Modifier.size(30.dp).clickable{item.numItem++ ; itemNum = item.numItem }
+                                        modifier = Modifier.size(30.dp).
+                                        clickable{
+                                            item.numItem++;
+                                            itemNum = item.numItem
+                                        }
                                     )
 
                             }
