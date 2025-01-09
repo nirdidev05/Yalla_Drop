@@ -1,5 +1,6 @@
 package com.example.yalladrop.delivery
 
+import android.content.Context
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
@@ -40,13 +41,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.yalladrop.R
+import com.example.yalladrop.models.AuthViewModel
 import com.example.yalladrop.ui.theme.ConfirmedYellow
 import com.example.yalladrop.ui.theme.OrangeBase
 
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun ConfirmedOrderAnimation(navController: NavHostController) {
+fun ConfirmedOrderAnimation() {
     var currentImageIndex by remember { mutableStateOf<Int>(0) }
 
     // List of image resources

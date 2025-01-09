@@ -43,12 +43,12 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.navigation.NavHostController
 import com.example.yalladrop.R
+import com.example.yalladrop.models.NavigationManager
 import com.example.yalladrop.models.TextFieldOutlined
 
 
 @Composable
 fun CreateAccount(
-    navController: NavHostController,
 ) {
     val focusManager = LocalFocusManager.current
     var nameValue by remember { mutableStateOf("") }
@@ -97,9 +97,7 @@ fun CreateAccount(
                     .size(30.dp, 30.dp)
                     .padding(end = 10.dp)
                     .clickable {
-                        navController.navigate("LoginPge") {
-                            popUpTo(0) { inclusive = true } // Clear the entire back stack
-                        }
+                        NavigationManager.navigate("LoginPge")
                     },
             )
             Text(text = "Create an account" , style = MaterialTheme.typography.titleMedium , fontSize = 22.sp)
@@ -197,7 +195,7 @@ fun CreateAccount(
 
                         if(nameError.isEmpty() && phoneError.isEmpty() && emailError.isEmpty() && passwordError.isEmpty() && confirmPasswordError.isEmpty())
                         {
-                            navController.navigate("ActiveOrders")
+                            NavigationManager.navigate("ActiveOrders")
                         }
                     },
 
@@ -223,7 +221,7 @@ fun CreateAccount(
                 }
                 Button(
                     onClick = {
-                        navController.navigate("LoginViaAcccount")
+                        NavigationManager.navigate("LoginViaAcccount")
 
                     },
 

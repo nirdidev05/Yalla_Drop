@@ -1,5 +1,6 @@
 package com.example.yalladrop.delivery
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -32,14 +33,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.navigation.NavHostController
+import com.example.yalladrop.models.AuthViewModel
 import com.example.yalladrop.models.PrincipaleBackGroound
 import com.example.yalladrop.models.FoodCard
 import com.example.yalladrop.models.FoodItems
+import com.example.yalladrop.models.NavigationManager
 import com.example.yalladrop.models.OrderState
 import com.example.yalladrop.orders.list
 
 @Composable
-fun ConfirmeOrder(navController:NavHostController){
+fun ConfirmeOrder(){
 
     val isDropDownExpanded = remember {
         mutableStateOf(false)
@@ -54,7 +57,7 @@ fun ConfirmeOrder(navController:NavHostController){
 
 
     var listCard : List<FoodItems> = list
-    PrincipaleBackGroound(title = "Confirm Order" , navController ){
+    PrincipaleBackGroound(title = "Confirm Order"  ){
 
         Column(modifier = Modifier
             .fillMaxWidth()
@@ -103,7 +106,7 @@ fun ConfirmeOrder(navController:NavHostController){
 
 
                     listCard.forEach {  item ->
-                        FoodCard(item = item, state = OrderState.INPROGRESS, navController, lastItem =  false )
+                        FoodCard(item = item, state = OrderState.INPROGRESS, lastItem =  false )
                     }
 
 
@@ -114,7 +117,7 @@ fun ConfirmeOrder(navController:NavHostController){
             ){
                 Button(
                     onClick = {
-                        navController.navigate("Payment")
+                        NavigationManager.navigate("Payment")
                     },
                     modifier = Modifier
                         .padding(top = 10.dp)

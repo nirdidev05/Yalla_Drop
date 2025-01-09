@@ -1,6 +1,7 @@
 package com.example.yalladrop.profile
 
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -43,9 +44,10 @@ import com.example.yalladrop.R
 import com.example.yalladrop.models.TextFieldOutlined
 import com.example.yalladrop.auth.validateName
 import com.example.yalladrop.auth.validatePhone
+import com.example.yalladrop.models.AuthViewModel
 
 @Composable
-fun Profile(navController: NavHostController){
+fun Profile(){
 
     val focusManager = LocalFocusManager.current
     var nameValue by remember { mutableStateOf("") }
@@ -62,7 +64,7 @@ fun Profile(navController: NavHostController){
 
 
 
-    PrincipaleBackGroound(title = "My profile" , navController ){
+    PrincipaleBackGroound(title = "My profile"  ){
         Column(modifier = Modifier
             .fillMaxSize()
             .padding(bottom = 130.dp),

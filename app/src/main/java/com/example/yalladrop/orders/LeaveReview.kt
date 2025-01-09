@@ -1,5 +1,6 @@
 package com.example.yalladrop.orders
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -40,11 +41,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.yalladrop.models.PrincipaleBackGroound
 import com.example.yalladrop.R
+import com.example.yalladrop.models.AuthViewModel
 import com.example.yalladrop.models.CustomAreaText
 
 @Composable
-fun LeaveReview(navController: NavHostController) {
-    PrincipaleBackGroound(title = "Leave Review" , navController) {
+fun LeaveReview() {
+    PrincipaleBackGroound(title = "Leave Review" ) {
         var currentRating by remember { mutableStateOf(3) }
         val text = rememberSaveable { mutableStateOf("") }
 

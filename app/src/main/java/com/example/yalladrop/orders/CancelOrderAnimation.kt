@@ -1,5 +1,6 @@
 package com.example.yalladrop.orders
 
+import android.content.Context
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
@@ -37,11 +38,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.yalladrop.R
+import com.example.yalladrop.models.AuthViewModel
 
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun CancelOrderAnimation(navController: NavHostController) {
+fun CancelOrderAnimation() {
     var currentImageIndex by remember { mutableStateOf<Int>(0) }
 
     // List of image resources

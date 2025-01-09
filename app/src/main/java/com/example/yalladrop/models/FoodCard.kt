@@ -40,7 +40,6 @@ import com.example.yalladrop.R
 fun FoodCard(
     item: FoodItems,
     state: OrderState,
-    navController: NavHostController,
     lastItem: Boolean,
 )
 {
@@ -147,7 +146,7 @@ fun FoodCard(
                         Button(
                             onClick = {
 
-                                navController.navigate("LeaveReview")
+                                NavigationManager.navigate("LeaveReview")
                             },
                             modifier = Modifier
                                 .height(26.dp)
@@ -168,7 +167,7 @@ fun FoodCard(
                             )
                         }
                         Button(
-                            onClick = { navController.navigate("ConfirmeOrder") },
+                            onClick = { NavigationManager.navigate("ConfirmeOrder") },
                             modifier = Modifier
                                 .height(26.dp)
                                 .width(110.dp)
@@ -276,7 +275,7 @@ fun FoodCard(
                         ) {
                             Button(
                                 onClick = {
-                                    navController.navigate("CancelOrderReasons")
+                                    NavigationManager.navigate("CancelOrderReasons")
                                 },
                                 modifier = Modifier
                                     .height(26.dp)

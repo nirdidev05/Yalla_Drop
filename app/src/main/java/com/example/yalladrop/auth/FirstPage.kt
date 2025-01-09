@@ -1,5 +1,6 @@
 package com.example.yalladrop.auth
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -30,12 +31,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.yalladrop.R
+import com.example.yalladrop.models.AuthViewModel
+import com.example.yalladrop.models.NavigationManager
 import com.example.yalladrop.ui.theme.Gradient
 import com.example.yalladrop.ui.theme.Orangegradient
 import com.example.yalladrop.ui.theme.leagueSpartan
 
 @Composable
-fun FistPage(navController: NavHostController) {
+fun FistPage(
+
+) {
     Box(modifier = Modifier.fillMaxSize()){
 
         Image(
@@ -99,9 +104,7 @@ fun FistPage(navController: NavHostController) {
         } 
         
         Button(onClick = {
-            navController.navigate("LoginPge") {
-                popUpTo(0) { inclusive = true } // Clear the entire back stack
-            }
+            NavigationManager.navigate("LoginPge")
         } ,
 
                 modifier = Modifier.padding(horizontal = 20.dp).padding(bottom = 55.dp).fillMaxWidth().height(62.dp).align(Alignment.BottomCenter),

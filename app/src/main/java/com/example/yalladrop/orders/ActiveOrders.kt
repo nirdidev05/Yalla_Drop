@@ -1,6 +1,7 @@
 package com.example.yalladrop.orders
 
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.yalladrop.models.PrincipaleBackGroound
 import com.example.yalladrop.R
+import com.example.yalladrop.models.AuthViewModel
 import com.example.yalladrop.models.FoodCard
 import com.example.yalladrop.models.FoodItems
 import com.example.yalladrop.models.OrderListButton
@@ -32,18 +34,18 @@ import com.example.yalladrop.models.OrderState
 import java.time.LocalDateTime
 
 @Composable
-fun ActiveOrders(navController: NavHostController) {
-    PrincipaleBackGroound(title = "My Orders" , navController  ){
+fun ActiveOrders(){
+    PrincipaleBackGroound(title = "My Orders"   ){
         Column {
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                OrderListButton(content = "Active", active = true, OrderState.ACTIVE , navController)
-                OrderListButton(content = "Completed", active = false, OrderState.COMPLETED , navController)
+                OrderListButton(content = "Active", active = true, OrderState.ACTIVE )
+                OrderListButton(content = "Completed", active = false, OrderState.COMPLETED )
                 OrderListButton(content = "Canceled", active = false,
-                    OrderState.CANCELED , navController)
+                    OrderState.CANCELED )
             }
 
             if(!list.isEmpty())
@@ -67,7 +69,6 @@ fun ActiveOrders(navController: NavHostController) {
                             FoodCard(
                                 item = item,
                                 state = OrderState.ACTIVE,
-                                navController,
                                 if(list.size == index+1) true else false,
                             )
                         }

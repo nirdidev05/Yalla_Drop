@@ -1,5 +1,6 @@
 package com.example.yalladrop.orders
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,23 +25,24 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.yalladrop.models.PrincipaleBackGroound
 import com.example.yalladrop.R
+import com.example.yalladrop.models.AuthViewModel
 import com.example.yalladrop.models.FoodCard
 import com.example.yalladrop.models.OrderListButton
 import com.example.yalladrop.models.OrderState
 
 @Composable
-fun CanceledOrders(navController: NavHostController) {
-    PrincipaleBackGroound(title = "My Orders" , navController ){
+fun CanceledOrders() {
+    PrincipaleBackGroound(title = "My Orders"  ){
         Column {
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                OrderListButton(content = "Active", active = false, OrderState.ACTIVE , navController)
-                OrderListButton(content = "Completed", active = false, OrderState.COMPLETED , navController)
+                OrderListButton(content = "Active", active = false, OrderState.ACTIVE )
+                OrderListButton(content = "Completed", active = false, OrderState.COMPLETED )
                 OrderListButton(content = "Canceled", active = true,
-                    OrderState.CANCELED , navController)
+                    OrderState.CANCELED )
             }
 
             if(!list.isEmpty())
@@ -64,7 +66,6 @@ fun CanceledOrders(navController: NavHostController) {
                             FoodCard(
                                 item = item,
                                 state = OrderState.CANCELED,
-                                navController,
                                 if(list.size == index +1) true else false,
                             )
                         }

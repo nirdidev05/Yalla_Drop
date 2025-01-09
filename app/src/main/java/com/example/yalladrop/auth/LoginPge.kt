@@ -1,5 +1,6 @@
 package com.example.yalladrop.auth
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -32,10 +33,12 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.navigation.NavHostController
 import com.example.yalladrop.R
+import com.example.yalladrop.models.AuthViewModel
+import com.example.yalladrop.models.NavigationManager
 import com.example.yalladrop.ui.theme.leagueSpartan
 
 @Composable
-fun LoginPge(navController: NavHostController) {
+fun LoginPge() {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween,
@@ -83,7 +86,7 @@ fun LoginPge(navController: NavHostController) {
 
             }
             Button(onClick = {
-                navController.navigate("LoginViaAcccount")
+                NavigationManager.navigate("LoginViaAcccount")
 
             },
 
@@ -99,7 +102,7 @@ fun LoginPge(navController: NavHostController) {
             ) {
 
                 Text(
-                    text = "Create an account",
+                    text = "Login via an account",
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.displayMedium,
                     color = Color("#8E8E93".toColorInt()),

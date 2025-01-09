@@ -16,21 +16,21 @@ import androidx.navigation.NavHostController
 
 
 @Composable
-fun OrderListButton(content : String, active: Boolean, state: OrderState, navController: NavHostController){
+fun OrderListButton(content : String, active: Boolean, state: OrderState){
 
     if (active)
         Button(onClick = {
             if (state== OrderState.ACTIVE)
             {
-                navController.navigate("ActiveOrders")
+                NavigationManager.navigate("ActiveOrders")
             }
             else if (state== OrderState.COMPLETED)
             {
-                navController.navigate("CompletedOrders")
+                NavigationManager.navigate("CompletedOrders")
             }
             else if (state== OrderState.CANCELED)
             {
-                navController.navigate("CanceledOrders")
+                NavigationManager.navigate("CanceledOrders")
             }
         } ,
 
@@ -46,15 +46,15 @@ fun OrderListButton(content : String, active: Boolean, state: OrderState, navCon
         Button(onClick = {
             if (state== OrderState.ACTIVE)
             {
-                navController.navigate("ActiveOrders")
+                NavigationManager.navigate("ActiveOrders")
             }
             else if (state== OrderState.COMPLETED)
             {
-                navController.navigate("CompletedOrders")
+                NavigationManager.navigate("CompletedOrders")
             }
             else if (state== OrderState.CANCELED)
             {
-                navController.navigate("CanceledOrders")
+                NavigationManager.navigate("CanceledOrders")
             }
         } ,
 

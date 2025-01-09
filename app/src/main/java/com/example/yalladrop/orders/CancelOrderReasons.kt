@@ -1,5 +1,6 @@
 package com.example.yalladrop.orders
 
+import android.content.Context
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,12 +23,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.yalladrop.models.AuthViewModel
 import com.example.yalladrop.models.CustomAreaText
+import com.example.yalladrop.models.NavigationManager
 import com.example.yalladrop.models.PrincipaleBackGroound
 
 @Composable
-fun CancelOrder(navController: NavHostController) {
-    PrincipaleBackGroound(title = "Cancel Order" , navController ) {
+fun CancelOrder(){
+    PrincipaleBackGroound(title = "Cancel Order"  ) {
         Column (
             modifier = Modifier.fillMaxSize() ,
             verticalArrangement = Arrangement.SpaceEvenly ,
@@ -42,7 +45,7 @@ fun CancelOrder(navController: NavHostController) {
             )
             RadioGroupExample()
             Button(onClick = {
-                navController.navigate("CancelOrderAnimation")
+                NavigationManager.navigate("CancelOrderAnimation")
             } ,modifier = Modifier
                 .size(110.dp, 35.dp)
                 .border(

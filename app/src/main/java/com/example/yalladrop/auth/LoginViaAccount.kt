@@ -1,5 +1,6 @@
 package com.example.yalladrop.auth
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -27,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -35,14 +37,24 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.yalladrop.R
+import com.example.yalladrop.models.AuthViewModel
+import com.example.yalladrop.models.NavRoutes
+import com.example.yalladrop.models.NavigationManager
 import com.example.yalladrop.models.TextFieldOutlined
 
 @Composable
 fun LoginViaAcccount(
-    navController: NavHostController ,
+    viewModel: AuthViewModel = hiltViewModel()
 ) {
+
+    val context = LocalContext.current
+
+
+
+
     val focusManager = LocalFocusManager.current
 
     var emailValue by remember { mutableStateOf("") }
@@ -69,10 +81,7 @@ fun LoginViaAcccount(
                     .padding(end = 10.dp)
                     .clickable{
 
-                            navController.navigate("LoginPge") {
-                                popUpTo(0) { inclusive = true } // Clear the entire back stack
-                            }
-
+                            NavigationManager.navigate("LoginPge")
                     },
             )
             Text(text = "Login via an Account" , style = MaterialTheme.typography.titleMedium , fontSize = 22.sp)
@@ -131,8 +140,12 @@ fun LoginViaAcccount(
 
                         if(emailError.isEmpty() && passwordError.isEmpty())
                         {
-                            navController.navigate("ActiveOrders") {
-                                popUpTo(0) { inclusive = true } // Clear the entire back stack
+                            if (emailValue == "test@gmail.com" && passwordValue == "test") {
+                                viewModel.login()
+                                NavigationManager.navigate("main")
+                            } else {
+                                emailError = " "
+                                passwordError = "E-mail ou mot de passe incorrect"
                             }
                         }
 
@@ -166,7 +179,7 @@ fun LoginViaAcccount(
                 Button(
                     onClick = {
 
-                        navController.navigate("CreateAccount")
+                        NavigationManager.navigate("CreateAccount")
                     },
 
                     modifier = Modifier

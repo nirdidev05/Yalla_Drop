@@ -1,5 +1,6 @@
 package com.example.yalladrop.profile
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -37,11 +38,12 @@ import androidx.core.graphics.toColorInt
 import androidx.navigation.NavHostController
 import com.example.yalladrop.models.PrincipaleBackGroound
 import com.example.yalladrop.R
+import com.example.yalladrop.models.AuthViewModel
 import com.example.yalladrop.models.TextFieldOutlined
 
 
 @Composable
-fun NewAdress(navController: NavHostController){
+fun NewAdress(){
 
     val focusManager = LocalFocusManager.current
     var nameValue by remember { mutableStateOf("") }
@@ -58,7 +60,7 @@ fun NewAdress(navController: NavHostController){
 
 
 
-    PrincipaleBackGroound(title = "Add New Address" , navController ){
+    PrincipaleBackGroound(title = "Add New Address" ){
         Column(modifier = Modifier
             .fillMaxSize()
             .padding(bottom = 130.dp),

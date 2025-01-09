@@ -1,5 +1,6 @@
 package com.example.yalladrop.profile
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -36,10 +37,12 @@ import androidx.core.graphics.toColorInt
 import androidx.navigation.NavHostController
 import com.example.yalladrop.models.PrincipaleBackGroound
 import com.example.yalladrop.R
+import com.example.yalladrop.models.AuthViewModel
+import com.example.yalladrop.models.NavigationManager
 
 
 @Composable
-fun DeliveryAdresses(navController: NavHostController) {
+fun DeliveryAdresses() {
 
 
 
@@ -51,7 +54,7 @@ fun DeliveryAdresses(navController: NavHostController) {
     )
 
 
-    PrincipaleBackGroound(title = "Delivery Addresses", navController) {
+    PrincipaleBackGroound(title = "Delivery Addresses") {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -82,7 +85,7 @@ fun DeliveryAdresses(navController: NavHostController) {
             ){
                 Button(
                     onClick = {
-                        navController.navigate("NewAdress")
+                        NavigationManager.navigate("NewAdress")
                     },
                     modifier = Modifier
                         .height(40.dp)

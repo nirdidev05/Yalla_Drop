@@ -1,5 +1,6 @@
 package com.example.yalladrop.delivery
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.navigation.NavHostController
+import com.example.yalladrop.models.AuthViewModel
 import com.example.yalladrop.models.PrincipaleBackGroound
 import com.example.yalladrop.models.FoodCard
 import com.example.yalladrop.models.FoodItems
@@ -32,12 +34,12 @@ import com.example.yalladrop.models.OrderState
 import com.example.yalladrop.orders.list
 
 @Composable
-fun OrderList(navController: NavHostController){
+fun OrderList(){
 
     var listCard : List<FoodItems> = list
 
 
-    PrincipaleBackGroound(title = "Payment" , navController ){
+    PrincipaleBackGroound(title = "Payment"  ){
         Column(modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 40.dp)
@@ -62,7 +64,7 @@ fun OrderList(navController: NavHostController){
 
 
             listCard.forEach {  item ->
-                FoodCard(item = item, state = OrderState.INPROGRESS, navController, lastItem =  false , )
+                FoodCard(item = item, state = OrderState.INPROGRESS, lastItem =  false , )
             }
 
             Box (

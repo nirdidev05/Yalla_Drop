@@ -33,7 +33,7 @@ import com.example.yalladrop.R
 
 
 @Composable
-fun PrincipaleBackGroound(title: String, navController : NavHostController , content:  @Composable() () -> Unit ,) {
+fun PrincipaleBackGroound(title: String, content:  @Composable() () -> Unit ,) {
 
 
     Scaffold {
@@ -58,7 +58,7 @@ fun PrincipaleBackGroound(title: String, navController : NavHostController , con
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier.clickable {
-                            navController.popBackStack()
+                            NavigationManager.popBackStack()
 
                         }
                     )
@@ -116,7 +116,7 @@ fun PrincipaleBackGroound(title: String, navController : NavHostController , con
                         .padding(top = 15.dp)
                         .size(27.dp, 27.dp)
                         .clickable {
-                            navController.navigate("DeliveryAdresses")
+                            NavigationManager.navigate("DeliveryAdresses")
 
                         }
                 )
@@ -134,7 +134,7 @@ fun PrincipaleBackGroound(title: String, navController : NavHostController , con
                         .padding(top = 15.dp)
                         .size(27.dp, 27.dp)
                         .clickable {
-                            navController.navigate("ActiveOrders")
+                            NavigationManager.navigate("ActiveOrders")
 
                         }
                 )
@@ -185,7 +185,7 @@ fun PrincipaleBackGroound(title: String, navController : NavHostController , con
                         .padding(top = 15.dp)
                         .size(27.dp, 27.dp)
                         .clickable {
-                            navController.navigate("Profile")
+                            NavigationManager.navigate("Profile")
 
                         }
                 )

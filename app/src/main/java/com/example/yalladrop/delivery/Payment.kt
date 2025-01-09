@@ -1,5 +1,6 @@
 package com.example.yalladrop.delivery
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,19 +27,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.navigation.NavHostController
+import com.example.yalladrop.models.AuthViewModel
 import com.example.yalladrop.models.PrincipaleBackGroound
 import com.example.yalladrop.models.FoodItems
+import com.example.yalladrop.models.NavigationManager
 import com.example.yalladrop.orders.list
 
 @Composable
-fun Payment(navController: NavHostController){
+fun Payment(){
 
 
 
     var listCard : List<FoodItems> = list
 
 
-    PrincipaleBackGroound(title = "Payment" , navController ){
+    PrincipaleBackGroound(title = "Payment"  ){
         Column(modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 100.dp)
@@ -91,7 +94,7 @@ fun Payment(navController: NavHostController){
             ){
                 Button(
                     onClick = {
-                        navController.navigate("ConfirmedOrderAnimation")
+                        NavigationManager.navigate("ConfirmedOrderAnimation")
 
                     },
                     modifier = Modifier
