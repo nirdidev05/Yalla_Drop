@@ -1,5 +1,7 @@
 package com.example.yalladrop.delivery
 
+import android.graphics.drawable.Icon
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -9,14 +11,21 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
@@ -32,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.navigation.NavHostController
+import com.example.yalladrop.R
 import com.example.yalladrop.models.PrincipaleBackGroound
 import com.example.yalladrop.models.FoodCard
 import com.example.yalladrop.models.FoodItems
@@ -68,20 +79,28 @@ fun ConfirmeOrder(navController:NavHostController){
                 .clip(RoundedCornerShape(38))
                 .background(MaterialTheme.colorScheme.secondary)
                 .padding(vertical = 10.dp, horizontal = 15.dp)
+                .clickable { isDropDownExpanded.value = true }
             ){
-                Text(
-                    adress[itemPosition.value], style = MaterialTheme.typography.labelMedium ,
-                )
-            }
-            Box(
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        adress[itemPosition.value], style = MaterialTheme.typography.labelMedium,
+                    )
+                    Icon(
+                         Icons.Default.KeyboardArrowDown ,
+                        contentDescription = "DropDown",
+                        tint = Color.Black,
+                        modifier = Modifier
+                            .size(30.dp)
 
-                modifier = Modifier.fillMaxWidth().clickable{ isDropDownExpanded.value = true },
-                contentAlignment = Alignment.Center
-            ) {
-                Text(text = "Choose location" , textAlign = TextAlign.Center , modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp) ,    textDecoration = TextDecoration.Underline
-                    , style = MaterialTheme.typography.labelSmall)
+                    )
+
+                }
                 DropdownMenu(
-                    modifier = Modifier.fillMaxWidth(fraction = 0.9f),
+                    modifier = Modifier.fillMaxWidth(fraction = 0.8f),
                     expanded = isDropDownExpanded.value,
                     onDismissRequest = {
                         isDropDownExpanded.value = false
@@ -97,7 +116,8 @@ fun ConfirmeOrder(navController:NavHostController){
                     }
                 }
             }
-            Text(text = "Order Summary" , style = MaterialTheme.typography.displayMedium , fontWeight = FontWeight.Medium , fontSize = 20.sp)
+
+            Text(text = "Order Summary" , style = MaterialTheme.typography.displayMedium , fontWeight = FontWeight.Medium , fontSize = 20.sp , modifier = Modifier.padding(top = 15.dp))
             HorizontalDivider(thickness = 1.5.dp , color = Color("#FFD8C7".toColorInt()) , modifier = Modifier.padding(top = 5.dp , bottom = 10.dp))
 
 
