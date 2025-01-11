@@ -56,7 +56,7 @@ fun CancelOrderAnimation(navController: NavHostController) {
         modifier = Modifier
             .fillMaxSize()
             .background(color = CancelOrange)
-            .padding(start = 10.dp, end = 10.dp, bottom = 50.dp),
+            .padding(start = 10.dp, end = 10.dp, bottom = 100.dp),
 
         ) {
         Column(
@@ -112,7 +112,12 @@ fun CancelOrderAnimation(navController: NavHostController) {
                 modifier = Modifier.padding(bottom = 20.dp)
 
             )
-            Button(onClick = { /*TODO*/ }, modifier = Modifier
+            Button(onClick = {
+
+                navController.navigate("Notifications"){
+                    popUpTo(0) { inclusive = true }
+                }
+            }, modifier = Modifier
                 .size(150.dp, 35.dp)
                 .border(
                     0.5.dp,

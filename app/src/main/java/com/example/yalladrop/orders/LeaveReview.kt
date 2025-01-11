@@ -13,7 +13,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material.icons.rounded.StarOutline
@@ -52,7 +54,11 @@ fun LeaveReview(navController: NavHostController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 10.dp),
+                .padding(horizontal = 10.dp)
+                .padding(bottom = 100.dp)
+                .verticalScroll(
+                    rememberScrollState()
+                ),
             verticalArrangement = Arrangement.SpaceBetween,
         ) {
             Column (
@@ -109,24 +115,30 @@ fun LeaveReview(navController: NavHostController) {
                     textAlign = TextAlign.Center
                 )
                 Spacer(modifier = Modifier.height(10.dp))
-                CustomAreaText(text = text, isEnable = true)
+                CustomAreaText(text = text, isEnable = true , hintText = "Leave your feedback")
             }
 
             Row(
-                modifier = Modifier.fillMaxWidth().padding(10.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Button(onClick = { /*TODO*/ } ,
                         modifier = Modifier
-                        .size(150.dp, 35.dp)
-                    .clip(RoundedCornerShape(38)),
+                            .size(150.dp, 35.dp)
+                            .clip(RoundedCornerShape(38)),
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
                 ) {
                 Text(text = "Cancel" , style = MaterialTheme.typography.labelMedium ,color =  MaterialTheme.colorScheme.onBackground)
             }
                 Button(onClick = { /*TODO*/ } ,modifier = Modifier
                     .size(150.dp, 35.dp)
-                    .border(0.5.dp,MaterialTheme.colorScheme.onBackground, RoundedCornerShape(45)) // Apply border with the same rounded shape
+                    .border(
+                        0.5.dp,
+                        MaterialTheme.colorScheme.onBackground,
+                        RoundedCornerShape(45)
+                    ) // Apply border with the same rounded shape
                     .clip(RoundedCornerShape(38))
 
                 ) {
@@ -153,7 +165,7 @@ fun RatingBar(
                 contentDescription = null,
                 tint = if (index <= rating) filledStarColor else unfilledStarColor,
                 modifier = Modifier
-                    .size(50.dp)
+                    .size(40.dp)
                     .clickable { onRatingChange(if (index == rating) index - 1 else index) }
             )
         }

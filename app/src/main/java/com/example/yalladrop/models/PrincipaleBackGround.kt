@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -54,7 +55,7 @@ fun PrincipaleBackGroound(title: String, navController : NavHostController , con
                     modifier = Modifier.padding(10.dp)
                 ) {
                     Icon(
-                        Icons.Default.ArrowBack,
+                        Icons.Default.ArrowBackIosNew,
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier.clickable {
@@ -169,6 +170,8 @@ fun PrincipaleBackGroound(title: String, navController : NavHostController , con
                         .padding(top = 15.dp)
                         .size(27.dp, 27.dp)
                         .clickable {
+                            navController.navigate("Notifications")
+
                         }
                 )
 

@@ -1,5 +1,6 @@
 package com.example.yalladrop.auth
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -27,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -37,13 +39,18 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.navigation.NavHostController
 import com.example.yalladrop.R
+import com.example.yalladrop.models.AuthManager
 import com.example.yalladrop.models.TextFieldOutlined
 
 @Composable
 fun LoginViaAcccount(
     navController: NavHostController ,
+    context: Context = LocalContext.current
 ) {
     val focusManager = LocalFocusManager.current
+
+    val authManager = remember { AuthManager(context) }
+
 
     var emailValue by remember { mutableStateOf("") }
     var emailError by remember { mutableStateOf("") }
@@ -131,6 +138,7 @@ fun LoginViaAcccount(
 
                         if(emailError.isEmpty() && passwordError.isEmpty())
                         {
+                            authManager.saveUserSession(emailValue)
                             navController.navigate("ActiveOrders") {
                                 popUpTo(0) { inclusive = true } // Clear the entire back stack
                             }
@@ -166,7 +174,13 @@ fun LoginViaAcccount(
                 Button(
                     onClick = {
 
-                        navController.navigate("CreateAccount")
+                        if (emailError.isEmpty() && passwordError.isEmpty()) {
+                            // Save user session before navigation
+                            authManager.saveUserSession(emailValue)
+                            navController.navigate("ActiveOrders") {
+                                popUpTo(0) { inclusive = true }
+                            }
+                        }
                     },
 
                     modifier = Modifier

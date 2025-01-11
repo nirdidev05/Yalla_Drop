@@ -22,7 +22,8 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun CustomAreaText(
     text: MutableState<String>,
-    isEnable : Boolean
+    isEnable : Boolean,
+    hintText : String = "Enter more reasons",
 ) {
     BasicTextField(
         value = text.value,
@@ -61,21 +62,18 @@ fun CustomAreaText(
                 modifier = Modifier
                     .background(
                         color = if (isEnable) {
-                            MaterialTheme.colorScheme.secondary // Enabled decoration background
+                            MaterialTheme.colorScheme.secondary.copy(alpha = 0.1f) // Enabled decoration background
                         } else {
-                            Color.LightGray // Disabled decoration background
+                            Color.LightGray.copy(alpha = 0.2f) // Disabled decoration background
                         }
                     )
                     .padding(15.dp)
             ) {
                 if (text.value.isEmpty()) {
                     Text(
-                        text = "Hint",
-                        color = if (isEnable) {
-                            LocalContentColor.current.copy(alpha = 0.6f) // Enabled hint color
-                        } else {
-                            MaterialTheme.colorScheme.tertiary.copy(alpha = 0.6f) // Disabled hint color
-                        },
+                        text = "$hintText",
+                        color = Color.Black.copy(alpha = 0.3f) ,// Enabled hint color
+
                         style = MaterialTheme.typography.displayMedium
                     )
                 }

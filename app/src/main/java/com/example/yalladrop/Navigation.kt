@@ -1,6 +1,11 @@
 package com.example.yalladrop
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -17,6 +22,7 @@ import com.example.yalladrop.orders.CompletedOrders
 import com.example.yalladrop.delivery.ConfirmeOrder
 import com.example.yalladrop.delivery.ConfirmedOrderAnimation
 import com.example.yalladrop.delivery.OrderList
+import com.example.yalladrop.models.AuthManager
 import com.example.yalladrop.orders.LeaveReview
 import com.example.yalladrop.profile.DeliveryAdresses
 import com.example.yalladrop.profile.NewAdress
@@ -25,10 +31,15 @@ import com.example.yalladrop.profile.Profile
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
+    val context = LocalContext.current
+    val authManager = remember { AuthManager(context) }
+    // Create a state that tracks the login status
+    var isLoggedIn by remember { mutableStateOf(authManager.isLoggedIn()) }
 
+    // Create the NavHost using the state
     NavHost(
         navController = navController,
-        startDestination = "FistPage"
+        startDestination = if (isLoggedIn) "ActiveOrders" else "FistPage"
     ) {
         composable("ActiveOrders") { ActiveOrders(navController) }
         composable("CanceledOrders") { CanceledOrders(navController) }
@@ -47,6 +58,7 @@ fun Navigation() {
         composable("Profile")  { Profile(navController ) }
         composable("DeliveryAdresses")  { DeliveryAdresses(navController ) }
         composable("NewAdress")  { NewAdress(navController ) }
+        composable("Notifications")  { Notifications(navController ) }
 
 
 
