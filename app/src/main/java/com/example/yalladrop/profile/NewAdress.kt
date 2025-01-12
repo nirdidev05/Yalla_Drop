@@ -12,8 +12,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.icons.rounded.Phone
+import androidx.compose.material.icons.rounded.Place
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -35,13 +37,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.navigation.NavHostController
+import com.example.yalladrop.AddressViewModel
 import com.example.yalladrop.models.PrincipaleBackGroound
 import com.example.yalladrop.R
+import com.example.yalladrop.auth.validateEmail
+import com.example.yalladrop.auth.validatePassword
 import com.example.yalladrop.models.TextFieldOutlined
 
 
 @Composable
-fun NewAdress(navController: NavHostController){
+fun NewAdress(navController: NavHostController ,  viewModel: AddressViewModel = androidx.lifecycle.viewmodel.compose.viewModel()){
 
     val focusManager = LocalFocusManager.current
     var nameValue by remember { mutableStateOf("") }
@@ -126,10 +131,10 @@ fun NewAdress(navController: NavHostController){
                     onChange = { setAdress(it) },
                     isError = adressError.isNotEmpty(),
                     errorMessage = adressError,
-                    icon = Icons.Rounded.Phone,
+                    icon = Icons.Rounded.Place,
                     unfocusedcontainercolor = MaterialTheme.colorScheme.secondary,
                     size = 20.dp,
-                    keyboardType = KeyboardType.Phone,
+                    keyboardType = KeyboardType.Text,
                     unfocusedbordercolor = Color.Transparent
                 )
 
@@ -141,7 +146,22 @@ fun NewAdress(navController: NavHostController){
             ) {
                 Button(
                     onClick = {
-                        /*TODO*/
+                        focusManager.clearFocus()
+                        if(nameValue.isEmpty())
+                            nameError = "Give a label for your address"
+                        else
+                            nameError=""
+
+                        if(adressValue.isEmpty())
+                            adressError = "Give an address"
+                        else
+                            adressError = ""
+                        if(adressError.isEmpty() && nameError.isEmpty())
+                        {
+                            viewModel.addAddress(name = nameValue, address = adressValue)
+                            navController.navigateUp()
+                        }
+
                     },
                     modifier = Modifier
                         .height(40.dp)

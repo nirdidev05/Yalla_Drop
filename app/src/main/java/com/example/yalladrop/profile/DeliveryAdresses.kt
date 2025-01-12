@@ -17,12 +17,19 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,21 +41,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.navigation.NavHostController
+import com.example.yalladrop.Address
+import com.example.yalladrop.AddressViewModel
 import com.example.yalladrop.models.PrincipaleBackGroound
 import com.example.yalladrop.R
 
 
 @Composable
-fun DeliveryAdresses(navController: NavHostController) {
+fun DeliveryAdresses(navController: NavHostController, viewModel: AddressViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+) {
+
+    val addresses = viewModel.allAddresses.collectAsState(initial = emptyList()).value
 
 
 
 
-    var  adresses = listOf(
-        adress("Home" , "shsgsfdgyugfhuwiifldskfjds"),
-        adress("Home" , "shsgsfdgyugfhuwiifldskfjds"),
-        adress("Home" , "shsgsfdgyugfhuwiifldskfjds")
-    )
 
 
     PrincipaleBackGroound(title = "Delivery Addresses", navController) {
@@ -64,15 +71,17 @@ fun DeliveryAdresses(navController: NavHostController) {
 
 
             Box (
-                modifier = Modifier.fillMaxHeight(0.6f).fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxHeight(0.6f)
+                    .fillMaxWidth(),
                 contentAlignment = Alignment.TopCenter
             ){
                 LazyColumn(
                     modifier = Modifier.fillMaxHeight()
                 ) {
 
-                    itemsIndexed(adresses) { index, item ->
-                        AdressCard(adr = item)
+                    itemsIndexed(addresses) { index, item ->
+                        AdressCard(adr = item ,  onDelete = { viewModel.deleteAddress(it) })
                     }
                 }
             }
@@ -107,7 +116,8 @@ fun DeliveryAdresses(navController: NavHostController) {
 
 
 @Composable
-fun AdressCard(adr : adress){
+fun AdressCard(adr : Address , onDelete: (Address) -> Unit){
+    var showDialog by remember { mutableStateOf(false) }
 
     Column {
         Row(
@@ -139,7 +149,7 @@ fun AdressCard(adr : adress){
                         fontWeight = FontWeight.SemiBold
                     )
                     Text(
-                        text = adr.adress,
+                        text = adr.address,
                         style = MaterialTheme.typography.labelSmall,
                         color = Color.Gray,
                         overflow = TextOverflow.Ellipsis
@@ -150,13 +160,40 @@ fun AdressCard(adr : adress){
 
             }
 
-            Text(
-                text = "Delete",
-                style = MaterialTheme.typography.displayMedium,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.primary
-            )
+            TextButton(onClick = {
+                  showDialog=true
+
+            }) {
+                Text(
+                    text = "Delete",
+                    style = MaterialTheme.typography.displayMedium,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.primary,
+
+                    )
+            }
+
+            if (showDialog) {
+                AlertDialog(
+                    onDismissRequest = { showDialog = false },
+                    title = { Text("Delete Address" , style = MaterialTheme.typography.displayLarge ) },
+                    text = { Text("Are you sure you want to delete this address?" , style = MaterialTheme.typography.displayMedium , fontSize = 17.sp) },
+                    confirmButton = {
+                        TextButton(onClick = {
+                            onDelete(adr)
+                            showDialog = false
+                        }) {
+                            Text("Delete", color = MaterialTheme.colorScheme.primary)
+                        }
+                    },
+                    dismissButton = {
+                        TextButton(onClick = { showDialog = false }) {
+                            Text("Cancel")
+                        }
+                    }
+                )
+            }
 
         }
     }
@@ -166,8 +203,3 @@ fun AdressCard(adr : adress){
 }
 
 
-class adress (
-    var name : String ,
-    var adress : String
-
-)

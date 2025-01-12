@@ -42,6 +42,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.navigation.NavHostController
+import com.example.yalladrop.Address
+import com.example.yalladrop.AddressViewModel
 import com.example.yalladrop.R
 import com.example.yalladrop.models.PrincipaleBackGroound
 import com.example.yalladrop.models.FoodCard
@@ -50,21 +52,20 @@ import com.example.yalladrop.models.OrderState
 import com.example.yalladrop.orders.list
 
 @Composable
-fun ConfirmeOrder(navController:NavHostController){
+fun ConfirmeOrder(navController:NavHostController, viewModel: AddressViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),){
+
+    val addresses = viewModel.allAddresses.collectAsState(initial = emptyList()).value
 
     val isDropDownExpanded = remember {
         mutableStateOf(false)
     }
 
     val itemPosition = remember {
-        mutableStateOf(0)
+        mutableStateOf("Choose an address")
     }
 
-    val adress = listOf("Alexander", "Isabella", "Benjamin", "Sophia", "Christopher")
-
-
-
     var listCard : List<FoodItems> = list
+
     PrincipaleBackGroound(title = "Confirm Order" , navController ){
 
         Column(modifier = Modifier
@@ -87,7 +88,7 @@ fun ConfirmeOrder(navController:NavHostController){
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        adress[itemPosition.value], style = MaterialTheme.typography.labelMedium,
+                        itemPosition.value , style = MaterialTheme.typography.labelMedium,
                     )
                     Icon(
                          Icons.Default.KeyboardArrowDown ,
@@ -105,13 +106,13 @@ fun ConfirmeOrder(navController:NavHostController){
                     onDismissRequest = {
                         isDropDownExpanded.value = false
                     }) {
-                    adress.forEachIndexed { index, username ->
+                    addresses.forEachIndexed { index , adr ->
                         DropdownMenuItem(text = {
-                            Text(text = username)
+                            Text(text = adr.name )
                         },
                             onClick = {
                                 isDropDownExpanded.value = false
-                                itemPosition.value = index
+                                itemPosition.value = adr.name
                             })
                     }
                 }

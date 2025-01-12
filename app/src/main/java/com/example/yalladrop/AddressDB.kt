@@ -25,11 +25,12 @@ import kotlinx.coroutines.launch
 data class Address(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
-    val street: String,
-    val city: String,
-    val state: String,
-    val zipCode: String,
-    val isDefault: Boolean = false
+    val address: String,
+    val name: String,
+    //val state: String,
+    //val zipCode: String,
+    val isDefault: Boolean = false,
+
 )
 
 // AddressDao.kt - Data Access Object
@@ -52,6 +53,9 @@ interface AddressDao {
 
     @Query("UPDATE addresses SET isDefault = 1 WHERE id = :addressId")
     suspend fun setDefaultAddress(addressId: Long)
+
+    @Query("SELECT * FROM addresses WHERE id = :addressId LIMIT 1")
+    fun getAddressById(addressId: Long): Flow<Address?>
 }
 
 // AddressDatabase.kt - Database
@@ -78,7 +82,7 @@ abstract class AddressDatabase : RoomDatabase() {
 }
 
 // AddressRepository.kt - Repository
-class AddressRepository(private val addressDao: AddressDao) {
+public class AddressRepository(private val addressDao: AddressDao) {
     val allAddresses: Flow<List<Address>> = addressDao.getAllAddresses()
 
     suspend fun insertAddress(address: Address) {
@@ -93,10 +97,14 @@ class AddressRepository(private val addressDao: AddressDao) {
         addressDao.clearDefaultAddress()
         addressDao.setDefaultAddress(addressId)
     }
+
+    fun getAddressById(addressId: Long): Flow<Address?> {
+        return addressDao.getAddressById(addressId)
+    }
 }
 
 // AddressViewModel.kt - ViewModel
-class AddressViewModel(application: Application) : AndroidViewModel(application) {
+public class AddressViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: AddressRepository
     val allAddresses: StateFlow<List<Address>>
 
@@ -110,13 +118,15 @@ class AddressViewModel(application: Application) : AndroidViewModel(application)
         )
     }
 
-    fun addAddress(street: String, city: String, state: String, zipCode: String) {
+    fun addAddress(address: String, name: String,
+                //   state: String, zipCode: String
+    ) {
         viewModelScope.launch {
             val address = Address(
-                street = street,
-                city = city,
-                state = state,
-                zipCode = zipCode
+                address = address,
+                name = name,
+               // state = state,
+               // zipCode = zipCode
             )
             repository.insertAddress(address)
         }
@@ -132,5 +142,9 @@ class AddressViewModel(application: Application) : AndroidViewModel(application)
         viewModelScope.launch {
             repository.setDefaultAddress(addressId)
         }
+    }
+
+    fun getAddressById(addressId: Long): Flow<Address?> {
+        return repository.getAddressById(addressId)
     }
 }
