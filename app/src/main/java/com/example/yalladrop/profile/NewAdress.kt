@@ -12,9 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.Person
-import androidx.compose.material.icons.rounded.Phone
 import androidx.compose.material.icons.rounded.Place
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -37,11 +35,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.navigation.NavHostController
-import com.example.yalladrop.AddressViewModel
 import com.example.yalladrop.models.PrincipaleBackGroound
 import com.example.yalladrop.R
-import com.example.yalladrop.auth.validateEmail
-import com.example.yalladrop.auth.validatePassword
+import com.example.yalladrop.local.viewmodels.AddressViewModel
 import com.example.yalladrop.models.TextFieldOutlined
 
 

@@ -1,4 +1,4 @@
-package com.example.yalladrop
+package com.example.yalladrop.delivery
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -37,6 +37,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.yalladrop.R
 import com.example.yalladrop.models.FoodItems
 import com.example.yalladrop.orders.list
 

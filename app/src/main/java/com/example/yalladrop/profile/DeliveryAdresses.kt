@@ -41,10 +41,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.navigation.NavHostController
-import com.example.yalladrop.Address
-import com.example.yalladrop.AddressViewModel
+import com.example.yalladrop.local.Address
 import com.example.yalladrop.models.PrincipaleBackGroound
 import com.example.yalladrop.R
+import com.example.yalladrop.local.viewmodels.AddressViewModel
 
 
 @Composable
@@ -116,7 +116,7 @@ fun DeliveryAdresses(navController: NavHostController, viewModel: AddressViewMod
 
 
 @Composable
-fun AdressCard(adr : Address , onDelete: (Address) -> Unit){
+fun AdressCard(adr : Address, onDelete: (Address) -> Unit){
     var showDialog by remember { mutableStateOf(false) }
 
     Column {
