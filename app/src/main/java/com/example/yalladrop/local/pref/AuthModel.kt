@@ -1,4 +1,4 @@
-package com.example.yalladrop.models
+package com.example.yalladrop.local.pref
 
 import android.content.Context
 import android.content.SharedPreferences

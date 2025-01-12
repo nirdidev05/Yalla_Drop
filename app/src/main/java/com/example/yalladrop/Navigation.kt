@@ -23,12 +23,13 @@ import com.example.yalladrop.delivery.ConfirmeOrder
 import com.example.yalladrop.delivery.ConfirmedOrderAnimation
 import com.example.yalladrop.delivery.OrderList
 import com.example.yalladrop.delivery.TrackDelivery
-import com.example.yalladrop.models.AuthManager
+import com.example.yalladrop.local.pref.AuthManager
 import com.example.yalladrop.orders.LeaveReview
 import com.example.yalladrop.profile.DeliveryAdresses
 import com.example.yalladrop.profile.NewAdress
 import com.example.yalladrop.profile.Profile
 import com.example.yalladrop.home.HomePage
+import com.example.yalladrop.profile.ContactUs
 import com.example.yalladrop.restauration.FoodDeliveryScreen
 import com.example.yalladrop.restauration.FoodPage
 import com.example.yalladrop.restauration.FoodDetailScreen
@@ -44,7 +45,7 @@ fun Navigation() {
     // Create the NavHost using the state
     NavHost(
         navController = navController,
-        startDestination =  "FoodDetailScreen"//if (isLoggedIn) "ActiveOrders" else "FistPage"
+        startDestination =  if (isLoggedIn) "HomePage" else "FistPage"
     ) {
         composable("ActiveOrders") { ActiveOrders(navController) }
         composable("CanceledOrders") { CanceledOrders(navController) }

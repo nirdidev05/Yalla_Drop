@@ -1,6 +1,7 @@
 package com.example.yalladrop.home
 
 import android.annotation.SuppressLint
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -30,17 +31,22 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.remember
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.core.graphics.toColorInt
+import androidx.navigation.NavHostController
 import com.example.yalladrop.R
+import com.example.yalladrop.local.pref.AuthManager
 
 @Composable
-fun DrawerHeader(modifier: Modifier = Modifier) {
+fun DrawerHeader(modifier: Modifier = Modifier , navController : NavHostController ,     context: Context = LocalContext.current ) {
+    val authManager = remember { AuthManager(context) }
 
      Column(
          modifier = Modifier.padding(horizontal = 20.dp).padding(top = 30.dp)
@@ -79,21 +85,30 @@ fun DrawerHeader(modifier: Modifier = Modifier) {
              }
          }
 
-         DrawerItem("My Orders" , R.drawable.drawer_myordersicon , {})
+         DrawerItem("My Orders" , R.drawable.drawer_myordersicon) {
+             navController.navigate("ActivedOrders")
+         }
          HorizontalDivider(thickness = 1.5.dp , color = Color.Black , modifier = Modifier.padding(vertical = 13.dp ))
-         DrawerItem("My Profile" , R.drawable.drawer_profileicon ,  {})
+         DrawerItem("My Profile" , R.drawable.drawer_profileicon) {
+             navController.navigate("Profile")
+         }
          HorizontalDivider(thickness = 1.5.dp , color = Color.Black , modifier = Modifier.padding(vertical = 13.dp ))
-         DrawerItem("Delivery Address" , R.drawable.drawer_addressesicon,  {})
+         DrawerItem("Delivery Address" , R.drawable.drawer_addressesicon) {
+             navController.navigate("DeliveryAdresses")
+         }
          HorizontalDivider(thickness = 1.5.dp , color = Color.Black , modifier = Modifier.padding(vertical = 13.dp ))
-         DrawerItem("Payment Methods" , R.drawable.drawer_paymenticon,  {})
-         HorizontalDivider(thickness = 1.5.dp , color = Color.Black , modifier = Modifier.padding(vertical = 13.dp ))
-         DrawerItem("Contact Us" , R.drawable.drawer_contactusicon,  {})
-         HorizontalDivider(thickness = 1.5.dp , color = Color.Black , modifier = Modifier.padding(vertical = 13.dp ))
-         DrawerItem("Help Center" , R.drawable.drawer_helpicon,  {})
+         DrawerItem("Help Center" , R.drawable.drawer_helpicon) {
+             navController.navigate("ContactUs")
+         }
          HorizontalDivider(thickness = 1.5.dp , color = Color.Black , modifier = Modifier.padding(vertical = 13.dp ))
          DrawerItem("Settings" , R.drawable.drawer_settingsicon,  {})
          HorizontalDivider(thickness = 1.5.dp , color = Color.Black , modifier = Modifier.padding(vertical = 13.dp ))
-         DrawerItem("Log Out", R.drawable.drawer_logouticon,  {})
+         DrawerItem("Log Out", R.drawable.drawer_logouticon) {
+             authManager.clearSession()
+             navController.navigate("LoginPge") {
+                 popUpTo(0) { inclusive = true }
+             }
+         }
 
 
      }

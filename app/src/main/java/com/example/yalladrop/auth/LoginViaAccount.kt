@@ -39,7 +39,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.navigation.NavHostController
 import com.example.yalladrop.R
-import com.example.yalladrop.models.AuthManager
+import com.example.yalladrop.local.pref.AuthManager
 import com.example.yalladrop.models.TextFieldOutlined
 
 @Composable

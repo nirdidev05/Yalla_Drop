@@ -1,22 +1,15 @@
 package com.example.yalladrop.models
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Icon
@@ -32,12 +25,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.yalladrop.ContactUs
-import com.example.yalladrop.R
 import com.example.yalladrop.home.DrawerHeader
 import kotlinx.coroutines.launch
 
@@ -45,25 +34,6 @@ import kotlinx.coroutines.launch
 @Composable
 fun PrincipaleBackGroound(title: String, navController : NavHostController , content:  @Composable() () -> Unit ,) {
 
-    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    val scope = rememberCoroutineScope()
-
-    ModalNavigationDrawer(
-
-        drawerState = drawerState,
-        drawerContent = {
-
-                ModalDrawerSheet(
-                            drawerContainerColor = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier
-                                .fillMaxWidth(0.75f)
-                                .clip(RoundedCornerShape(topEnd = 80.dp)) // Set the desired background color
-
-                ) {
-                    DrawerHeader()
-                }
-        }
-    ) {
 
 
         Scaffold(
@@ -90,14 +60,10 @@ fun PrincipaleBackGroound(title: String, navController : NavHostController , con
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onBackground,
                             modifier = Modifier.clickable {
-                                scope.launch {
-                                    drawerState.apply {
-                                        if (isClosed) open() else close()
-                                    }
-                                }
 
 
-                              //  navController.popBackStack()
+
+                               navController.popBackStack()
 
                             }
                         )
@@ -140,7 +106,7 @@ fun PrincipaleBackGroound(title: String, navController : NavHostController , con
 
             }
         }
-    }
+
 }
 
 
