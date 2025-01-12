@@ -39,7 +39,7 @@ fun FistPage(navController: NavHostController) {
     Box(modifier = Modifier.fillMaxSize()){
 
         Image(
-            painter = painterResource(id = R.drawable.firstpage), // Replace with your image resource
+            painter = painterResource(id = R.drawable.img_firstpage), // Replace with your image resource
             contentDescription = "Image with Gradient",
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
@@ -68,7 +68,7 @@ fun FistPage(navController: NavHostController) {
 
         ) {
             Image(
-                painter = painterResource(id = R.drawable.foodeck), // Replace with your image resource
+                painter = painterResource(id = R.drawable.img_foodeck), // Replace with your image resource
                 contentDescription = "Image with Gradient",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier

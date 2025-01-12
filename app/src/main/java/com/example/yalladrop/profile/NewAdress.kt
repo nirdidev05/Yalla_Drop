@@ -77,7 +77,7 @@ fun NewAdress(navController: NavHostController ,  viewModel: AddressViewModel = 
 
 
                 Image(
-                    painter = painterResource(id = R.drawable.homeicon),
+                    painter = painterResource(id = R.drawable.icon_homeicon),
                     contentDescription = null,
                     modifier = Modifier
                         .fillMaxWidth()

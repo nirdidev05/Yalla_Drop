@@ -114,16 +114,16 @@ var list= listOf(
     FoodItems(name = "Coffee ZOUBIR" , price = 100 ,
         numItem = 2 ,
         date = LocalDateTime.now() ,
-        painterId =  R.drawable.images
+        painterId =  R.drawable.food_milkshakes
     ) ,
     FoodItems(name = "Coffee ZOUBIR" , price = 100 ,
         numItem = 2 ,
         date = LocalDateTime.now() ,
-        painterId =  R.drawable.images
+        painterId =  R.drawable.food_milkshakes
     ) ,
     FoodItems(name = "Coffee ZOUBIR" , price = 100 ,
         numItem = 2 ,
         date = LocalDateTime.now() ,
-        painterId =  R.drawable.images
+        painterId =  R.drawable.food_milkshakes
     ) ,
     )

@@ -25,11 +25,11 @@ fun ContactUs(navController: NavHostController) {
         Column(
             modifier = Modifier.padding(top = 30.dp)
         ) {
-            ContactCard(Text = "Customer service", painterID = R.drawable.headphones  , {})
-            ContactCard(Text = "WebSite", painterID = R.drawable.globalicon, {})
-            ContactCard(Text = "Facebook", painterID = R.drawable.facebook, {})
-            ContactCard(Text = "Whatsapp", painterID = R.drawable.whatapp, {})
-            ContactCard(Text = "Instagram", painterID = R.drawable.instagram, {} )
+            ContactCard(Text = "Customer service", painterID = R.drawable.help_headphones  , {})
+            ContactCard(Text = "WebSite", painterID = R.drawable.help_globalicon, {})
+            ContactCard(Text = "Facebook", painterID = R.drawable.help_facebook, {})
+            ContactCard(Text = "Whatsapp", painterID = R.drawable.help_whatapp, {})
+            ContactCard(Text = "Instagram", painterID = R.drawable.help_instagram, {} )
 
 
 

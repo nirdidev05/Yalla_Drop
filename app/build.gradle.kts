@@ -74,4 +74,7 @@ dependencies {
     implementation (libs.androidx.room.ktx)
     kapt (libs.room.compiler)
     implementation (libs.lifecycle.viewmodel.compose)
+    implementation (libs.androidx.material)
+    implementation (libs.ui.tooling.preview)
+
 }

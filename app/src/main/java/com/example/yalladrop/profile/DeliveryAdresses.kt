@@ -129,7 +129,7 @@ fun AdressCard(adr : Address, onDelete: (Address) -> Unit){
                 verticalAlignment = Alignment.Bottom
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.homeicon),
+                    painter = painterResource(id = R.drawable.icon_homeicon),
                     contentDescription = null,
                     modifier = Modifier
                         .size(50.dp, 50.dp)

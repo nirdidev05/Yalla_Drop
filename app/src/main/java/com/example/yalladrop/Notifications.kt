@@ -37,6 +37,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.yalladrop.models.BottomNavigationBar
 import com.example.yalladrop.models.OrderState
 
 @Composable
@@ -88,107 +89,11 @@ fun Notifications(navController: NavHostController) {
 
 
 
-        Row (
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.Top,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(110.dp)
-                .align(Alignment.BottomCenter)
-                .background(MaterialTheme.colorScheme.primary)
-        ){
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally ,
-                verticalArrangement = Arrangement.Center
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.home),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .padding(top = 15.dp)
-                        .size(27.dp, 27.dp)
-                        .clickable {
-                            navController.navigate("DeliveryAdresses")
 
-                        }
-                )
-
-                Text(text = "Home" , style = MaterialTheme.typography.labelSmall , color = Color.White , fontSize = 13.sp , modifier = Modifier.padding(top = 4.dp))
-            }
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally ,
-                verticalArrangement = Arrangement.Center
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.shoppingcart),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .padding(top = 15.dp)
-                        .size(27.dp, 27.dp)
-                        .clickable {
-                            navController.navigate("ActiveOrders")
-
-
-                        }
-                )
-
-                Text(text = "Cart" , style = MaterialTheme.typography.labelSmall , color = Color.White , fontSize = 13.sp , modifier = Modifier.padding(top = 4.dp))
-            }
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally ,
-                verticalArrangement = Arrangement.Center
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.heart),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .padding(top = 15.dp)
-                        .size(27.dp, 27.dp)
-                        .clickable {
-                            navController.navigate("ContactUs")
-
-                        }
-                )
-
-                Text(text = "Favorite" , style = MaterialTheme.typography.labelSmall , color = Color.White , fontSize = 13.sp , modifier = Modifier.padding(top = 4.dp))
-            }
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally ,
-                verticalArrangement = Arrangement.Center
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.notification),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .padding(top = 15.dp)
-                        .size(27.dp, 27.dp)
-                        .clickable {
-                            navController.navigate("Notifications")
-
-
-                        }
-                )
-
-                Text(text = "Notifications" , style = MaterialTheme.typography.labelSmall , color = Color.White , fontSize = 13.sp , modifier = Modifier.padding(top = 4.dp))
-            }
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally ,
-                verticalArrangement = Arrangement.Center
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.user),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .padding(top = 15.dp)
-                        .size(27.dp, 27.dp)
-                        .clickable {
-                            navController.navigate("Profile")
-
-                        }
-                )
-
-                Text(text = "Profile" , style = MaterialTheme.typography.labelSmall , color = Color.White , fontSize = 13.sp , modifier = Modifier.padding(top = 4.dp))
-            }
+        Box(modifier = Modifier.align(Alignment.BottomCenter),) {
+            BottomNavigationBar(
+                navController = navController
+            )
         }
     }
 }
@@ -218,7 +123,8 @@ fun NotificationCard(date : String , type : OrderState){
             .fillMaxWidth()
             .height(70.dp)
             .clip(RoundedCornerShape(15.dp))
-            .background(color = MaterialTheme.colorScheme.secondary).padding( 15.dp),
+            .background(color = MaterialTheme.colorScheme.secondary)
+            .padding(15.dp),
 
         ){
         Icon(
@@ -226,16 +132,16 @@ fun NotificationCard(date : String , type : OrderState){
             contentDescription = null,
             tint = Color.Black,
             modifier = Modifier
-                .size(25.dp )
+                .size(25.dp)
                 .clickable {
 
-            }
+                }
         )
         Column(
             modifier = Modifier
                 .fillMaxWidth(0.9f)
                 .height(40.dp)
-                .padding(start = 10.dp , end = 10.dp),
+                .padding(start = 10.dp, end = 10.dp),
             horizontalAlignment = Alignment.Start ,
             verticalArrangement = Arrangement.SpaceBetween
 
@@ -248,10 +154,10 @@ fun NotificationCard(date : String , type : OrderState){
             contentDescription = null,
             tint = Color.Black,
             modifier = Modifier
-                .size(25.dp ).
-                clickable {
+                .size(25.dp)
+                .clickable {
 
-            }
+                }
         )
     }
 }
