@@ -1,6 +1,11 @@
 package com.example.yalladrop.profile
 
 
+import android.Manifest
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -15,10 +20,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Camera
+import androidx.compose.material.icons.filled.CameraAlt
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.icons.rounded.Phone
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,18 +41,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.FileProvider
 import androidx.navigation.NavHostController
+import coil.compose.AsyncImage
 import com.example.yalladrop.models.PrincipaleBackGroound
 import com.example.yalladrop.R
 import com.example.yalladrop.models.TextFieldOutlined
 import com.example.yalladrop.auth.validateName
 import com.example.yalladrop.auth.validatePhone
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @Composable
 fun Profile(navController: NavHostController){
@@ -60,6 +78,63 @@ fun Profile(navController: NavHostController){
         phoneValue = value
     }
 
+    var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
+    var showImagePickerOptions by remember { mutableStateOf(false) }
+    var tempUri by remember { mutableStateOf<Uri?>(null) }
+    val context = LocalContext.current
+
+    // Create temporary file for camera photo
+    fun createImageFile(): Uri {
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val imageFileName = "JPEG_" + timeStamp + "_"
+        val storageDir = context.getExternalFilesDir(null)
+        val imageFile = File.createTempFile(
+            imageFileName,
+            ".jpg",
+            storageDir
+        )
+        return FileProvider.getUriForFile(
+            context,
+            "${context.packageName}.provider",
+            imageFile
+        )
+    }
+
+    // Photo Picker Launcher
+    val photoPickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia()
+    ) { uri ->
+        uri?.let { selectedImageUri = it }
+    }
+
+    // Camera Launcher
+    val cameraLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.TakePicture()
+    ) { success ->
+        if (success) {
+            tempUri?.let { uri ->
+                selectedImageUri = uri
+            }
+        }
+    }
+
+    // Permission Launcher
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            try {
+                tempUri = createImageFile()
+                tempUri?.let { uri ->
+                    cameraLauncher.launch(uri)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                // Handle error - maybe show a toast
+            }
+        }
+    }
+
 
 
     PrincipaleBackGroound(title = "My profile" , navController ){
@@ -71,45 +146,83 @@ fun Profile(navController: NavHostController){
         ) {
             Box(
                 modifier = Modifier
-                    .size(135.dp, 135.dp)
+                    .size(160.dp, 160.dp)
                     .clip(RoundedCornerShape(20))
                     .padding(vertical = 10.dp, horizontal = 15.dp)
             ) {
 
 
 
-
-                Image(
-                    painter = painterResource(id = R.drawable.images),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .padding(7.dp)
-                        .fillMaxWidth()
-
-                        .align(Alignment.Center)
-                        .clip(shape = RoundedCornerShape(20.dp)),
-                )
+                if (selectedImageUri != null) {
+                    AsyncImage(
+                        model = selectedImageUri,
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .padding(7.dp)
+                            .fillMaxWidth()
+                            .align(Alignment.Center)
+                            .clip(shape = RoundedCornerShape(20.dp))
+                    )
+                } else {
+                    Image(
+                        painter = painterResource(id = R.drawable.images),
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .padding(7.dp)
+                            .fillMaxWidth()
+                            .align(Alignment.Center)
+                            .clip(shape = RoundedCornerShape(20.dp))
+                    )
+                }
                 Box(
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
                         .size(25.dp, 25.dp)
                         .clip(shape = RoundedCornerShape(20.dp))
-                        .background(Color.Red),
+                        .background(Color.Red)
+                        .clickable{
+                            showImagePickerOptions = true
+                        },
                 )
                 {
-                    Image(
-                        painter = painterResource(id = R.drawable.cam),
+                    Icon(
+                        Icons.Default.Camera,
                         contentDescription = null,
+                        tint = Color.White,
                         modifier = Modifier
                             .align(Alignment.Center)
-                            .size(20.dp, 20.dp)
-                            .clickable{
+                            .size(18.dp, 18.dp)
 
-                            }
                     )
                 }
+                DropdownMenu(
+                    expanded = showImagePickerOptions,
+                    onDismissRequest = { showImagePickerOptions = false },
 
+                    modifier = Modifier.clip(RoundedCornerShape(25))
+                ) {
+                    DropdownMenuItem(
+                        text = { Text("Choose from Gallery" , style = MaterialTheme.typography.displaySmall , fontWeight = FontWeight.Medium , color = Color.White , textAlign = TextAlign.Center ) },
+                        modifier = Modifier.fillMaxWidth().padding(7.dp).clip(RoundedCornerShape(30)).background(color = MaterialTheme.colorScheme.primary , ) ,
+                        onClick = {
+                            photoPickerLauncher.launch(
+                                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                            )
+                            showImagePickerOptions = false
+                        }
+                    )
+                    DropdownMenuItem(
+                        text = { Text("Take photo" , style = MaterialTheme.typography.displaySmall , fontWeight = FontWeight.Medium , color = Color.White , textAlign = TextAlign.Center ) },
+                        modifier = Modifier.fillMaxWidth().padding(7.dp).clip(RoundedCornerShape(30)).background(color = MaterialTheme.colorScheme.primary , ) ,
+
+                        onClick = {
+                            permissionLauncher.launch(Manifest.permission.CAMERA)
+                            showImagePickerOptions = false
+                        }
+                    )
+                }
 
             }
             Column {

@@ -30,6 +30,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.yalladrop.ContactUs
 import com.example.yalladrop.R
 
 
@@ -153,6 +154,7 @@ fun PrincipaleBackGroound(title: String, navController : NavHostController , con
                         .padding(top = 15.dp)
                         .size(27.dp, 27.dp)
                         .clickable {
+                            navController.navigate("ContactUs")
 
                         }
                 )

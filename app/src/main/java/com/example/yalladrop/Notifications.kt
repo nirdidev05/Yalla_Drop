@@ -145,6 +145,7 @@ fun Notifications(navController: NavHostController) {
                         .padding(top = 15.dp)
                         .size(27.dp, 27.dp)
                         .clickable {
+                            navController.navigate("ContactUs")
 
                         }
                 )

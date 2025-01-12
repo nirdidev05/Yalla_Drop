@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.navigation.NavHostController
 import com.example.yalladrop.R
+import com.example.yalladrop.TrackDelivery
 
 
 @Composable
@@ -296,6 +297,8 @@ fun FoodCard(
                             }
                             Button(
                                 onClick = {
+
+                                    navController.navigate("TrackDelivery")
 
                                 },
                                 modifier = Modifier

@@ -59,6 +59,9 @@ fun Navigation() {
         composable("DeliveryAdresses")  { DeliveryAdresses(navController ) }
         composable("NewAdress")  { NewAdress(navController ) }
         composable("Notifications")  { Notifications(navController ) }
+        composable("TrackDelivery")  { TrackDelivery(navController ) }
+        composable("ContactUs")  { ContactUs(navController ) }
+
 
 
 
