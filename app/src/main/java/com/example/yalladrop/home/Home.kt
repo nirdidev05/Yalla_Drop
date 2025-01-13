@@ -65,7 +65,7 @@ fun HomePage(navController: NavHostController) {
                     .clip(RoundedCornerShape(topEnd = 80.dp)) // Set the desired background color
 
             ) {
-                DrawerHeader()
+                DrawerHeader(navController = navController)
             }
         }
     ) {
