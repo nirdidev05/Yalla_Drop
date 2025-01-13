@@ -177,7 +177,7 @@ fun LoginViaAcccount(
                         if (emailError.isEmpty() && passwordError.isEmpty()) {
                             // Save user session before navigation
                             authManager.saveUserSession(emailValue)
-                            navController.navigate("ActiveOrders") {
+                            navController.navigate("CreateAccount") {
                                 popUpTo(0) { inclusive = true }
                             }
                         }

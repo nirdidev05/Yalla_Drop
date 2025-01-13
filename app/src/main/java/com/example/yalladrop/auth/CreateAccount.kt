@@ -25,6 +25,8 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,15 +43,21 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.yalladrop.R
+import com.example.yalladrop.api.auth.AuthState
+import com.example.yalladrop.api.auth.AuthViewModel
 import com.example.yalladrop.models.TextFieldOutlined
 
 
 @Composable
 fun CreateAccount(
+    viewModel: AuthViewModel = viewModel() ,
     navController: NavHostController,
 ) {
+    val authState = viewModel.authState.collectAsState()
+
     val focusManager = LocalFocusManager.current
     var nameValue by remember { mutableStateOf("") }
     var nameError by remember { mutableStateOf("") }
@@ -190,14 +198,32 @@ fun CreateAccount(
                     onClick = {
                         focusManager.clearFocus()
                         nameError= validateName(nameValue)
-                        emailError = validateEmail(emailValue)
-                        phoneError = validatePhone(phoneValue)
-                        passwordError= validatePassword(passwordValue)
-                        confirmPasswordError = validateConfirmPassword(confirmPasswordValue,passwordValue)
-
-                        if(nameError.isEmpty() && phoneError.isEmpty() && emailError.isEmpty() && passwordError.isEmpty() && confirmPasswordError.isEmpty())
+                        if(nameError.isEmpty())
                         {
-                            navController.navigate("ActiveOrders")
+                            emailError = validateEmail(emailValue)
+                            if(emailError.isEmpty())
+                            {
+                                phoneError = validatePhone(phoneValue)
+                                if(phoneError.isEmpty())
+                                {
+                                    passwordError= validatePassword(passwordValue)
+                                    if(passwordError.isEmpty())
+                                    {
+                                        confirmPasswordError = validateConfirmPassword(confirmPasswordValue,passwordValue)
+                                        if(confirmPasswordError.isEmpty())
+                                        {
+                                            viewModel.createUser(nameValue.toString(), emailValue.toString(),phoneValue.toString() ,  passwordValue.toString()) ;
+
+                                        }
+                                    }
+                                }
+
+                            }
+
+                        }
+
+                        {
+
                         }
                     },
 
@@ -256,6 +282,24 @@ fun CreateAccount(
 
 
         }
+    }
+    when (val state = authState.value) {
+        is AuthState.Loading -> {
+            println("************************> Loading...")
+        }
+        is AuthState.Success -> {
+            LaunchedEffect(Unit) { // Safely handle navigation
+                println("************************>success :  ${state.message}")
+                navController.navigate("HomePage") {
+                    popUpTo("CreateAccount") { inclusive = true }
+                }
+                viewModel.resetAuthState() // Reset state to prevent loops
+            }
+        }
+        is AuthState.Error -> {
+            println("************************>error : ${state.error}")
+        }
+        else -> {}
     }
 }
 

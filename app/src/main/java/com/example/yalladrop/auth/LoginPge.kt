@@ -99,7 +99,7 @@ fun LoginPge(navController: NavHostController) {
             ) {
 
                 Text(
-                    text = "Create an account",
+                    text = "Login via an account",
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.displayMedium,
                     color = Color("#8E8E93".toColorInt()),

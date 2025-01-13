@@ -39,10 +39,9 @@ fun Navigation() {
     val navController = rememberNavController()
     val context = LocalContext.current
     val authManager = remember { AuthManager(context) }
-    // Create a state that tracks the login status
     var isLoggedIn by remember { mutableStateOf(authManager.isLoggedIn()) }
 
-    // Create the NavHost using the state
+    println("-------------------------------->$isLoggedIn")
     NavHost(
         navController = navController,
         startDestination =  if (isLoggedIn) "HomePage" else "FistPage"
@@ -58,7 +57,7 @@ fun Navigation() {
         composable("FistPage")  {  FistPage(navController) }
         composable("LoginPge")  {  LoginPge(navController) }
         composable("LoginViaAcccount")  { LoginViaAcccount(navController ) }
-        composable("CreateAccount")  { CreateAccount(navController ) }
+        composable("CreateAccount")  { CreateAccount(navController = navController ) }
         composable("Payment")  { Payment(navController ) }
         composable("OrderList")  { OrderList(navController ) }
         composable("Profile")  { Profile(navController ) }
@@ -71,13 +70,6 @@ fun Navigation() {
         composable("FoodDeliveryScreen")  { FoodDeliveryScreen(navController ) }
         composable("FoodPage")  { FoodPage(navController ) }
         composable("FoodDetailScreen")  { FoodDetailScreen ( navController = navController ) }
-
-
-
-
-
-
-
     }
 }
 
