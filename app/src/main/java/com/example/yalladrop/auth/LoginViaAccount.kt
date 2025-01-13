@@ -69,7 +69,7 @@ fun LoginViaAcccount(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
-                painter = painterResource(id = R.drawable.arrowleft), // Replace with your image resource
+                painter = painterResource(id = R.drawable.icon_arrowleft), // Replace with your image resource
                 contentDescription = null,
                 modifier = Modifier
                     .size(30.dp, 30.dp)

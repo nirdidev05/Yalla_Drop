@@ -47,7 +47,7 @@ fun TrackDelivery(navController: NavHostController) {
 
     Box(modifier =Modifier.fillMaxSize() ){
         Image(
-            painter = painterResource(id = R.drawable.map), // Replace with your image resource
+            painter = painterResource(id = R.drawable.img_map), // Replace with your image resource
             contentDescription = null,
             modifier = Modifier.fillMaxWidth(),
             contentScale = ContentScale.Crop
@@ -74,7 +74,7 @@ fun TrackDelivery(navController: NavHostController) {
                 )
                 {
                     Image(
-                        painter = painterResource(id = R.drawable.coffe),
+                        painter = painterResource(id = R.drawable.food_coffe),
                         contentDescription = null,
                         contentScale = ContentScale.Crop ,
                         modifier = Modifier.clip(shape = RoundedCornerShape(20.dp)),
@@ -213,7 +213,7 @@ fun TrackDelivery(navController: NavHostController) {
             ) {
 
                 Image(
-                    painter = painterResource(id = R.drawable.map), // Replace with your image resource
+                    painter = painterResource(id = R.drawable.img_map), // Replace with your image resource
                     contentDescription = null,
                     modifier = Modifier
                         .size(60.dp)

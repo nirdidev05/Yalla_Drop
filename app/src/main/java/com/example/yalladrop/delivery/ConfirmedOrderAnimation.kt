@@ -51,10 +51,10 @@ fun ConfirmedOrderAnimation(navController: NavHostController) {
 
     // List of image resources
     val images = listOf(
-        R.drawable.cancel1, // Replace with your drawable resources
-        R.drawable.cancel2,
-        R.drawable.cancel3,
-        R.drawable.confirmed4
+        R.drawable.animation_cancel1, // Replace with your drawable resources
+        R.drawable.animation_cancel2,
+        R.drawable.animation_cancel3,
+        R.drawable.animation_confirmed4
     )
     Scaffold {
             innerPadding ->  Box(

@@ -28,6 +28,10 @@ import com.example.yalladrop.orders.LeaveReview
 import com.example.yalladrop.profile.DeliveryAdresses
 import com.example.yalladrop.profile.NewAdress
 import com.example.yalladrop.profile.Profile
+import com.example.yalladrop.home.HomePage
+import com.example.yalladrop.restauration.FoodDeliveryScreen
+import com.example.yalladrop.restauration.FoodPage
+import com.example.yalladrop.restauration.FoodDetailScreen
 
 @Composable
 fun Navigation() {
@@ -40,7 +44,7 @@ fun Navigation() {
     // Create the NavHost using the state
     NavHost(
         navController = navController,
-        startDestination = if (isLoggedIn) "ActiveOrders" else "FistPage"
+        startDestination =  "FoodDetailScreen"//if (isLoggedIn) "ActiveOrders" else "FistPage"
     ) {
         composable("ActiveOrders") { ActiveOrders(navController) }
         composable("CanceledOrders") { CanceledOrders(navController) }
@@ -62,6 +66,10 @@ fun Navigation() {
         composable("Notifications")  { Notifications(navController ) }
         composable("TrackDelivery")  { TrackDelivery(navController ) }
         composable("ContactUs")  { ContactUs(navController ) }
+        composable("HomePage")  { HomePage(navController ) }
+        composable("FoodDeliveryScreen")  { FoodDeliveryScreen(navController ) }
+        composable("FoodPage")  { FoodPage(navController ) }
+        composable("FoodDetailScreen")  { FoodDetailScreen ( navController = navController ) }
 
 
 

@@ -74,7 +74,7 @@ fun LeaveReview(navController: NavHostController) {
                 )
                 {
                     Image(
-                        painter = painterResource(id = R.drawable.images),
+                        painter = painterResource(id = R.drawable.food_milkshakes),
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier.clip(shape = RoundedCornerShape(20.dp)),

@@ -50,7 +50,7 @@ fun DrawerHeader(modifier: Modifier = Modifier) {
              modifier = Modifier.padding(bottom = 30.dp)
          ) {
              Image(
-                 painter = painterResource(id = R.drawable.map), // Replace with your image resource
+                 painter = painterResource(id = R.drawable.img_map), // Replace with your image resource
                  contentDescription = null,
                  modifier = Modifier
                      .size(70.dp)
@@ -79,21 +79,21 @@ fun DrawerHeader(modifier: Modifier = Modifier) {
              }
          }
 
-         DrawerItem("My Orders" , R.drawable.myordersicon , {})
+         DrawerItem("My Orders" , R.drawable.drawer_myordersicon , {})
          HorizontalDivider(thickness = 1.5.dp , color = Color.Black , modifier = Modifier.padding(vertical = 13.dp ))
-         DrawerItem("My Profile" , R.drawable.profileicon ,  {})
+         DrawerItem("My Profile" , R.drawable.drawer_profileicon ,  {})
          HorizontalDivider(thickness = 1.5.dp , color = Color.Black , modifier = Modifier.padding(vertical = 13.dp ))
-         DrawerItem("Delivery Address" , R.drawable.addressesicon,  {})
+         DrawerItem("Delivery Address" , R.drawable.drawer_addressesicon,  {})
          HorizontalDivider(thickness = 1.5.dp , color = Color.Black , modifier = Modifier.padding(vertical = 13.dp ))
-         DrawerItem("Payment Methods" , R.drawable.paymenticon,  {})
+         DrawerItem("Payment Methods" , R.drawable.drawer_paymenticon,  {})
          HorizontalDivider(thickness = 1.5.dp , color = Color.Black , modifier = Modifier.padding(vertical = 13.dp ))
-         DrawerItem("Contact Us" , R.drawable.contactusicon,  {})
+         DrawerItem("Contact Us" , R.drawable.drawer_contactusicon,  {})
          HorizontalDivider(thickness = 1.5.dp , color = Color.Black , modifier = Modifier.padding(vertical = 13.dp ))
-         DrawerItem("Help Center" , R.drawable.helpicon,  {})
+         DrawerItem("Help Center" , R.drawable.drawer_helpicon,  {})
          HorizontalDivider(thickness = 1.5.dp , color = Color.Black , modifier = Modifier.padding(vertical = 13.dp ))
-         DrawerItem("Settings" , R.drawable.settingsicon,  {})
+         DrawerItem("Settings" , R.drawable.drawer_settingsicon,  {})
          HorizontalDivider(thickness = 1.5.dp , color = Color.Black , modifier = Modifier.padding(vertical = 13.dp ))
-         DrawerItem("Log Out", R.drawable.logouticon,  {})
+         DrawerItem("Log Out", R.drawable.drawer_logouticon,  {})
 
 
      }

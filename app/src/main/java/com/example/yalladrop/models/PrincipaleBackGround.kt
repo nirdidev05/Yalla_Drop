@@ -55,7 +55,9 @@ fun PrincipaleBackGroound(title: String, navController : NavHostController , con
 
                 ModalDrawerSheet(
                             drawerContainerColor = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.fillMaxWidth(0.75f).clip(RoundedCornerShape(topEnd =  80.dp )) // Set the desired background color
+                            modifier = Modifier
+                                .fillMaxWidth(0.75f)
+                                .clip(RoundedCornerShape(topEnd = 80.dp)) // Set the desired background color
 
                 ) {
                     DrawerHeader()
@@ -132,135 +134,8 @@ fun PrincipaleBackGroound(title: String, navController : NavHostController , con
 
                     }
                 }
-                Row(
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    verticalAlignment = Alignment.Top,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(110.dp)
-                        .align(Alignment.BottomCenter)
-                        .background(MaterialTheme.colorScheme.primary)
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.home),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .padding(top = 15.dp)
-                                .size(27.dp, 27.dp)
-                                .clickable {
-                                    navController.navigate("DeliveryAdresses")
-
-                                }
-                        )
-
-                        Text(
-                            text = "Home",
-                            style = MaterialTheme.typography.labelSmall,
-                            color = Color.White,
-                            fontSize = 13.sp,
-                            modifier = Modifier.padding(top = 4.dp)
-                        )
-                    }
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.shoppingcart),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .padding(top = 15.dp)
-                                .size(27.dp, 27.dp)
-                                .clickable {
-                                    navController.navigate("ActiveOrders")
-
-                                }
-                        )
-
-                        Text(
-                            text = "Cart",
-                            style = MaterialTheme.typography.labelSmall,
-                            color = Color.White,
-                            fontSize = 13.sp,
-                            modifier = Modifier.padding(top = 4.dp)
-                        )
-                    }
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.heart),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .padding(top = 15.dp)
-                                .size(27.dp, 27.dp)
-                                .clickable {
-                                    navController.navigate("ContactUs")
-
-                                }
-                        )
-
-                        Text(
-                            text = "Favorite",
-                            style = MaterialTheme.typography.labelSmall,
-                            color = Color.White,
-                            fontSize = 13.sp,
-                            modifier = Modifier.padding(top = 4.dp)
-                        )
-                    }
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.notification),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .padding(top = 15.dp)
-                                .size(27.dp, 27.dp)
-                                .clickable {
-                                    navController.navigate("Notifications")
-
-                                }
-                        )
-
-                        Text(
-                            text = "Notifications",
-                            style = MaterialTheme.typography.labelSmall,
-                            color = Color.White,
-                            fontSize = 13.sp,
-                            modifier = Modifier.padding(top = 4.dp)
-                        )
-                    }
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.user),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .padding(top = 15.dp)
-                                .size(27.dp, 27.dp)
-                                .clickable {
-                                    navController.navigate("Profile")
-
-                                }
-                        )
-
-                        Text(
-                            text = "Profile",
-                            style = MaterialTheme.typography.labelSmall,
-                            color = Color.White,
-                            fontSize = 13.sp,
-                            modifier = Modifier.padding(top = 4.dp)
-                        )
-                    }
+                Box(modifier = Modifier.align(Alignment.BottomCenter),) {
+                    BottomNavigationBar( navController)
                 }
 
             }
@@ -268,4 +143,6 @@ fun PrincipaleBackGroound(title: String, navController : NavHostController , con
     }
 }
 
-//}
+
+
+

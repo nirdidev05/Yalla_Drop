@@ -42,7 +42,7 @@ fun LoginPge(navController: NavHostController) {
         modifier = Modifier.fillMaxSize()
     ) {
         Image(
-            painter = painterResource(id = R.drawable.loginpageimg), // Replace with your image resource
+            painter = painterResource(id = R.drawable.img_loginpageimg), // Replace with your image resource
             contentDescription = null,
             modifier = Modifier.fillMaxWidth(),
             contentScale = ContentScale.Crop
@@ -66,7 +66,7 @@ fun LoginPge(navController: NavHostController) {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.google), // Replace with your image resource
+                        painter = painterResource(id = R.drawable.icon_google), // Replace with your image resource
                         contentDescription = null,
                         modifier = Modifier.size(27.dp ,27.dp).padding(end = 10.dp),
                     )

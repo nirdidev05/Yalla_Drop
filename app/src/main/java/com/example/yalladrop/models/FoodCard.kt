@@ -126,7 +126,7 @@ fun FoodCard(
                     {
                         Row {
                             Image(
-                                painter = painterResource(id = R.drawable.completed_icon),
+                                painter = painterResource(id = R.drawable.icon_completed_icon),
                                 contentDescription = null,
                                 modifier = Modifier.size(11.dp)
                             )
@@ -190,7 +190,7 @@ fun FoodCard(
                     {
                         Row {
                             Image(
-                                painter = painterResource(id = R.drawable.canceled_icon),
+                                painter = painterResource(id = R.drawable.icon_canceled_icon),
                                 contentDescription = null,
                                 modifier = Modifier.size(11.dp)
                             )
@@ -232,7 +232,7 @@ fun FoodCard(
                             Row (verticalAlignment = Alignment.CenterVertically){
 
                                     Image(
-                                        painter = painterResource(id = R.drawable.minceicon),
+                                        painter = painterResource(id = R.drawable.icon_minceicon),
                                         contentDescription = null,
                                         modifier = Modifier.size(30.dp).
                                         clickable{
@@ -251,7 +251,7 @@ fun FoodCard(
                                    )
 
                                     Image(
-                                        painter = painterResource(id = R.drawable.addicon),
+                                        painter = painterResource(id = R.drawable.icon_addicon),
                                         contentDescription = null,
                                         modifier = Modifier.size(30.dp).
                                         clickable{
