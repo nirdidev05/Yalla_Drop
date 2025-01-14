@@ -2,7 +2,11 @@ package com.example.yalladrop.models
 
 enum class OrderState {
     COMPLETED,
-    ACTIVE,
+    PENDING,
+    PREPARING,
+    PICKEDUP,
+    ONTHEWAY,
+    REWIEWED ,
     CANCELED,
     INPROGRESS,
 }

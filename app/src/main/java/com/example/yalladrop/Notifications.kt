@@ -43,7 +43,7 @@ import com.example.yalladrop.models.OrderState
 @Composable
 fun Notifications(navController: NavHostController) {
 
-    var listCard =  listOf<notificationItem>(notificationItem("Today 10:30PM" , OrderState.ACTIVE) ,notificationItem("Today 10:30PM" , OrderState.CANCELED),notificationItem("Today 10:30PM" , OrderState.COMPLETED) ,notificationItem("Today 10:30PM" , OrderState.ACTIVE), notificationItem("Today 10:30PM" , OrderState.COMPLETED))
+    var listCard =  listOf<notificationItem>(notificationItem("Today 10:30PM" , OrderState.PREPARING) ,notificationItem("Today 10:30PM" , OrderState.CANCELED),notificationItem("Today 10:30PM" , OrderState.COMPLETED) ,notificationItem("Today 10:30PM" , OrderState.PICKEDUP), notificationItem("Today 10:30PM" , OrderState.COMPLETED))
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -109,7 +109,7 @@ fun NotificationCard(date : String , type : OrderState){
         iconType = Icons.Default.Cancel;
 
         msg = "Order failed"
-    }else if ( type == OrderState.ACTIVE){
+    }else if ( type == OrderState.PREPARING){
         msg = "Orders are arriving soon"
         iconType = Icons.Default.Info
     }else{

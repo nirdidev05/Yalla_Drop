@@ -37,7 +37,7 @@ fun CanceledOrders(navController: NavHostController) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                OrderListButton(content = "Active", active = false, OrderState.ACTIVE , navController)
+                OrderListButton(content = "Active", active = false, OrderState.PREPARING , navController)
                 OrderListButton(content = "Completed", active = false, OrderState.COMPLETED , navController)
                 OrderListButton(content = "Canceled", active = true,
                     OrderState.CANCELED , navController)

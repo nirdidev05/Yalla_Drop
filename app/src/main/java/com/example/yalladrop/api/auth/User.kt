@@ -1,6 +1,6 @@
 package com.example.yalladrop.api.auth
 
-public class User (
+data class User (
     val _id : String ,
     val name : String ,
     val email:String,

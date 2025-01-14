@@ -39,12 +39,13 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.yalladrop.R
 import com.example.yalladrop.models.FoodItems
+import com.example.yalladrop.models.OrderState
 import com.example.yalladrop.orders.list
 
 @Composable
 fun TrackDelivery(navController: NavHostController) {
     var listCard : List<FoodItems> = list
-
+    var orderState : OrderState = OrderState.PICKEDUP
     Box(modifier =Modifier.fillMaxSize() ){
         Image(
             painter = painterResource(id = R.drawable.img_map), // Replace with your image resource
@@ -135,12 +136,16 @@ fun TrackDelivery(navController: NavHostController) {
                         tint = MaterialTheme.colorScheme.primary ,
                         contentDescription = null
                     )
-                    Text(text = "Your order has been received" ,  style = MaterialTheme.typography.labelSmall ,  fontSize = 13.sp , modifier = Modifier.padding(start = 10.dp ) , color = Color.Black.copy(alpha = 0.3f))
+                    Text(text = "Your order has been received" ,  style = MaterialTheme.typography.labelSmall ,  fontSize = 13.sp , modifier = Modifier.padding(start = 10.dp ) , color = MaterialTheme.colorScheme.primary)
                 }
                 Spacer(modifier = Modifier
                     .padding(start = 8.dp)
                     .size(width = 1.dp, 15.dp)
-                    .background(color = MaterialTheme.colorScheme.primary))
+                    .background(color = if(orderState != OrderState.PENDING)
+                        MaterialTheme.colorScheme.primary
+                    else
+                        Color.Black.copy(alpha = 0.3f))
+                )
                 Row(
                     modifier = Modifier.fillMaxWidth() ,
                     horizontalArrangement = Arrangement.Start ,
@@ -150,14 +155,30 @@ fun TrackDelivery(navController: NavHostController) {
                         Icons.Default.ChangeCircle,
                         contentDescription = null,
                         modifier = Modifier.size(17.dp),
-                        tint = MaterialTheme.colorScheme.primary
+                        tint = if(orderState != OrderState.PENDING)
+                            MaterialTheme.colorScheme.primary
+                                else
+                            Color.Black.copy(alpha = 0.3f)
                     )
-                    Text(text = "Your order has been received" ,  style = MaterialTheme.typography.labelSmall ,  fontSize = 13.sp , modifier = Modifier.padding(start = 10.dp ) , color = Color.Black.copy(alpha = 0.3f))
+                    Text(text = "The restaurant is preparing your food" ,
+                        style = MaterialTheme.typography.labelSmall ,
+                        fontSize = 13.sp ,
+                        modifier = Modifier.padding(start = 10.dp ) ,
+                        color = if(orderState != OrderState.PENDING)
+                            MaterialTheme.colorScheme.primary
+                                 else
+                            Color.Black.copy(alpha = 0.3f)
+                    )
                 }
                 Spacer(modifier = Modifier
                     .padding(start = 8.dp)
                     .size(width = 1.dp, 15.dp)
-                    .background(color = MaterialTheme.colorScheme.primary))
+                    .background(color = if(orderState != OrderState.PENDING && orderState != OrderState.PREPARING)
+                        MaterialTheme.colorScheme.primary
+                    else
+                        Color.Black.copy(alpha = 0.3f)
+                    )
+                )
                 Row (
                     modifier = Modifier.fillMaxWidth() ,
                     horizontalArrangement = Arrangement.Start ,
@@ -166,15 +187,31 @@ fun TrackDelivery(navController: NavHostController) {
                     Icon(
                         Icons.Default.CheckCircle,
                         modifier = Modifier.size(17.dp),
-                        tint = MaterialTheme.colorScheme.primary ,
+                        tint = if(orderState != OrderState.PENDING && orderState != OrderState.PREPARING)
+                            MaterialTheme.colorScheme.primary
+                        else
+                            Color.Black.copy(alpha = 0.3f) ,
                         contentDescription = null
                     )
-                    Text(text = "Your order has been received" ,  style = MaterialTheme.typography.labelSmall ,  fontSize = 13.sp , modifier = Modifier.padding(start = 10.dp ) , color = Color.Black.copy(alpha = 0.3f))
+                    Text(text = "Your order has been picked up for delivery" ,
+                        style = MaterialTheme.typography.labelSmall ,
+                        fontSize = 13.sp ,
+                        modifier = Modifier.padding(start = 10.dp ) ,
+                        color = if(orderState != OrderState.PENDING && orderState != OrderState.PREPARING)
+                            MaterialTheme.colorScheme.primary
+                        else
+                            Color.Black.copy(alpha = 0.3f)
+                    )
                 }
                 Spacer(modifier = Modifier
                     .padding(start = 8.dp)
                     .size(width = 1.dp, 20.dp)
-                    .background(color = MaterialTheme.colorScheme.primary))
+                    .background(color =if(orderState == OrderState.ONTHEWAY)
+                        MaterialTheme.colorScheme.primary
+                    else
+                        Color.Black.copy(alpha = 0.3f)
+                    )
+                )
                 Row(
                     modifier = Modifier.fillMaxWidth() ,
                     horizontalArrangement = Arrangement.Start ,
@@ -184,9 +221,20 @@ fun TrackDelivery(navController: NavHostController) {
                         Icons.Default.CheckCircle,
                         contentDescription = null,
                         modifier = Modifier.size(17.dp),
-                        tint = MaterialTheme.colorScheme.primary
+                        tint = if(orderState == OrderState.ONTHEWAY )
+                            MaterialTheme.colorScheme.primary
+                        else
+                            Color.Black.copy(alpha = 0.3f)
                     )
-                    Text(text = "Your order has been received" ,  style = MaterialTheme.typography.labelSmall ,  fontSize = 13.sp , modifier = Modifier.padding(start = 10.dp ) , color = Color.Black.copy(alpha = 0.3f))
+                    Text(text = "Order arriving soon!" ,
+                        style = MaterialTheme.typography.labelSmall ,
+                        fontSize = 13.sp ,
+                        modifier = Modifier.padding(start = 10.dp ) ,
+                        color = if(orderState == OrderState.ONTHEWAY )
+                            MaterialTheme.colorScheme.primary
+                        else
+                            Color.Black.copy(alpha = 0.3f)
+                    )
                 }
             }
 

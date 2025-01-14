@@ -40,7 +40,7 @@ fun ActiveOrders(navController: NavHostController) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                OrderListButton(content = "Active", active = true, OrderState.ACTIVE , navController)
+                OrderListButton(content = "Active", active = true, OrderState.PREPARING , navController)
                 OrderListButton(content = "Completed", active = false, OrderState.COMPLETED , navController)
                 OrderListButton(content = "Canceled", active = false,
                     OrderState.CANCELED , navController)
@@ -66,7 +66,7 @@ fun ActiveOrders(navController: NavHostController) {
                         itemsIndexed(list) { index, item ->
                             FoodCard(
                                 item = item,
-                                state = OrderState.ACTIVE,
+                                state = OrderState.PREPARING,
                                 navController,
                                 if(list.size == index+1) true else false,
                             )
