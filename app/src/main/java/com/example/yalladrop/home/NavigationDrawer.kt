@@ -86,7 +86,7 @@ fun DrawerHeader(modifier: Modifier = Modifier , navController : NavHostControll
          }
 
          DrawerItem("My Orders" , R.drawable.drawer_myordersicon) {
-             navController.navigate("ActivedOrders")
+             navController.navigate("ActiveOrders")
          }
          HorizontalDivider(thickness = 1.5.dp , color = Color.Black , modifier = Modifier.padding(vertical = 13.dp ))
          DrawerItem("My Profile" , R.drawable.drawer_profileicon) {

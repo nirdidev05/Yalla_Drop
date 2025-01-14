@@ -76,5 +76,7 @@ dependencies {
     implementation (libs.lifecycle.viewmodel.compose)
     implementation (libs.androidx.material)
     implementation (libs.ui.tooling.preview)
+    implementation (libs.retrofit)
+    implementation (libs.converter.gson)
 
 }

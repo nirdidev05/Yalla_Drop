@@ -19,6 +19,9 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,7 +30,31 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.yalladrop.R
+import com.example.yalladrop.api.auth.AuthState
+import com.example.yalladrop.api.auth.AuthViewModel
+
+@Composable
+fun VerifyEmailScreen(viewModel: AuthViewModel = androidx.lifecycle.viewmodel.compose.viewModel(), token: String, navController: NavHostController) {
+    val authState by viewModel.authState.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.verifyEmail(token)
+    }
+
+    when (authState) {
+        is AuthState.Loading -> Text("Verifying...")
+        is AuthState.Success -> {
+            Text("Verification successful!")
+            LaunchedEffect(Unit) {
+                //navController.navigate("HomePage") { popUpTo(0) }
+            }
+        }
+        is AuthState.Error -> Text("Error: ${(authState as AuthState.Error).error}")
+        else -> {}
+    }
+}
 
 @Composable
 fun EmailValidationPage() {
