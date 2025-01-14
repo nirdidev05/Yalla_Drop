@@ -2,6 +2,7 @@ package com.example.yalladrop.api.auth
 
 import LoginRequest
 import SignupRequest
+import UpdateUserRequest
 import VerifyRequest
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -49,6 +50,17 @@ class AuthViewModel : ViewModel() {
                 }
             } catch (e: Exception) {
                 _authState.value = AuthState.Error(e.localizedMessage ?: "Unknown error")
+            }
+        }
+    }
+    fun updateUser(userId: String, name : String , phone : String ) {
+        viewModelScope.launch {
+            _authState.value = AuthState.Loading
+            try {
+                val response = RetrofitInstance.api.updateUser(userId, UpdateUserRequest(name , phone))
+                _authState.value = AuthState.Success(response.message, response.token ?: "", response.user)
+            } catch (e: Exception) {
+                _authState.value = AuthState.Error(e.localizedMessage ?: "Failed to update user")
             }
         }
     }

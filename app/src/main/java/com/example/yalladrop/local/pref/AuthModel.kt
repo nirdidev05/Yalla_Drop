@@ -20,6 +20,15 @@ public class AuthManager(context: Context) {
         }
     }
 
+    fun updateUserNamePhone(name : String , phone: String){
+        with(sharedPreferences.edit()) {
+            putString(KEY_USER_NAME , name)
+            putString(KEY_USER_NAME , phone)
+            apply()
+        }
+    }
+
+
     fun getUserEmail(): String? {
         return sharedPreferences.getString(KEY_USER_EMAIL, null)
     }
