@@ -2,6 +2,7 @@ package com.example.yalladrop.profile
 
 
 import android.Manifest
+import android.content.Context
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -56,22 +57,32 @@ import com.example.yalladrop.R
 import com.example.yalladrop.models.TextFieldOutlined
 import com.example.yalladrop.auth.validateName
 import com.example.yalladrop.auth.validatePhone
+import com.example.yalladrop.local.pref.AuthManager
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 @Composable
-fun Profile(navController: NavHostController){
+fun Profile(navController: NavHostController,
+            context: Context = LocalContext.current,
+){
+
+
+    val authManager = remember { AuthManager(context) }
+    var nameProfile by remember { mutableStateOf(authManager.getUserName()) }
+    var phoneProfile by remember { mutableStateOf(authManager.getUserPhone()) }
+
+
 
     val focusManager = LocalFocusManager.current
-    var nameValue by remember { mutableStateOf("") }
+    var nameValue by remember { mutableStateOf(nameProfile.toString()) }
     var nameError by remember { mutableStateOf("") }
     fun setName(value: String){
         nameValue = value
     }
 
-    var phoneValue by remember { mutableStateOf("") }
+    var phoneValue by remember { mutableStateOf(phoneProfile.toString()) }
     var phoneError by remember { mutableStateOf("") }
     fun setPhone(value: String){
         phoneValue = value
@@ -284,7 +295,7 @@ fun Profile(navController: NavHostController){
 
                         if(phoneError.isEmpty() && phoneValue.isEmpty())
                         {
-                            println("correct")
+
                         }
                     },
                     modifier = Modifier

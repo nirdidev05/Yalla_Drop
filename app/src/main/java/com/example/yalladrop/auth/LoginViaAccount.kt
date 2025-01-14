@@ -42,6 +42,7 @@ import androidx.navigation.NavHostController
 import com.example.yalladrop.R
 import com.example.yalladrop.api.auth.AuthState
 import com.example.yalladrop.api.auth.AuthViewModel
+import com.example.yalladrop.api.auth.User
 import com.example.yalladrop.local.pref.AuthManager
 import com.example.yalladrop.models.TextFieldOutlined
 
@@ -177,8 +178,6 @@ fun LoginViaAcccount(
                     onClick = {
 
                         if (emailError.isEmpty() && passwordError.isEmpty()) {
-                            // Save user session before navigation
-                            authManager.saveUserSession(emailValue)
                             navController.navigate("CreateAccount") {
                                 popUpTo(0) { inclusive = true }
                             }
@@ -219,7 +218,7 @@ fun LoginViaAcccount(
         when (val state = authState.value) {
             is AuthState.Loading -> {println("Logging in...")}
             is AuthState.Success -> {
-                authManager.saveUserSession(emailValue)
+                authManager.saveUserSession(emailValue, (state as AuthState.Success).user?.name.toString() , (state as AuthState.Success).user?.phone.toString() , (state as AuthState.Success).user?._id.toString())
                 println("Success : ${state.message}")
                 LaunchedEffect(Unit) {
                     navController.navigate("HomePage") {

@@ -1,8 +1,9 @@
 import android.provider.ContactsContract.CommonDataKinds.Phone
+import com.example.yalladrop.api.auth.User
 import retrofit2.http.Body
 import retrofit2.http.POST
 
-data class AuthResponse(val message: String = "User created successfully", val token: String? = null)
+data class AuthResponse(val message: String = "User created successfully", val token: String? = null , val user : User)
 
 data class SignupRequest(
     val name: String,
