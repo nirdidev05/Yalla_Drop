@@ -13,6 +13,7 @@ import com.example.yalladrop.auth.CreateAccount
 import com.example.yalladrop.auth.FistPage
 import com.example.yalladrop.auth.LoginPge
 import com.example.yalladrop.auth.LoginViaAcccount
+import com.example.yalladrop.auth.VerifyEmailScreen
 import com.example.yalladrop.delivery.Payment
 import com.example.yalladrop.orders.ActiveOrders
 import com.example.yalladrop.orders.CancelOrder
@@ -58,6 +59,10 @@ fun Navigation() {
         composable("LoginPge")  {  LoginPge(navController) }
         composable("LoginViaAcccount")  { LoginViaAcccount(navController ) }
         composable("CreateAccount")  { CreateAccount(navController = navController ) }
+        composable("VerifyEmail?token={token}") { backStackEntry ->
+            val token = backStackEntry.arguments?.getString("token") ?: ""
+            VerifyEmailScreen(navController = navController, token = token)
+        }
         composable("Payment")  { Payment(navController ) }
         composable("OrderList")  { OrderList(navController ) }
         composable("Profile")  { Profile(navController ) }

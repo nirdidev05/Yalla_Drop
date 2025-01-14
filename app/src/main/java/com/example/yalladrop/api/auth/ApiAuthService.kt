@@ -8,7 +8,7 @@ data class SignupRequest(
     val name: String,
     val email: String,
     val phone: String,
-    val password: String
+    val password: String,
 )
 
 data class LoginRequest(
@@ -16,13 +16,13 @@ data class LoginRequest(
     val password: String
 )
 
-data class VerifyRequest(val email: String, val code: String)
+data class VerifyRequest(val token: String)
 
 interface ApiService {
     @POST("api/users")
     suspend fun createUser(@Body request: SignupRequest): AuthResponse
 
-    @POST("api/auth/login")
+    @POST("api/users/login")
     suspend fun login(@Body request: LoginRequest): AuthResponse
 
     @POST("api/users/verify")

@@ -288,13 +288,21 @@ fun CreateAccount(
             println("************************> Loading...")
         }
         is AuthState.Success -> {
-            LaunchedEffect(Unit) { // Safely handle navigation
+
+            val token = state.token
+            println("Token received: $token")
+             LaunchedEffect(Unit) {
+                navController.navigate("VerifyEmail?token=$token") {
+                    popUpTo("CreateAccount") { inclusive = true } // Clear the back stack
+                }
+            }
+           /* LaunchedEffect(Unit) { // Safely handle navigation
                 println("************************>success :  ${state.message}")
                 navController.navigate("HomePage") {
                     popUpTo("CreateAccount") { inclusive = true }
                 }
                 viewModel.resetAuthState() // Reset state to prevent loops
-            }
+            }*/
         }
         is AuthState.Error -> {
             println("************************>error : ${state.error}")

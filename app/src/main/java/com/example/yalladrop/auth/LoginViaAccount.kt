@@ -37,20 +37,26 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.yalladrop.R
+import com.example.yalladrop.api.auth.AuthState
+import com.example.yalladrop.api.auth.AuthViewModel
 import com.example.yalladrop.local.pref.AuthManager
 import com.example.yalladrop.models.TextFieldOutlined
 
 @Composable
 fun LoginViaAcccount(
-    navController: NavHostController ,
-    context: Context = LocalContext.current
-) {
+    navController: NavHostController,
+    context: Context = LocalContext.current,
+    viewModel: AuthViewModel = viewModel(),
+
+    ) {
+
+    val authState = viewModel.authState.collectAsState()
+
     val focusManager = LocalFocusManager.current
-
     val authManager = remember { AuthManager(context) }
-
 
     var emailValue by remember { mutableStateOf("") }
     var emailError by remember { mutableStateOf("") }
@@ -135,13 +141,9 @@ fun LoginViaAcccount(
                         focusManager.clearFocus()
                         emailError = validateEmail(emailValue)
                         passwordError= validatePassword(passwordValue)
-
                         if(emailError.isEmpty() && passwordError.isEmpty())
                         {
-                            authManager.saveUserSession(emailValue)
-                            navController.navigate("ActiveOrders") {
-                                popUpTo(0) { inclusive = true } // Clear the entire back stack
-                            }
+                            viewModel.login(emailValue , passwordValue)
                         }
 
 
@@ -213,5 +215,30 @@ fun LoginViaAcccount(
 
         }
     }
+
+        when (val state = authState.value) {
+            is AuthState.Loading -> {println("Logging in...")}
+            is AuthState.Success -> {
+                authManager.saveUserSession(emailValue)
+                println("Success : ${state.message}")
+                LaunchedEffect(Unit) {
+                    navController.navigate("HomePage") {
+                        popUpTo("LoginScreen") { inclusive = true }
+                    }
+                }
+            }
+            is AuthState.Error -> {
+                println("Error: ${state.error}")
+                if(state.error.toString() == "HTTP 401 Unauthorized")
+                {
+                    emailError = "   " ;
+                    passwordError = "Incorrect email or password";
+                }
+            }
+            else -> {}
+        }
+
+
+
 }
 
