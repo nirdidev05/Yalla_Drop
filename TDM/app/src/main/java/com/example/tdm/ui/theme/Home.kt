@@ -1,10 +1,6 @@
 package com.example.tdm.ui.theme
-import android.annotation.SuppressLint
-import android.content.Context
-import android.content.pm.PackageManager
+
 import android.os.Build
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -14,20 +10,16 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -35,17 +27,14 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.tdm.Prefe
 import com.example.tdm.R
 import androidx.compose.runtime.Composable
-import androidx.core.view.VelocityTrackerCompat.clear
 import com.example.tdm.Prefe.clearUserSession
 import java.time.LocalTime
 
@@ -63,7 +52,7 @@ fun HomePage(navController: NavController) {
     ) {
 
 
-        GreetingSection("Walid","oued smar,ALger, 16 ")
+        GreetingSection("Walid","oued smar,Alger, 16 ")
         Spacer(modifier = Modifier.height(16.dp))
         YallaPaySection(balance = "2000 DA")
         Spacer(modifier = Modifier.height(16.dp))
@@ -230,7 +219,7 @@ fun CategoriesSection(navController: NavController) {
                     .aspectRatio(1f)
                     .padding(end = 4.dp)
                     .clickable {
-                        navController.navigate("grocerypage")}
+                        navController.navigate("grocery")}
             )
 
             Image(

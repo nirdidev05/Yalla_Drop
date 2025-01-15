@@ -21,12 +21,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 
-// Create a singleton object to hold the food items data
 object FoodDataProvider {
     val allFoodItems = listOf(
-        // PIZZA Category
         FoodItem(
             id = 1,
+            restaurantId = 1,
             imageRes = R.drawable.pizza1,
             name = "Margherita Pizza",
             price = "$14.99",
@@ -39,10 +38,14 @@ object FoodDataProvider {
                 "Fresh basil",
                 "Extra virgin olive oil",
                 "Sea salt"
-            )
+            ),
+            preparationTime = 20,
+            rating = 4.5f,
+            reviews = 120
         ),
         FoodItem(
             id = 2,
+            restaurantId = 1,
             imageRes = R.drawable.pizza1,
             name = "Pepperoni Supreme",
             price = "$16.99",
@@ -55,50 +58,15 @@ object FoodDataProvider {
                 "Tomato sauce",
                 "Italian herbs",
                 "Garlic oil"
-            )
-        ),
-        FoodItem(
-            id = 3,
-            imageRes = R.drawable.img1,
-            name = "French Onion Chicken",
-            price = "$29.00",
-            category = "Lunch",
-            description = "Delicious French onion chicken with caramelized onions",
-            calories = 554,
-            ingredients = listOf(
-                "1 tbsp olive oil",
-                "2 lbs chicken breasts",
-                "1/2 tsp kosher salt",
-                "1/2 tsp ground black pepper",
-                "2 tbsp buttero (if ordered)"
             ),
-            preparationTime = 45,
-            rating = 4.8f,
-            reviews = 41
+            preparationTime = 25,
+            rating = 4.7f,
+            reviews = 98
         ),
-        FoodItem(
-            id = 4,
-            imageRes = R.drawable.img1,
-            name = "French Onion Chicken",
-            price = "$29.00",
-            category = "Lunch",
-            description = "Delicious French onion chicken with caramelized onions",
-            calories = 554,
-            ingredients = listOf(
-                "1 tbsp olive oil",
-                "2 lbs chicken breasts",
-                "1/2 tsp kosher salt",
-                "1/2 tsp ground black pepper",
-                "2 tbsp buttero (if ordered)"
-            ),
-            preparationTime = 45,
-            rating = 4.8f,
-            reviews = 41
-        ),
-
         // BURGER Category
         FoodItem(
-            id = 5,
+            id = 3,
+            restaurantId = 2,
             imageRes = R.drawable.burger1,
             name = "Classic Cheeseburger",
             price = "$12.99",
@@ -111,148 +79,256 @@ object FoodDataProvider {
                 "Fresh lettuce",
                 "Tomato",
                 "Special sauce"
-            )
+            ),
+            preparationTime = 15,
+            rating = 4.6f,
+            reviews = 150
+        ),
+        FoodItem(
+            id = 4,
+            restaurantId = 2,
+            imageRes = R.drawable.burger1,
+            name = "Bacon Double Cheeseburger",
+            price = "$13.99",
+            category = "BURGER",
+            description = "Double patty with crispy bacon",
+            calories = 920,
+            ingredients = listOf(
+                "Double beef patty",
+                "Crispy bacon",
+                "Aged cheddar",
+                "Lettuce",
+                "Tomato"
+            ),
+            preparationTime = 20,
+            rating = 4.8f,
+            reviews = 170
+        ),
+        // TACOS Category
+        FoodItem(
+            id = 5,
+            restaurantId = 3,
+            imageRes = R.drawable.taac,
+            name = "Chicken Tacos",
+            price = "$10.99",
+            category = "TACOS",
+            description = "Grilled chicken with fresh toppings",
+            calories = 650,
+            ingredients = listOf(
+                "Grilled chicken",
+                "Lettuce",
+                "Tomato",
+                "Cheese",
+                "Corn tortilla"
+            ),
+            preparationTime = 10,
+            rating = 4.4f,
+            reviews = 85
         ),
         FoodItem(
             id = 6,
-            imageRes = R.drawable.burger1,
-            name = "Chicken Deluxe",
-            price = "$11.99",
-            category = "BURGER",
-            description = "Grilled chicken with special sauce",
-            calories = 550
+            restaurantId = 3,
+            imageRes = R.drawable.taac,
+            name = "Beef Tacos",
+            price = "$11.49",
+            category = "TACOS",
+            description = "Seasoned beef with fresh toppings",
+            calories = 700,
+            ingredients = listOf(
+                "Seasoned beef",
+                "Onions",
+                "Cilantro",
+                "Corn tortilla",
+                "Salsa"
+            ),
+            preparationTime = 10,
+            rating = 4.5f,
+            reviews = 90
         ),
+        // CURRY Category
         FoodItem(
             id = 7,
-            imageRes = R.drawable.burger1,
-            name = "Veggie Supreme",
-            price = "$9.99",
-            category = "BURGER",
-            description = "Plant-based patty with fresh veggies",
-            calories = 400
+            restaurantId = 4,
+            imageRes = R.drawable.taac,
+            name = "Butter Chicken",
+            price = "$15.99",
+            category = "CURRY",
+            description = "Creamy tomato-based curry with tender chicken",
+            calories = 950,
+            ingredients = listOf(
+                "Chicken",
+                "Tomato",
+                "Butter",
+                "Cream",
+                "Indian spices"
+            ),
+            preparationTime = 30,
+            rating = 4.7f,
+            reviews = 100
         ),
         FoodItem(
             id = 8,
-            imageRes = R.drawable.burger1,
-            name = "Mushroom Swiss",
-            price = "$12.99",
-            category = "BURGER",
-            description = "Beef patty with swiss cheese and mushrooms",
-            calories = 680
+            restaurantId = 4,
+            imageRes = R.drawable.taac,
+            name = "Lamb Curry",
+            price = "$17.49",
+            category = "CURRY",
+            description = "Rich curry with tender lamb chunks",
+            calories = 1100,
+            ingredients = listOf(
+                "Lamb",
+                "Onions",
+                "Tomatoes",
+                "Garlic",
+                "Indian spices"
+            ),
+            preparationTime = 35,
+            rating = 4.8f,
+            reviews = 120
         ),
-
-        // TACOS Category
+        // PASTA Category
         FoodItem(
             id = 9,
-            imageRes = R.drawable.taac,
-            name = "Carne Asada",
-            price = "$8.99",
-            category = "TACOS",
-            description = "Grilled steak with onions and cilantro",
-            calories = 320
+            restaurantId = 5,
+            imageRes = R.drawable.pasta,
+            name = "Spaghetti Carbonara",
+            price = "$13.99",
+            category = "PASTA",
+            description = "Classic pasta with creamy sauce",
+            calories = 850,
+            ingredients = listOf(
+                "Spaghetti",
+                "Pancetta",
+                "Eggs",
+                "Parmesan cheese",
+                "Black pepper"
+            ),
+            preparationTime = 20,
+            rating = 4.5f,
+            reviews = 110
         ),
         FoodItem(
             id = 10,
-            imageRes = R.drawable.taac,
-            name = "Grilled Fish",
-            price = "$9.99",
-            category = "TACOS",
-            description = "Fresh fish with cabbage slaw",
-            calories = 280
+            restaurantId = 5,
+            imageRes = R.drawable.pasta,
+            name = "Fettuccine Alfredo",
+            price = "$14.49",
+            category = "PASTA",
+            description = "Pasta with creamy Alfredo sauce",
+            calories = 900,
+            ingredients = listOf(
+                "Fettuccine",
+                "Butter",
+                "Heavy cream",
+                "Parmesan cheese",
+                "Garlic"
+            ),
+            preparationTime = 25,
+            rating = 4.6f,
+            reviews = 130
         ),
+        // STEAK Category
         FoodItem(
             id = 11,
-            imageRes = R.drawable.taac,
-            name = "Chicken Fajita",
-            price = "$8.99",
-            category = "TACOS",
-            description = "Grilled chicken with peppers and onions",
-            calories = 300
+            restaurantId = 6,
+            imageRes = R.drawable.pizza1,
+            name = "Grilled Ribeye",
+            price = "$25.99",
+            category = "STEAK",
+            description = "Juicy ribeye steak grilled to perfection",
+            calories = 1200,
+            ingredients = listOf(
+                "Ribeye steak",
+                "Salt",
+                "Pepper",
+                "Garlic butter",
+                "Fresh herbs"
+            ),
+            preparationTime = 30,
+            rating = 4.9f,
+            reviews = 140
         ),
         FoodItem(
             id = 12,
-            imageRes = R.drawable.taac,
-            name = "Shrimp Taco",
-            price = "$10.99",
-            category = "TACOS",
-            description = "Grilled shrimp with special sauce",
-            calories = 290
+            restaurantId = 6,
+            imageRes = R.drawable.pasta,
+            name = "BBQ Chicken",
+            price = "$17.99",
+            category = "BARBECUE",
+            description = "Tender chicken with BBQ sauce",
+            calories = 950,
+            ingredients = listOf(
+                "Chicken",
+                "BBQ sauce",
+                "Spices",
+                "Garlic",
+                "Honey"
+            ),
+            preparationTime = 25,
+            rating = 4.7f,
+            reviews = 115
         ),
-
         // SUSHI Category
         FoodItem(
             id = 13,
+            restaurantId = 7,
             imageRes = R.drawable.suchi,
             name = "California Roll",
-            price = "$14.99",
+            price = "$8.99",
             category = "SUSHI",
-            description = "Crab, avocado, and cucumber",
-            calories = 320
+            description = "Sushi roll with crab, avocado, and cucumber",
+            calories = 350,
+            ingredients = listOf(
+                "Crab",
+                "Avocado",
+                "Cucumber",
+                "Rice",
+                "Nori"
+            ),
+            preparationTime = 15,
+            rating = 4.5f,
+            reviews = 90
         ),
         FoodItem(
             id = 14,
+            restaurantId = 7,
             imageRes = R.drawable.suchi,
-            name = "Dragon Roll",
-            price = "$18.99",
+            name = "Spicy Tuna Roll",
+            price = "$9.49",
             category = "SUSHI",
-            description = "Eel and avocado special roll",
-            calories = 380
+            description = "Sushi roll with spicy tuna and cucumber",
+            calories = 400,
+            ingredients = listOf(
+                "Spicy tuna",
+                "Cucumber",
+                "Rice",
+                "Nori",
+                "Spicy mayo"
+            ),
+            preparationTime = 15,
+            rating = 4.6f,
+            reviews = 95
         ),
+        // THAI Category
         FoodItem(
             id = 15,
+            restaurantId = 8,
             imageRes = R.drawable.suchi,
-            name = "Spicy Tuna",
-            price = "$16.99",
-            category = "SUSHI",
-            description = "Fresh tuna with spicy sauce",
-            calories = 340
-        ),
-        FoodItem(
-            id = 16,
-            imageRes = R.drawable.suchi,
-            name = "Rainbow Roll",
-            price = "$19.99",
-            category = "SUSHI",
-            description = "Assorted fish on California roll",
-            calories = 360
-        ),
-
-        // PASTA Category
-        FoodItem(
-            id = 17,
-            imageRes = R.drawable.pasta,
-            name = "Carbonara",
-            price = "$13.99",
-            category = "PASTA",
-            description = "Classic carbonara with pancetta",
-            calories = 580
-        ),
-        FoodItem(
-            id = 18,
-            imageRes = R.drawable.pasta,
-            name = "Bolognese",
+            name = "Pad Thai",
             price = "$14.99",
-            category = "PASTA",
-            description = "Traditional meat sauce pasta",
-            calories = 620
-        ),
-        FoodItem(
-            id = 19,
-            imageRes = R.drawable.pasta,
-            name = "Alfredo",
-            price = "$12.99",
-            category = "PASTA",
-            description = "Creamy Alfredo sauce with parmesan",
-            calories = 560
-        ),
-        FoodItem(
-            id = 20,
-            imageRes = R.drawable.pasta,
-            name = "Pesto",
-            price = "$13.99",
-            category = "PASTA",
-            description = "Fresh basil pesto with pine nuts",
-            calories = 520
+            category = "THAI",
+            description = "Stir-fried noodles with shrimp and peanuts",
+            calories = 800,
+            ingredients = listOf(
+                "Rice noodles",
+                "Shrimp",
+                "Peanuts",
+                "Tamarind sauce",
+                "Bean sprouts"
+            ),
+            preparationTime = 20,
+            rating = 4.7f,
+            reviews = 130
         )
     )
 }
@@ -264,7 +340,6 @@ fun FoodDetailScreen(
     navController: NavController,
     modifier: Modifier = Modifier
 ) {
-    // Find the food item by ID from the shared data provider
     val foodItem = remember {
         FoodDataProvider.allFoodItems.find { it.id == foodId }
     } ?: return

@@ -60,6 +60,7 @@ android {
 }
 
 dependencies {
+    implementation("com.google.ai.edge.litert:litert-support-api:1.0.1")
     val roomVersion = "2.3.0"
     val composeVersion = "1.5.1"
     val material3Version = "1.1.1"
@@ -70,6 +71,8 @@ dependencies {
     kapt("androidx.room:room-compiler:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
     testImplementation("androidx.room:room-testing:$roomVersion")
+    implementation ("androidx.compose.material:material-icons-core:<version>")
+    implementation ("androidx.compose.material:material-icons-extended:<version>")
 
     // Compose dependencies
     implementation("androidx.compose.ui:ui:$composeVersion")
