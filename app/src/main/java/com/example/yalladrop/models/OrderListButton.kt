@@ -20,11 +20,11 @@ fun OrderListButton(content : String, active: Boolean, state: OrderState, navCon
 
     if (active)
         Button(onClick = {
-            if (state== OrderState.ACTIVE)
+            if (state== OrderState.PREPARING || state == OrderState.PENDING || state == OrderState.ONTHEWAY || state == OrderState.PICKEDUP)
             {
                 navController.navigate("ActiveOrders")
             }
-            else if (state== OrderState.COMPLETED)
+            else if (state== OrderState.COMPLETED || state == OrderState.REWIEWED)
             {
                 navController.navigate("CompletedOrders")
             }
@@ -44,11 +44,11 @@ fun OrderListButton(content : String, active: Boolean, state: OrderState, navCon
         }
     else
         Button(onClick = {
-            if (state== OrderState.ACTIVE)
+            if (state== OrderState.PREPARING || state == OrderState.PENDING || state == OrderState.ONTHEWAY || state == OrderState.PICKEDUP)
             {
                 navController.navigate("ActiveOrders")
             }
-            else if (state== OrderState.COMPLETED)
+            else if (state== OrderState.COMPLETED || state == OrderState.REWIEWED)
             {
                 navController.navigate("CompletedOrders")
             }

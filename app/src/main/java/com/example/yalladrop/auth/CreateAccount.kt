@@ -1,5 +1,6 @@
 package com.example.yalladrop.auth
 
+import android.content.Context
 import android.util.Patterns
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -35,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -48,15 +50,19 @@ import androidx.navigation.NavHostController
 import com.example.yalladrop.R
 import com.example.yalladrop.api.auth.AuthState
 import com.example.yalladrop.api.auth.AuthViewModel
+import com.example.yalladrop.local.pref.AuthManager
 import com.example.yalladrop.models.TextFieldOutlined
 
 
 @Composable
 fun CreateAccount(
-    viewModel: AuthViewModel = viewModel() ,
+    viewModel: AuthViewModel = viewModel(),
+    context: Context = LocalContext.current,
     navController: NavHostController,
 ) {
     val authState = viewModel.authState.collectAsState()
+    val authManager = remember { AuthManager(context) }
+
 
     val focusManager = LocalFocusManager.current
     var nameValue by remember { mutableStateOf("") }
@@ -290,7 +296,7 @@ fun CreateAccount(
         is AuthState.Success -> {
 
             val token = state.token
-            println("Token received: $token")
+            authManager.saveUserSession(emailValue, (state as AuthState.Success).user?.name.toString() , (state as AuthState.Success).user?.phone.toString() , (state as AuthState.Success).user?._id.toString())
              LaunchedEffect(Unit) {
                 navController.navigate("VerifyEmail?token=$token") {
                     popUpTo("CreateAccount") { inclusive = true } // Clear the back stack

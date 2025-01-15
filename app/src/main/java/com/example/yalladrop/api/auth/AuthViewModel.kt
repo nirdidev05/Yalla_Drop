@@ -2,6 +2,7 @@ package com.example.yalladrop.api.auth
 
 import LoginRequest
 import SignupRequest
+import UpdateUserRequest
 import VerifyRequest
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,7 +13,7 @@ import kotlinx.coroutines.launch
 sealed class AuthState {
     object Idle : AuthState()
     object Loading : AuthState()
-    data class Success(val message: String, val token: String) : AuthState() // Include token
+    data class Success(val message: String, val token: String, val user: User?) : AuthState() // Include token
     data class Error(val error: String) : AuthState()
 }
 class AuthViewModel : ViewModel() {
@@ -30,7 +31,7 @@ class AuthViewModel : ViewModel() {
 
                 val token = response.token // Ensure your API returns the token
 
-                _authState.value = AuthState.Success(response.message, token.toString())
+                _authState.value = AuthState.Success(response.message, token.toString() , response.user)
             } catch (e: Exception) {
                _authState.value = AuthState.Error(e.localizedMessage ?: "Unknown error")
             }
@@ -43,12 +44,23 @@ class AuthViewModel : ViewModel() {
             try {
                 val response = RetrofitInstance.api.login(LoginRequest(email, password))
                 if (response.token != null) {
-                    _authState.value = AuthState.Success(message = "Login successful" , token = "token")
+                    _authState.value = AuthState.Success(message = "Login successful" , token = "token" ,user = response.user)
                 } else {
                     _authState.value = AuthState.Error("Invalid credentials")
                 }
             } catch (e: Exception) {
                 _authState.value = AuthState.Error(e.localizedMessage ?: "Unknown error")
+            }
+        }
+    }
+    fun updateUser(userId: String, name : String , phone : String ) {
+        viewModelScope.launch {
+            _authState.value = AuthState.Loading
+            try {
+                val response = RetrofitInstance.api.updateUser(userId, UpdateUserRequest(name , phone))
+                _authState.value = AuthState.Success(response.message, response.token ?: "", response.user)
+            } catch (e: Exception) {
+                _authState.value = AuthState.Error(e.localizedMessage ?: "Failed to update user")
             }
         }
     }
@@ -58,7 +70,7 @@ class AuthViewModel : ViewModel() {
             _authState.value = AuthState.Loading
             try {
                 val response = RetrofitInstance.api.verifyEmail(VerifyRequest(token))
-                _authState.value = AuthState.Success(response.message , "token")
+                _authState.value = AuthState.Success(response.message , "token" , null)
             } catch (e: Exception) {
                 _authState.value = AuthState.Error(e.localizedMessage ?: "Unknown error")
             }

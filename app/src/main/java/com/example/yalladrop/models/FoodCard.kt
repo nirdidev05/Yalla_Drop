@@ -122,7 +122,7 @@ fun FoodCard(
                             style = MaterialTheme.typography.labelSmall
                         )}
                     }
-                    if (state == OrderState.COMPLETED)
+                    if (state == OrderState.COMPLETED || state == OrderState.REWIEWED)
                     {
                         Row {
                             Image(
@@ -144,28 +144,33 @@ fun FoodCard(
                         horizontalArrangement = Arrangement.SpaceBetween
 
                     ) {
-                        Button(
-                            onClick = {
+                        if(state == OrderState.COMPLETED){
+                            Button(
+                                onClick = {
 
-                                navController.navigate("LeaveReview")
-                            },
-                            modifier = Modifier
-                                .height(26.dp)
-                                .width(125.dp)
-                                .border(
-                                    0.5.dp,
-                                    color = MaterialTheme.colorScheme.onBackground,
-                                    RoundedCornerShape(45.dp)
+                                    navController.navigate("LeaveReview")
+                                },
+                                modifier = Modifier
+                                    .height(26.dp)
+                                    .width(125.dp)
+                                    .border(
+                                        0.5.dp,
+                                        color = MaterialTheme.colorScheme.onBackground,
+                                        RoundedCornerShape(45.dp)
+                                    )
+                                    .clip(RoundedCornerShape(38))
+
+                            ) {
+                                Text(
+                                    text = "Leave a review",
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = Color.White,
+                                    fontSize = 12.5.sp
                                 )
-                                .clip(RoundedCornerShape(38))
-
-                        ) {
-                            Text(
-                                text = "Leave a review",
-                                style = MaterialTheme.typography.labelSmall,
-                                color = Color.White,
-                                fontSize = 12.5.sp
-                            )
+                            }
+                        }
+                        else{
+                            Spacer(modifier = Modifier.width(125.dp))
                         }
                         Button(
                             onClick = { navController.navigate("ConfirmeOrder") },
@@ -234,12 +239,14 @@ fun FoodCard(
                                     Image(
                                         painter = painterResource(id = R.drawable.icon_minceicon),
                                         contentDescription = null,
-                                        modifier = Modifier.size(30.dp).
-                                        clickable{
-                                            if (item.numItem != 1){
-                                                item.numItem-- ;
-                                            };
-                                            itemNum = item.numItem}
+                                        modifier = Modifier
+                                            .size(30.dp)
+                                            .clickable {
+                                                if (item.numItem != 1) {
+                                                    item.numItem--;
+                                                };
+                                                itemNum = item.numItem
+                                            }
                                     )
 
                                 Text(
@@ -253,11 +260,12 @@ fun FoodCard(
                                     Image(
                                         painter = painterResource(id = R.drawable.icon_addicon),
                                         contentDescription = null,
-                                        modifier = Modifier.size(30.dp).
-                                        clickable{
-                                            item.numItem++;
-                                            itemNum = item.numItem
-                                        }
+                                        modifier = Modifier
+                                            .size(30.dp)
+                                            .clickable {
+                                                item.numItem++;
+                                                itemNum = item.numItem
+                                            }
                                     )
 
                             }

@@ -2,6 +2,7 @@ package com.example.yalladrop.profile
 
 
 import android.Manifest
+import android.content.Context
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -31,6 +32,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -49,29 +51,45 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.FileProvider
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.yalladrop.models.PrincipaleBackGroound
 import com.example.yalladrop.R
+import com.example.yalladrop.api.auth.AuthState
+import com.example.yalladrop.api.auth.AuthViewModel
 import com.example.yalladrop.models.TextFieldOutlined
 import com.example.yalladrop.auth.validateName
 import com.example.yalladrop.auth.validatePhone
+import com.example.yalladrop.local.pref.AuthManager
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 @Composable
-fun Profile(navController: NavHostController){
+fun Profile(navController: NavHostController,
+            context: Context = LocalContext.current,
+            viewModel: AuthViewModel = viewModel(),
+){
+
+    val authState = viewModel.authState.collectAsState()
+
+    val authManager = remember { AuthManager(context) }
+    var nameProfile by remember { mutableStateOf(authManager.getUserName()) }
+    var phoneProfile by remember { mutableStateOf(authManager.getUserPhone()) }
+    var userId  by remember { mutableStateOf(authManager.getUserID()) }
+
 
     val focusManager = LocalFocusManager.current
-    var nameValue by remember { mutableStateOf("") }
+
+    var nameValue by remember { mutableStateOf(nameProfile.toString()) }
     var nameError by remember { mutableStateOf("") }
     fun setName(value: String){
         nameValue = value
     }
 
-    var phoneValue by remember { mutableStateOf("") }
+    var phoneValue by remember { mutableStateOf(phoneProfile.toString()) }
     var phoneError by remember { mutableStateOf("") }
     fun setPhone(value: String){
         phoneValue = value
@@ -282,9 +300,10 @@ fun Profile(navController: NavHostController){
                         nameError = validateName(nameValue)
                         phoneError= validatePhone(phoneValue)
 
-                        if(phoneError.isEmpty() && phoneValue.isEmpty())
+                        if(phoneError.isEmpty() && phoneError.isEmpty())
                         {
-                            println("correct")
+                            viewModel.updateUser(userId.toString() , nameValue.toString() , phoneValue.toString())
+
                         }
                     },
                     modifier = Modifier
@@ -307,5 +326,15 @@ fun Profile(navController: NavHostController){
 
         }
 
+    }
+    when (val state = authState.value) {
+        is AuthState.Loading -> Text("Updating...")
+        is AuthState.Success -> {
+            authManager.updateUserNamePhone(nameValue , phoneValue)
+            val user = state.user
+            println("User updated: ${user?.name ?: "Unknown"}")
+        }
+        is AuthState.Error -> Text("Error: ${state.error}")
+        else -> {}
     }
 }
