@@ -67,7 +67,7 @@ object FoodDataProvider {
         // BURGER Category
         FoodItem(
             id = 3,
-            restaurantId = 2,
+            restaurantId = 1,
             imageRes = R.drawable.burger1,
             name = "Classic Cheeseburger",
             price = "$12.99",
@@ -87,11 +87,11 @@ object FoodDataProvider {
         ),
         FoodItem(
             id = 4,
-            restaurantId = 2,
+            restaurantId = 1,
             imageRes = R.drawable.burger1,
             name = "Bacon Double Cheeseburger",
             price = "$13.99",
-            category = "BURGER",
+            category = "PIZZA",
             description = "Double patty with crispy bacon",
             calories = 920,
             ingredients = listOf(
@@ -108,7 +108,7 @@ object FoodDataProvider {
         // TACOS Category
         FoodItem(
             id = 5,
-            restaurantId = 3,
+            restaurantId =1,
             imageRes = R.drawable.taac,
             name = "Chicken Tacos",
             price = "$10.99",

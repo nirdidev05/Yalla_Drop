@@ -356,7 +356,7 @@ fun RestaurantCard(
         modifier = Modifier
             .width(200.dp)
             .padding(8.dp)
-            .clickable { onRestaurantClick(restaurant) }, // Add click handler
+            .clickable { onRestaurantClick(restaurant) },
         shape = RoundedCornerShape(10.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         colors = CardDefaults.cardColors(containerColor = Color(0xFFFEF1E7))

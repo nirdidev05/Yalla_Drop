@@ -12,7 +12,7 @@ data class Restaurant(
     val deliveryFee: String,
     val deliveryTime: String,
     val specialties: List<String>,
-    val discount: Any
+    val discount: String? = null
 )
 data class DessertShop(
     val id: Int,
@@ -23,7 +23,7 @@ data class DessertShop(
     val deliveryFee: String,
     val deliveryTime: String,
     val specialties: List<String>,
-    val discount: Any,
+    val discount: String? = null,
 )
 
 data class FoodItem(
@@ -690,7 +690,7 @@ val allFoodItems =
         // BURGER Category
         FoodItem(
             id = 3,
-            restaurantId = 2,
+            restaurantId = 1,
             imageRes = R.drawable.burger1,
             name = "Classic Cheeseburger",
             price = "$12.99",
@@ -710,7 +710,7 @@ val allFoodItems =
         ),
         FoodItem(
             id = 4,
-            restaurantId = 2,
+            restaurantId = 1,
             imageRes = R.drawable.burger1,
             name = "Bacon Double Cheeseburger",
             price = "$13.99",
@@ -730,7 +730,7 @@ val allFoodItems =
         ),
         FoodItem(
             id = 5,
-            restaurantId = 3,
+            restaurantId = 1,
             imageRes = R.drawable.taac,
             name = "Chicken Tacos",
             price = "$10.99",
@@ -750,11 +750,11 @@ val allFoodItems =
         ),
         FoodItem(
             id = 6,
-            restaurantId = 3,
+            restaurantId = 1,
             imageRes = R.drawable.taac,
             name = "Beef Tacos",
             price = "$11.49",
-            category = "TACOS",
+            category = "Pizza",
             description = "Seasoned beef with fresh toppings",
             calories = 700,
             ingredients = listOf(

@@ -7,6 +7,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
@@ -23,11 +24,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -35,58 +36,126 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.tdm.R
 import androidx.compose.runtime.Composable
-import com.example.tdm.Prefe.clearUserSession
+import androidx.compose.ui.draw.clip
+
+import com.example.tdm.model.DessertShop
+import com.example.tdm.model.FoodItem
+import com.example.tdm.model.FoodIteme
+import com.example.tdm.model.Restaurant
+import com.example.tdm.model.allDessertShops
+import com.example.tdm.model.allFoodItems
+import com.example.tdm.model.allRestaurants
+import com.example.tdm.model.foodItemList
 import java.time.LocalTime
+
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
+fun HomePage(navController: NavController, planName: String) {
+    var searchQuery by remember { mutableStateOf("") }
+    var selectedCategory by remember { mutableStateOf("All") }
 
-fun HomePage(navController: NavController,planName : String) {
-    var hasLocationPermission by remember { mutableStateOf(false) }
-    val context = LocalContext.current
+    // Filtered lists based on search query
+    val filteredRestaurants = remember(searchQuery, selectedCategory) {
+        val lowerQuery = searchQuery.lowercase()
+        when (selectedCategory) {
+            "All" -> allRestaurants.filter {
+                it.name.lowercase().contains(lowerQuery) ||
+                        it.specialties.any { specialty -> specialty.lowercase().contains(lowerQuery) }
+            }
+            else -> allRestaurants.filter {
+                it.category == selectedCategory &&
+                        (it.name.lowercase().contains(lowerQuery) ||
+                                it.specialties.any { specialty -> specialty.lowercase().contains(lowerQuery) })
+            }
+        }
+    }
+
+    val filteredDessertShops = remember(searchQuery, selectedCategory) {
+        val lowerQuery = searchQuery.lowercase()
+        when (selectedCategory) {
+            "All" -> allDessertShops.filter {
+                it.name.lowercase().contains(lowerQuery) ||
+                        it.specialties.any { specialty -> specialty.lowercase().contains(lowerQuery) }
+            }
+            else -> allDessertShops.filter {
+                it.category == selectedCategory &&
+                        (it.name.lowercase().contains(lowerQuery) ||
+                                it.specialties.any { specialty -> specialty.lowercase().contains(lowerQuery) })
+            }
+        }
+    }
+
+    val filteredFoodItems = remember(searchQuery, selectedCategory) {
+        val lowerQuery = searchQuery.lowercase()
+        when (selectedCategory) {
+            "All" -> allFoodItems.filter {
+                it.name.lowercase().contains(lowerQuery) ||
+                        it.description.lowercase().contains(lowerQuery)
+            }
+            else -> allFoodItems.filter {
+                it.category == selectedCategory &&
+                        (it.name.lowercase().contains(lowerQuery) ||
+                                it.description.lowercase().contains(lowerQuery))
+            }
+        }
+    }
+
+    val filteredDessertItems = remember(searchQuery, selectedCategory) {
+        val lowerQuery = searchQuery.lowercase()
+        when (selectedCategory) {
+            "All" -> foodItemList.filter {
+                it.name.lowercase().contains(lowerQuery) ||
+                        it.description.lowercase().contains(lowerQuery)
+            }
+            else -> foodItemList.filter {
+                it.category == selectedCategory &&
+                        (it.name.lowercase().contains(lowerQuery) ||
+                                it.description.lowercase().contains(lowerQuery))
+            }
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
             .verticalScroll(rememberScrollState())
     ) {
-
-
-        GreetingSection("Walid","oued smar,Alger, 16 ")
+        GreetingSection("Walid", "oued smar,Alger, 16")
         Spacer(modifier = Modifier.height(16.dp))
-        YallaPaySection(balance = planName,navController)
+        YallaPaySection(balance = planName, navController)
         Spacer(modifier = Modifier.height(16.dp))
         CategoriesSection(navController)
         Spacer(modifier = Modifier.height(16.dp))
         PromoBanner()
         Spacer(modifier = Modifier.height(16.dp))
-        SearchBar()
+        SearchBar(
+            searchQuery = searchQuery,
+            onSearchQueryChange = { searchQuery = it }
+        )
         Spacer(modifier = Modifier.height(16.dp))
-        CategoriesChips()
+        CategoriesChips(
+            selectedCategory = selectedCategory,
+            onCategorySelected = { selectedCategory = it }
+        )
         Spacer(modifier = Modifier.height(16.dp))
-        RestaurantsSection(navController)
-        Spacer(modifier = Modifier.height(16.dp))
-        CancerAwarenessBanner()
-        LogoutButton(navController)
 
-
-    }
-}
-@Composable
-fun LogoutButton(navController: NavController) {
-    val context = LocalContext.current
-
-    Button(onClick = {
-        clearUserSession(context) // Passer le contexte ici
-
-        navController.navigate("connectionPage") {
-            popUpTo(0) { inclusive = true } // Supprimer l'historique de navigation
+        if (searchQuery.isNotEmpty()) {
+            SearchResults(
+                restaurants = filteredRestaurants,
+                dessertShops = filteredDessertShops,
+                foodItems = filteredFoodItems,
+                dessertItems = filteredDessertItems,
+                navController = navController
+            )
+        } else {
+            RestaurantsSection(navController)
+            Spacer(modifier = Modifier.height(16.dp))
+            CancerAwarenessBanner()
         }
-    }) {
-        Text("Logout")
     }
 }
-
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -235,13 +304,12 @@ fun CategoriesSection(navController: NavController) {
     }
 }
 
-
-
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchBar() {
-    var searchText by remember { mutableStateOf("") }
+fun SearchBar(
+    searchQuery: String,
+    onSearchQueryChange: (String) -> Unit
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -253,41 +321,204 @@ fun SearchBar() {
             modifier = Modifier.fillMaxWidth()
         ) {
             Spacer(modifier = Modifier.width(10.dp))
-           androidx.compose.material3.Icon(
-               imageVector =Icons.Default.Search , contentDescription = null,tint = Color.Gray,
-               modifier = Modifier
-                   .size(30.dp)
-                   .clickable { },
-           )
+            Icon(
+                imageVector = Icons.Default.Search,
+                contentDescription = null,
+                tint = Color.Gray,
+                modifier = Modifier.size(30.dp)
+            )
             Spacer(modifier = Modifier.width(3.dp))
             TextField(
-                value = searchText,
-                onValueChange = { searchText = it },
+                value = searchQuery,
+                onValueChange = onSearchQueryChange,
                 placeholder = { Text("Search dishes, restaurants", color = Color.Gray) },
                 singleLine = true,
                 colors = TextFieldDefaults.textFieldColors(
                     focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent
-                )
+                    unfocusedIndicatorColor = Color.Transparent,
+                    containerColor = Color.Transparent
+                ),
+                modifier = Modifier.fillMaxWidth()
             )
         }
     }
 }
 
 @Composable
-fun CategoriesChips() {
+fun SearchResults(
+    restaurants: List<Restaurant>,
+    dessertShops: List<DessertShop>,
+    foodItems: List<FoodItem>,
+    dessertItems: List<FoodIteme>,
+    navController: NavController
+) {
+    Column {
+        // Restaurants and Dessert Shops Section
+        if (restaurants.isNotEmpty() || dessertShops.isNotEmpty()) {
+            Text(
+                "Restaurants & Shops",
+                modifier = Modifier.padding(vertical = 8.dp)
+            )
+
+            restaurants.forEach { restaurant ->
+                Box(
+                    modifier = Modifier.clickable {
+                        navController.navigate("foodDelivery/${restaurant.id}/${restaurant.name}/${restaurant.photoResId}")
+                    }
+                ) {
+                    RestaurantCard(
+                        name = restaurant.name,
+                        rating = restaurant.rating.toDouble(),
+                        deliveryFee = restaurant.deliveryFee,
+                        deliveryTime = restaurant.deliveryTime,
+                        specialties = restaurant.specialties
+                    )
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+
+            dessertShops.forEach { shop ->
+                Box(
+                    modifier = Modifier.clickable {
+                        navController.navigate("candyDelivery/${shop.id}/${shop.name}/${shop.photoResId}")
+                    }
+                ) {
+                    RestaurantCard(
+                        name = shop.name,
+                        rating = shop.rating.toDouble(),
+                        deliveryFee = shop.deliveryFee,
+                        deliveryTime = shop.deliveryTime,
+                        specialties = shop.specialties
+                    )
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+        }
+
+        // Food Items Section
+        if (foodItems.isNotEmpty() || dessertItems.isNotEmpty()) {
+            Text(
+                "Dishes & Desserts",
+                modifier = Modifier.padding(vertical = 8.dp)
+            )
+
+            foodItems.forEach { item ->
+                Box(
+                    modifier = Modifier.clickable {
+                        navController.navigate("foodDetail/${item.id}")
+                    }
+                ) {
+                    FoodItemCard(item)
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+
+            dessertItems.forEach { item ->
+                Box(
+                    modifier = Modifier.clickable {
+                        navController.navigate("candyDetail/${item.id}")
+                    }
+                ) {
+                    DessertItemCard(item)
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+        }
+    }
+}
+@Composable
+fun FoodItemCard(item: FoodItem) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp),
+        shape = RoundedCornerShape(8.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Image(
+                painter = painterResource(id = item.imageRes),
+                contentDescription = item.name,
+                modifier = Modifier
+                    .size(60.dp)
+                    .clip(RoundedCornerShape(4.dp))
+            )
+
+            Column(
+                modifier = Modifier
+                    .padding(start = 8.dp)
+                    .weight(1f)
+            ) {
+                Text(
+                    text = item.name,
+                )
+                Text(
+                    text = item.price,
+                    color = Color(0xFFFF5722)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun DessertItemCard(item: FoodIteme) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp),
+        shape = RoundedCornerShape(8.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Image(
+                painter = painterResource(id = item.imageRes),
+                contentDescription = item.name,
+                modifier = Modifier
+                    .size(60.dp)
+                    .clip(RoundedCornerShape(4.dp))
+            )
+
+            Column(
+                modifier = Modifier
+                    .padding(start = 8.dp)
+                    .weight(1f)
+            ) {
+                Text(
+                    text = item.name,
+                )
+                Text(
+                    text = item.price,
+                    color = Color(0xFFFF5722)
+                )
+            }
+        }
+    }
+}
+@Composable
+fun CategoriesChips(
+    selectedCategory: String,
+    onCategorySelected: (String) -> Unit
+) {
     val categories = listOf(
         "All" to R.drawable.all,
-        "Hot Dog" to R.drawable.hot,
-        "Dessert" to R.drawable.dessert_11645339,
-        "Grocery" to R.drawable.shopping,
-        "Drinks" to R.drawable.cocktail,
         "Fast Food" to R.drawable.burger,
-        "Pizza" to R.drawable.pizza,
-        "Fish Restaurant" to R.drawable.fish
+        "Meal" to R.drawable.meal,
+        "Traditional" to R.drawable.tra,
+        "Grocery" to R.drawable.shopping,
+        "Dessert" to R.drawable.des,
+        "Candy" to R.drawable.candy,
+        "Cafe" to R.drawable.cafe
     )
 
-    val (selectedCategory, setSelectedCategory) = remember { mutableStateOf("") }
     val isDialogOpen = remember { mutableStateOf(false) }
 
     Column {
@@ -296,7 +527,12 @@ fun CategoriesChips() {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("All Categories", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+            Text(
+                "All Categories",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black
+            )
             Text(
                 "View All >",
                 fontSize = 14.sp,
@@ -316,7 +552,7 @@ fun CategoriesChips() {
                 Chip(
                     label = category,
                     isSelected = category == selectedCategory,
-                    onClick = { setSelectedCategory(category) }
+                    onClick = { onCategorySelected(category) }
                 )
             }
         }
@@ -333,7 +569,7 @@ fun CategoriesChips() {
                                 modifier = Modifier
                                     .padding(vertical = 4.dp)
                                     .clickable {
-                                        setSelectedCategory(category)
+                                        onCategorySelected(category)
                                         isDialogOpen.value = false
                                     }
                             ) {
@@ -359,9 +595,7 @@ fun CategoriesChips() {
                             contentColor = Color.Black,
                             containerColor = Color(0xFFFF5722),
                         ),
-                        modifier = Modifier
-                            .fillMaxWidth()
-
+                        modifier = Modifier.fillMaxWidth()
                     ) {
                         Text("Close")
                     }
@@ -370,7 +604,6 @@ fun CategoriesChips() {
         }
     }
 }
-
 @Composable
 fun Chip(label: String, isSelected: Boolean, onClick: () -> Unit) {
     Box(
@@ -394,28 +627,15 @@ fun RestaurantsSection(navController: NavController) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("Open Restaurants", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+            Text("All Restaurants", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.Black)
             Text("View All >", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color(0xFFFF5722),
-                    modifier = Modifier.clickable {    }
+                modifier = Modifier.clickable {    }
             )
         }
         Spacer(modifier = Modifier.height(8.dp))
 
-            Image(
-            painter = painterResource(id = R.drawable.imagestarbucks),
-            contentDescription = "starbucks",
-                    modifier = Modifier.fillMaxSize()
-                        .clickable { navController.navigate("ecran2")},
-        )
-        RestaurantCard(
-            name = "Starbucks Alger",
-            rating = 4.7,
-            deliveryFee = "Free",
-            deliveryTime = "20 min",
-            specialties = listOf("cafe", "the", "sugar")
 
 
-        )
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -427,17 +647,7 @@ fun RestaurantsSection(navController: NavController) {
             )
         }
         Spacer(modifier = Modifier.height(8.dp))
-        Image(
-            painter = painterResource(id = R.drawable.burg),
-            contentDescription = "starbucks"
-        )
-        RestaurantCard(
-            name = "Rose Garden Restaurant",
-            rating = 5.0,
-            deliveryFee = "Paid",
-            deliveryTime = "10 min",
-            specialties = listOf("Italian", "Vegetarian", "Vegan")
-        )
+
     }
 }
 
@@ -514,6 +724,8 @@ fun RestaurantCard(
 
     }
 }
+
+
 
 @Composable
 fun CancerAwarenessBanner() {

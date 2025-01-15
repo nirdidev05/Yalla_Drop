@@ -7,16 +7,22 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.tdm.FoodDataProvider.allFoodItems
 import com.example.tdm.R
@@ -60,325 +66,6 @@ fun FoodDeliveryScreen(
             }
         )
     }
-
-
-    val allFoodItems = remember {
-        listOf(
-            // PIZZA Category
-            FoodItem(
-                id = 1,
-                restaurantId = 1,
-                imageRes = R.drawable.pizza1,
-                name = "Margherita Pizza",
-                price = "$14.99",
-                category = "PIZZA",
-                description = "Classic Italian pizza with fresh mozzarella and basil",
-                calories = 850,
-                ingredients = listOf(
-                    "Fresh mozzarella",
-                    "San Marzano tomatoes",
-                    "Fresh basil",
-                    "Extra virgin olive oil",
-                    "Sea salt"
-                ),
-                preparationTime = 20,
-                rating = 4.5f,
-                reviews = 120
-            ),
-            FoodItem(
-                id = 2,
-                restaurantId = 1,
-                imageRes = R.drawable.pizza1,
-                name = "Pepperoni Supreme",
-                price = "$16.99",
-                category = "PIZZA",
-                description = "Loaded with pepperoni and Italian seasonings",
-                calories = 980,
-                ingredients = listOf(
-                    "Pepperoni",
-                    "Mozzarella cheese",
-                    "Tomato sauce",
-                    "Italian herbs",
-                    "Garlic oil"
-                ),
-                preparationTime = 25,
-                rating = 4.7f,
-                reviews = 98
-            ),
-            // BURGER Category
-            FoodItem(
-                id = 3,
-                restaurantId = 2,
-                imageRes = R.drawable.burger1,
-                name = "Classic Cheeseburger",
-                price = "$12.99",
-                category = "BURGER",
-                description = "100% Angus beef with aged cheddar",
-                calories = 750,
-                ingredients = listOf(
-                    "Angus beef patty",
-                    "Aged cheddar",
-                    "Fresh lettuce",
-                    "Tomato",
-                    "Special sauce"
-                ),
-                preparationTime = 15,
-                rating = 4.6f,
-                reviews = 150
-            ),
-            FoodItem(
-                id = 4,
-                restaurantId = 2,
-                imageRes = R.drawable.burger1,
-                name = "Bacon Double Cheeseburger",
-                price = "$13.99",
-                category = "BURGER",
-                description = "Double patty with crispy bacon",
-                calories = 920,
-                ingredients = listOf(
-                    "Double beef patty",
-                    "Crispy bacon",
-                    "Aged cheddar",
-                    "Lettuce",
-                    "Tomato"
-                ),
-                preparationTime = 20,
-                rating = 4.8f,
-                reviews = 170
-            ),
-            // TACOS Category
-            FoodItem(
-                id = 5,
-                restaurantId = 3,
-                imageRes = R.drawable.taac,
-                name = "Chicken Tacos",
-                price = "$10.99",
-                category = "TACOS",
-                description = "Grilled chicken with fresh toppings",
-                calories = 650,
-                ingredients = listOf(
-                    "Grilled chicken",
-                    "Lettuce",
-                    "Tomato",
-                    "Cheese",
-                    "Corn tortilla"
-                ),
-                preparationTime = 10,
-                rating = 4.4f,
-                reviews = 85
-            ),
-            FoodItem(
-                id = 6,
-                restaurantId = 3,
-                imageRes = R.drawable.taac,
-                name = "Beef Tacos",
-                price = "$11.49",
-                category = "TACOS",
-                description = "Seasoned beef with fresh toppings",
-                calories = 700,
-                ingredients = listOf(
-                    "Seasoned beef",
-                    "Onions",
-                    "Cilantro",
-                    "Corn tortilla",
-                    "Salsa"
-                ),
-                preparationTime = 10,
-                rating = 4.5f,
-                reviews = 90
-            ),
-            // CURRY Category
-            FoodItem(
-                id = 7,
-                restaurantId = 4,
-                imageRes = R.drawable.taac,
-                name = "Butter Chicken",
-                price = "$15.99",
-                category = "CURRY",
-                description = "Creamy tomato-based curry with tender chicken",
-                calories = 950,
-                ingredients = listOf(
-                    "Chicken",
-                    "Tomato",
-                    "Butter",
-                    "Cream",
-                    "Indian spices"
-                ),
-                preparationTime = 30,
-                rating = 4.7f,
-                reviews = 100
-            ),
-            FoodItem(
-                id = 8,
-                restaurantId = 4,
-                imageRes = R.drawable.taac,
-                name = "Lamb Curry",
-                price = "$17.49",
-                category = "CURRY",
-                description = "Rich curry with tender lamb chunks",
-                calories = 1100,
-                ingredients = listOf(
-                    "Lamb",
-                    "Onions",
-                    "Tomatoes",
-                    "Garlic",
-                    "Indian spices"
-                ),
-                preparationTime = 35,
-                rating = 4.8f,
-                reviews = 120
-            ),
-            // PASTA Category
-            FoodItem(
-                id = 9,
-                restaurantId = 5,
-                imageRes = R.drawable.pasta,
-                name = "Spaghetti Carbonara",
-                price = "$13.99",
-                category = "PASTA",
-                description = "Classic pasta with creamy sauce",
-                calories = 850,
-                ingredients = listOf(
-                    "Spaghetti",
-                    "Pancetta",
-                    "Eggs",
-                    "Parmesan cheese",
-                    "Black pepper"
-                ),
-                preparationTime = 20,
-                rating = 4.5f,
-                reviews = 110
-            ),
-            FoodItem(
-                id = 10,
-                restaurantId = 5,
-                imageRes = R.drawable.pasta,
-                name = "Fettuccine Alfredo",
-                price = "$14.49",
-                category = "PASTA",
-                description = "Pasta with creamy Alfredo sauce",
-                calories = 900,
-                ingredients = listOf(
-                    "Fettuccine",
-                    "Butter",
-                    "Heavy cream",
-                    "Parmesan cheese",
-                    "Garlic"
-                ),
-                preparationTime = 25,
-                rating = 4.6f,
-                reviews = 130
-            ),
-            // STEAK Category
-            FoodItem(
-                id = 11,
-                restaurantId = 6,
-                imageRes = R.drawable.pizza1,
-                name = "Grilled Ribeye",
-                price = "$25.99",
-                category = "STEAK",
-                description = "Juicy ribeye steak grilled to perfection",
-                calories = 1200,
-                ingredients = listOf(
-                    "Ribeye steak",
-                    "Salt",
-                    "Pepper",
-                    "Garlic butter",
-                    "Fresh herbs"
-                ),
-                preparationTime = 30,
-                rating = 4.9f,
-                reviews = 140
-            ),
-            FoodItem(
-                id = 12,
-                restaurantId = 6,
-                imageRes = R.drawable.pasta,
-                name = "BBQ Chicken",
-                price = "$17.99",
-                category = "BARBECUE",
-                description = "Tender chicken with BBQ sauce",
-                calories = 950,
-                ingredients = listOf(
-                    "Chicken",
-                    "BBQ sauce",
-                    "Spices",
-                    "Garlic",
-                    "Honey"
-                ),
-                preparationTime = 25,
-                rating = 4.7f,
-                reviews = 115
-            ),
-            // SUSHI Category
-            FoodItem(
-                id = 13,
-                restaurantId = 7,
-                imageRes = R.drawable.suchi,
-                name = "California Roll",
-                price = "$8.99",
-                category = "SUSHI",
-                description = "Sushi roll with crab, avocado, and cucumber",
-                calories = 350,
-                ingredients = listOf(
-                    "Crab",
-                    "Avocado",
-                    "Cucumber",
-                    "Rice",
-                    "Nori"
-                ),
-                preparationTime = 15,
-                rating = 4.5f,
-                reviews = 90
-            ),
-            FoodItem(
-                id = 14,
-                restaurantId = 7,
-                imageRes = R.drawable.suchi,
-                name = "Spicy Tuna Roll",
-                price = "$9.49",
-                category = "SUSHI",
-                description = "Sushi roll with spicy tuna and cucumber",
-                calories = 400,
-                ingredients = listOf(
-                    "Spicy tuna",
-                    "Cucumber",
-                    "Rice",
-                    "Nori",
-                    "Spicy mayo"
-                ),
-                preparationTime = 15,
-                rating = 4.6f,
-                reviews = 95
-            ),
-            // THAI Category
-            FoodItem(
-                id = 15,
-                restaurantId = 8,
-                imageRes = R.drawable.suchi,
-                name = "Pad Thai",
-                price = "$14.99",
-                category = "THAI",
-                description = "Stir-fried noodles with shrimp and peanuts",
-                calories = 800,
-                ingredients = listOf(
-                    "Rice noodles",
-                    "Shrimp",
-                    "Peanuts",
-                    "Tamarind sauce",
-                    "Bean sprouts"
-                ),
-                preparationTime = 20,
-                rating = 4.7f,
-                reviews = 130
-            )
-        )
-    }
-
-
-
-
-
 
     Box(
         modifier = modifier
@@ -492,37 +179,7 @@ private fun SearchResultItem(
         }
     }
 }
-@Composable
-private fun CategorySection(
-    category: String,
-    items: List<FoodItem>,
-    onItemClick: (FoodItem) -> Unit
-) {
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        Text(
-            text = category,
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(start = 8.dp)
-        )
 
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            contentPadding = PaddingValues(horizontal = 8.dp)
-        ) {
-            items(items) { foodItem ->
-                FoodItemCard(
-                    item = foodItem,
-                    onClick = { onItemClick(foodItem) }
-                )
-            }
-        }
-    }
-    Spacer(modifier = Modifier.height(24.dp))
-}
 @Composable
 fun TopBar(
     navController: NavController,
@@ -558,6 +215,7 @@ fun TopBar(
         }
     }
 }
+private val OrangeColor = Color(0xFFFF6B35) // RGB(251,174,82)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -607,46 +265,115 @@ private fun BannerImage(x: Int) {
         contentScale = ContentScale.Crop      // Crops the image to fill its bounds
     )
 }
+@Composable
+fun CategorySection(
+    category: String,
+    items: List<FoodItem>,
+    onItemClick: (FoodItem) -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 12.dp)
+    ) {
+        Text(
+            text = category,
+            style = MaterialTheme.typography.headlineSmall.copy(
+                fontWeight = FontWeight.Bold
+            ),
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
 
+        Spacer(modifier = Modifier.height(12.dp))
+
+        LazyRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            contentPadding = PaddingValues(horizontal = 16.dp)
+        ) {
+            items(items) { foodItem ->
+                FoodItemCard(
+                    item = foodItem,
+                    onClick = { onItemClick(foodItem) }
+                )
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun FoodItemCard(
     item: FoodItem,
     onClick: () -> Unit
 ) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .width(120.dp)
-            .clickable(onClick = onClick)
+    var isFavorite by remember { mutableStateOf(false) }
+
+    Card(
+        onClick = onClick,
+        modifier = Modifier.width(180.dp),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color(0xFFFFD8C7),
+        ),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 2.dp,
+            pressedElevation = 4.dp
+        )
     ) {
-        Box(
-            modifier = Modifier
-                .size(100.dp)
-                .clip(CircleShape)
+        Column(
+            modifier = Modifier.padding(12.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Image(
-                painter = painterResource(id = item.imageRes),
-                contentDescription = item.name,
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(140.dp)
+            ) {
+                Image(
+                    painter = painterResource(id = item.imageRes),
+                    contentDescription = item.name,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clip(RoundedCornerShape(12.dp)),
+                    contentScale = ContentScale.Crop
+                )
+
+                IconButton(
+                    onClick = { isFavorite = !isFavorite },
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(4.dp)
+                ) {
+                    Icon(
+                        imageVector = if (isFavorite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
+                        contentDescription = if (isFavorite) "Remove from favorites" else "Add to favorites",
+                        tint = if (isFavorite) OrangeColor else Color.White,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Text(
+                text = item.name,
+                style = MaterialTheme.typography.titleMedium.copy(
+                    fontWeight = FontWeight.Medium,
+                    color = Color.Black
+                ),
+                maxLines = 1
+            )
+
+            Spacer(modifier = Modifier.height(4.dp))
+
+            Text(
+                text = item.price,
+                style = MaterialTheme.typography.titleMedium.copy(
+                    color = OrangeColor,
+                    fontWeight = FontWeight.Bold
+                )
             )
         }
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        Text(
-            text = item.name,
-            style = MaterialTheme.typography.bodyMedium,
-            fontWeight = FontWeight.Medium
-        )
-
-        Text(
-            text = item.price,
-            style = MaterialTheme.typography.bodyMedium,
-            color = Color(0xFFFF6B35)
-        )
-
-
     }
 }
-
