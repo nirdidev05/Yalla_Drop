@@ -33,7 +33,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.navigation.NavHostController
+import androidx.room.util.query
 import com.example.yalladrop.R
+import com.example.yalladrop.local.viewmodels.CartViewModel
 
 
 @Composable
@@ -42,6 +44,7 @@ fun FoodCard(
     state: OrderState,
     navController: NavHostController,
     lastItem: Boolean,
+    viewModelCart: CartViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
 )
 {
 
@@ -219,7 +222,8 @@ fun FoodCard(
                         ) {
                             Button(
                                 onClick = {
-                                    /*TODO*/
+                                    viewModelCart.removeFromCart(id = item.id , menuItem = 0 , menuItemName = item.name, price = item.price , quantity = item.numItem)
+
                                 },
                                 modifier = Modifier
                                     .height(26.dp)
@@ -304,8 +308,8 @@ fun FoodCard(
                             }
                             Button(
                                 onClick = {
-
-                                    navController.navigate("TrackDelivery")
+                                                println(state)
+                                    navController.navigate("TrackDelivery?status=${state}")
 
                                 },
                                 modifier = Modifier

@@ -4,8 +4,9 @@ import java.time.LocalDateTime
 
 class FoodItems (
     var  name : String ,
-    var  price : Int ,
+    var  price : Double ,
     var  numItem : Int ,
     var  date : LocalDateTime  ,
-    var  painterId: Int
+    var  painterId: Int,
+    var id : String = "0",
 )

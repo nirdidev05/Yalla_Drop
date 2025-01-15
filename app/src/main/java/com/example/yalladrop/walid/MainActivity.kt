@@ -1,5 +1,5 @@
 package com.example.tdm
-import CategoryItemsPage
+/*import CategoryItemsPage
 import FoodDeliveryScreen
 import UnoPartnershipPage
 import android.os.Build
@@ -101,3 +101,5 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
+ */

@@ -5,10 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.yalladrop.local.dao.AddressDao
-import com.example.yalladrop.local.dao.ItemDao
-import com.example.yalladrop.local.dao.OrderDao
-import com.example.yalladrop.local.dao.OrderItemDao
-import com.example.yalladrop.local.dao.RestaurantDao
+import com.example.yalladrop.local.dao.CartDao
 
 
 /*
@@ -51,19 +48,20 @@ abstract class AppDatabase : RoomDatabase() {
 
 
 // AddressDatabase.kt - Database
-@Database(entities = [Address::class], version = 1)
-abstract class AddressDatabase : RoomDatabase() {
+@Database(entities = [Address::class , CartItem::class] , version = 1)
+abstract class AppDataBase : RoomDatabase() {
     abstract fun addressDao(): AddressDao
+    abstract fun cartDao() : CartDao
 
     companion object {
         @Volatile
-        private var INSTANCE: AddressDatabase? = null
+        private var INSTANCE: AppDataBase? = null
 
-        fun getDatabase(context: Context): AddressDatabase {
+        fun getDatabase(context: Context): AppDataBase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    AddressDatabase::class.java,
+                    AppDataBase::class.java,
                     "address_database"
                 ).build()
                 INSTANCE = instance

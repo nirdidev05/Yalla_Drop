@@ -43,9 +43,17 @@ import com.example.yalladrop.models.OrderState
 import com.example.yalladrop.orders.list
 
 @Composable
-fun TrackDelivery(navController: NavHostController) {
+fun TrackDelivery(navController: NavHostController , status : String) {
     var listCard : List<FoodItems> = list
-    var orderState : OrderState = OrderState.PICKEDUP
+    var orderState : OrderState = if(status == "Pending" ) {
+        OrderState.PENDING
+    }else if(status == "Preparing" ) {
+        OrderState.PREPARING
+    } else if(status == "Picked Up" ) {
+        OrderState.PICKEDUP}
+    else{
+        OrderState.ONTHEWAY
+    }
     Box(modifier =Modifier.fillMaxSize() ){
         Image(
             painter = painterResource(id = R.drawable.img_map), // Replace with your image resource

@@ -17,9 +17,17 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.yalladrop.R
-import com.example.yalladrop.restauration.FoodDataProvider.allFoodItems
+import com.example.yalladrop.api.auth.RetrofitInstance
+import com.example.yalladrop.api.meals.Meal
+import com.example.yalladrop.api.meals.MealState
+import com.example.yalladrop.api.meals.MealViewModel
+import com.example.yalladrop.api.meals.MealViewModelFactory
+import com.example.yalladrop.api.restauration.Restaurant
+import com.example.yalladrop.api.restauration.RestaurantState
 
 data class FoodItem(
     val id: Int,
@@ -39,7 +47,7 @@ data class FoodItem(
 @Composable
 fun FoodDeliveryScreen(
     navController: NavController,
-    restaurantId: Int,
+    restaurantId: String,
     restaurantName: String,
     modifier: Modifier = Modifier,
     restaurantImage: Int
@@ -47,21 +55,64 @@ fun FoodDeliveryScreen(
     var searchQuery by remember { mutableStateOf("") }
     val backgroundColor = Color(0xFFFFF8F1)
 
+    val apiService = RetrofitInstance.api
+
+    val viewModelMeal : MealViewModel = viewModel(
+        factory = MealViewModelFactory(apiService)
+    )
+
+    val mealState = viewModelMeal.mealState.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModelMeal.fetchMealsByRestaurant(restaurantId)
+    }
+
+
+    val allMeals : List<Meal> = remember(mealState.value) {
+        when (val state = mealState.value) {
+            is MealState.Success -> state.meals ?: emptyList()
+            else -> emptyList()
+        }
+    }
+    println("+++++++++++$allMeals")
+
+    if (mealState.value is MealState.Loading) {
+        Text(
+            text = "Loading Meals...",
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.primary,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold
+        )
+        return
+    }
+
+
+    if (allMeals.isEmpty()) {
+        Text(
+            text = "No Meals available.",
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.error,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold
+        )
+        return
+    }
     var filteredItems by remember(searchQuery) {
         mutableStateOf(
             if (searchQuery.isEmpty()) {
-                allFoodItems.filter { it.restaurantId == restaurantId }
+                allMeals
             } else {
-                allFoodItems.filter {
+                allMeals.filter {
                     (it.name.contains(searchQuery, ignoreCase = true) ||
-                            it.category.contains(searchQuery, ignoreCase = true)) &&
-                            it.restaurantId == restaurantId
+                            it.category!!.contains(searchQuery, ignoreCase = true)) &&
+                            it.restaurant == restaurantId
                 }
             }
         )
     }
 
-
+/*
     val allFoodItems = remember {
         listOf(
             // PIZZA Category
@@ -147,9 +198,9 @@ fun FoodDeliveryScreen(
                 reviews = 170
             ),
             // TACOS Category
-            FoodItem(
-                id = 5,
-                restaurantId = 3,
+            Meal(
+                _id = 5,
+                restaurant = 3,
                 imageRes = R.drawable.test_foodcategory_taac,
                 name = "Chicken Tacos",
                 price = "$10.99",
@@ -375,8 +426,10 @@ fun FoodDeliveryScreen(
         )
     }
 
+ */
 
-    var searchResults by remember { mutableStateOf(emptyList<FoodItem>()) }
+
+    var searchResults by remember { mutableStateOf(emptyList<Meal>()) }
 
 
 
@@ -407,7 +460,7 @@ fun FoodDeliveryScreen(
                     SearchResultItem(
                         item = foodItem,
                         onClick = {
-                            navController.navigate("foodDetail/${foodItem.id}")
+                            navController.navigate("foodDetail/${foodItem._id}")
                         }
                     )
                     Spacer(modifier = Modifier.height(8.dp))
@@ -421,10 +474,10 @@ fun FoodDeliveryScreen(
                 groupedItems.forEach { (category, items) ->
                     item {
                         CategorySection(
-                            category = category,
+                            category = category!!,
                             items = items,
                             onItemClick = { foodItem ->
-                                navController.navigate("foodDetail/${foodItem.id}")
+                                navController.navigate("foodDetail/${foodItem._id}")
                             }
                         )
                     }
@@ -437,7 +490,7 @@ fun FoodDeliveryScreen(
 
 @Composable
 private fun SearchResultItem(
-    item: FoodItem,
+    item: Meal,
     onClick: () -> Unit
 ) {
     Card(
@@ -454,7 +507,7 @@ private fun SearchResultItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
-                painter = painterResource(id = item.imageRes),
+                painter = painterResource(id = R.drawable.test_foodcategory_taac),
                 contentDescription = item.name,
                 modifier = Modifier
                     .size(60.dp)
@@ -473,7 +526,7 @@ private fun SearchResultItem(
                     fontWeight = FontWeight.Medium
                 )
                 Text(
-                    text = item.price,
+                    text = item.price.toString(),
                     style = MaterialTheme.typography.bodyMedium,
                     color = Color(0xFFFF6B35)
                 )
@@ -496,8 +549,8 @@ private fun SearchResultItem(
 @Composable
 private fun CategorySection(
     category: String,
-    items: List<FoodItem>,
-    onItemClick: (FoodItem) -> Unit
+    items: List<Meal>,
+    onItemClick: (Meal) -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -611,7 +664,7 @@ private fun BannerImage(x: Int) {
 
 @Composable
 private fun FoodItemCard(
-    item: FoodItem,
+    item: Meal,
     onClick: () -> Unit
 ) {
     Column(
@@ -626,7 +679,7 @@ private fun FoodItemCard(
                 .clip(CircleShape)
         ) {
             Image(
-                painter = painterResource(id = item.imageRes),
+                painter = painterResource(id = R.drawable.test_foodcategory_taac),
                 contentDescription = item.name,
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop
@@ -642,7 +695,7 @@ private fun FoodItemCard(
         )
 
         Text(
-            text = item.price,
+            text = item.price.toString(),
             style = MaterialTheme.typography.bodyMedium,
             color = Color(0xFFFF6B35)
         )

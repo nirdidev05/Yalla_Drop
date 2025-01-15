@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.yalladrop.local.Address
-import com.example.yalladrop.local.AddressDatabase
+import com.example.yalladrop.local.AppDataBase
 import com.example.yalladrop.local.repo.AddressRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -17,7 +17,7 @@ public class AddressViewModel(application: Application) : AndroidViewModel(appli
     val allAddresses: StateFlow<List<Address>>
 
     init {
-        val addressDao = AddressDatabase.getDatabase(application).addressDao()
+        val addressDao = AppDataBase.getDatabase(application).addressDao()
         repository = AddressRepository(addressDao)
         allAddresses = repository.allAddresses.stateIn(
             viewModelScope,
