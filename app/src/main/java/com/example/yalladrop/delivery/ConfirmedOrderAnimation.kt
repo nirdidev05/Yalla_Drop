@@ -1,5 +1,6 @@
 package com.example.yalladrop.delivery
 
+import android.widget.Space
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
@@ -14,7 +15,9 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -42,6 +45,7 @@ import androidx.navigation.NavHostController
 import com.example.yalladrop.R
 import com.example.yalladrop.ui.theme.ConfirmedYellow
 import com.example.yalladrop.ui.theme.OrangeBase
+import java.util.Date
 
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -112,14 +116,15 @@ fun ConfirmedOrderAnimation(navController: NavHostController) {
                 style = MaterialTheme.typography.labelMedium,
                 textAlign = TextAlign.Center
             )
-
+            Spacer(modifier = Modifier.padding(25.dp))
+/*
             Text(
-                text = "Delivery by Thu, 29th, 4:00 PM",
+                text = "Delivered by Today :  ",
                 style = MaterialTheme.typography.labelMedium,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(top = 25.dp)
             )
-            
+            */
             TextButton(onClick = { /*TODO*/ }, ) {
                 Text(text = "Track my order" , textAlign = TextAlign.Center , style = MaterialTheme.typography.displayMedium, fontWeight = FontWeight.SemiBold, color = OrangeBase)
             }
@@ -135,7 +140,13 @@ fun ConfirmedOrderAnimation(navController: NavHostController) {
                 modifier = Modifier.padding(bottom = 20.dp)
 
             )
-            Button(onClick = { /*TODO*/ }, modifier = Modifier
+            Button(onClick = {
+                navController.navigate("HomePage"){
+
+                        popUpTo(0) { inclusive = true } // Clear the back stack
+
+                }
+            }, modifier = Modifier
                 .size(150.dp, 35.dp)
                 .border(
                     0.5.dp,

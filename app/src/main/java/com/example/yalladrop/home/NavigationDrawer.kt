@@ -31,7 +31,10 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -48,7 +51,9 @@ import com.example.yalladrop.local.pref.AuthManager
 fun DrawerHeader(modifier: Modifier = Modifier , navController : NavHostController ,     context: Context = LocalContext.current ) {
     val authManager = remember { AuthManager(context) }
 
-     Column(
+
+
+    Column(
          modifier = Modifier.padding(horizontal = 20.dp).padding(top = 30.dp)
      ) {
          Row(
@@ -69,7 +74,7 @@ fun DrawerHeader(modifier: Modifier = Modifier , navController : NavHostControll
                      .padding(bottom = 10.dp),
              ) {
                  Text(
-                     text = "Restaurant name",
+                     text = authManager.getUserName().toString(),
                      style = MaterialTheme.typography.displayLarge,
                      fontSize = 24.sp,
                      fontWeight = FontWeight.SemiBold,
@@ -77,7 +82,7 @@ fun DrawerHeader(modifier: Modifier = Modifier , navController : NavHostControll
                      modifier = Modifier.padding(bottom = 5.dp)
                  )
                  Text(
-                     text = "Courier",
+                     text = authManager.getUserEmail().toString(),
                      style = MaterialTheme.typography.labelMedium,
                      fontSize = 17.sp,
                      color = Color.Black.copy(alpha = 0.3f)
@@ -101,7 +106,10 @@ fun DrawerHeader(modifier: Modifier = Modifier , navController : NavHostControll
              navController.navigate("ContactUs")
          }
          HorizontalDivider(thickness = 1.5.dp , color = Color.Black , modifier = Modifier.padding(vertical = 13.dp ))
-         DrawerItem("Settings" , R.drawable.drawer_settingsicon,  {})
+         DrawerItem("My Cart" , R.drawable.drawer_settingsicon,  {
+             navController.navigate("ConfirmeOrder")
+
+         })
          HorizontalDivider(thickness = 1.5.dp , color = Color.Black , modifier = Modifier.padding(vertical = 13.dp ))
          DrawerItem("Log Out", R.drawable.drawer_logouticon) {
              authManager.clearSession()

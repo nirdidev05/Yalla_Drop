@@ -48,7 +48,7 @@ fun VerifyEmailScreen(viewModel: AuthViewModel = androidx.lifecycle.viewmodel.co
         is AuthState.Success -> {
             Text("Verification successful!")
             LaunchedEffect(Unit) {
-                //navController.navigate("HomePage") { popUpTo(0) }
+                navController.navigate("HomePage") { popUpTo(0) }
             }
         }
         is AuthState.Error -> Text("Error: ${(authState as AuthState.Error).error}")
