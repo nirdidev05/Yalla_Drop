@@ -1,5 +1,10 @@
 package com.example.tdm.ui
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -31,12 +36,18 @@ import com.example.tdm.R
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.rounded.KeyboardArrowLeft
+import androidx.compose.material.icons.rounded.KeyboardArrowRight
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import com.example.tdm.model.FoodItem
 import com.example.tdm.model.Restaurant
 import com.example.tdm.model.allFoodItems
 import com.example.tdm.model.allRestaurants
+import kotlinx.coroutines.delay
 
 @Composable
 fun CategoryItem(name: String, iconResId: Int, frameResId: Int, selectedCategory: String?, onCategorySelected: (String?) -> Unit) {
@@ -223,76 +234,11 @@ fun BestSellerSection(
     }
 }
 
-
-@Composable
-fun RecommendItem(
-    foodItem: FoodItem,
-    restaurant: Restaurant,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier
-            .width(160.dp)
-            .padding(8.dp)
-    ) {
-        // Food Image
-        Image(
-            painter = painterResource(id = foodItem.imageRes),
-            contentDescription = foodItem.name,
-            modifier = Modifier
-                .size(160.dp)
-                .clip(RoundedCornerShape(20.dp)),
-            contentScale = ContentScale.Crop
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        // Food Name
-        Text(
-            text = foodItem.name,
-            style = MaterialTheme.typography.bodyLarge,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            fontWeight = FontWeight.Medium
-        )
-
-        Spacer(modifier = Modifier.height(4.dp))
-
-        // Restaurant Name
-        Text(
-            text = restaurant.name,
-            style = MaterialTheme.typography.bodyMedium,
-            color = Color.Gray,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis
-        )
-
-        Spacer(modifier = Modifier.height(4.dp))
-
-        // Price
-        Text(
-            text = foodItem.price,
-            fontWeight = FontWeight.Bold,
-            color = Color(0xFFFF5722),
-            style = MaterialTheme.typography.bodyLarge
-        )
-
-        // Optional: Display discount if available
-        foodItem.discount?.let { discount ->
-            Text(
-                text = "$discount% OFF",
-                color = Color(0xFFFF5722),
-                style = MaterialTheme.typography.bodySmall,
-                fontWeight = FontWeight.Bold
-            )
-        }
-    }
-}
-
 @Composable
 fun RecommendedFoodSection(
     allFoodItems: List<FoodItem>,
-    restaurants: Map<Int, Restaurant>
+    restaurants: Map<Int, Restaurant>,
+    onItemClick: (FoodItem) -> Unit
 ) {
     // Filter food items with more than 120 reviews
     val popularFoodItems = allFoodItems.filter { it.reviews != null && it.reviews > 120 }
@@ -309,13 +255,14 @@ fun RecommendedFoodSection(
                             .width(160.dp)
                             .padding(8.dp)
                     ) {
-                        // Food Image
+                        // Food Image with clickable navigation
                         Image(
                             painter = painterResource(id = foodItem.imageRes),
                             contentDescription = foodItem.name,
                             modifier = Modifier
                                 .size(160.dp)
-                                .clip(RoundedCornerShape(20.dp)),
+                                .clip(RoundedCornerShape(20.dp))
+                                .clickable { onItemClick(foodItem) },  // Navigation trigger
                             contentScale = ContentScale.Crop
                         )
 
@@ -397,6 +344,7 @@ fun RecommendedFoodSection(
         }
     }
 }
+
 @Composable
 fun RestaurantCard(
     restaurant: Restaurant,
@@ -484,7 +432,7 @@ fun RestaurantCardDetailed(
     restaurant: Restaurant,
     isFavorite: Boolean,
     onFavoriteClick: () -> Unit,
-    onRestaurantClick: (Restaurant) -> Unit // Add this parameter
+    onRestaurantClick: (Restaurant) -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -786,13 +734,13 @@ data class FilterOptions(
 )
 
 // Helper functions remain the same
-private fun String.extractDeliveryTime(): Int {
+fun String.extractDeliveryTime(): Int {
     val regex = "(\\d+)-(\\d+)".toRegex()
     val match = regex.find(this)
     return match?.groupValues?.get(2)?.toIntOrNull() ?: 60
 }
 
-private fun String.extractDeliveryFee(): Float {
+fun String.extractDeliveryFee(): Float {
     return replace("$", "").toFloatOrNull() ?: 10f
 }
 
@@ -800,6 +748,163 @@ private fun Float.round(decimals: Int): Float {
     var multiplier = 1.0f
     repeat(decimals) { multiplier *= 10 }
     return kotlin.math.round(this * multiplier) / multiplier
+}
+
+@Composable
+fun SearchBar(
+    searchText: TextFieldValue,
+    onSearchTextChange: (TextFieldValue) -> Unit,
+    filteredRestaurants: List<Restaurant>,
+    onRestaurantClick: (Restaurant) -> Unit
+) {
+    var isSearchFocused by remember { mutableStateOf(false) }
+
+    Box(modifier = Modifier.fillMaxWidth()) {
+        // Search Bar
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(40.dp)
+                .background(Color.White, RoundedCornerShape(30.dp))
+                .padding(horizontal = 12.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Default.Search,
+                contentDescription = "Search icon",
+                tint = Color.Gray,
+                modifier = Modifier.size(20.dp)
+            )
+
+            BasicTextField(
+                value = searchText,
+                onValueChange = onSearchTextChange,
+                singleLine = true,
+                textStyle = TextStyle(
+                    color = Color.Black,
+                    fontSize = 14.sp
+                ),
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(horizontal = 8.dp)
+                    .onFocusChanged { isSearchFocused = it.isFocused },
+                decorationBox = { innerTextField ->
+                    if (searchText.text.isEmpty()) {
+                        Text(
+                            "Search restaurants",
+                            color = Color.Gray,
+                            fontSize = 14.sp
+                        )
+                    }
+                    innerTextField()
+                }
+            )
+        }
+
+        // Search Results Dropdown
+        AnimatedVisibility(
+            visible = isSearchFocused && searchText.text.isNotEmpty(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 45.dp)
+                .align(Alignment.TopCenter),
+            enter = fadeIn() + slideInVertically(),
+            exit = fadeOut() + slideOutVertically()
+        ) {
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(max = 300.dp),
+                shape = RoundedCornerShape(12.dp),
+                shadowElevation = 8.dp
+            ) {
+                LazyColumn(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentPadding = PaddingValues(vertical = 8.dp)
+                ) {
+                    items(filteredRestaurants) { restaurant ->
+                        SearchResultItem(
+                            restaurant = restaurant,
+                            onClick = {
+                                onRestaurantClick(restaurant)
+                                isSearchFocused = false
+                            }
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun SearchResultItem(
+    restaurant: Restaurant,
+    onClick: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(horizontal = 16.dp, vertical = 12.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        // Restaurant Image
+        Image(
+            painter = painterResource(id = restaurant.photoResId),
+            contentDescription = null,
+            modifier = Modifier
+                .size(48.dp)
+                .clip(CircleShape),
+            contentScale = ContentScale.Crop
+        )
+
+        // Restaurant Details
+        Column(
+            modifier = Modifier.weight(1f)
+        ) {
+            Text(
+                text = restaurant.name,
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.Medium
+            )
+            Text(
+                text = restaurant.specialties.joinToString(" • "),
+                style = MaterialTheme.typography.bodyMedium,
+                color = Color.Gray,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+
+        // Rating and Delivery Time
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = Icons.Default.Star,
+                contentDescription = null,
+                tint = Color(0xFFFF5722),
+                modifier = Modifier.size(16.dp)
+            )
+            Text(
+                text = restaurant.rating.toString(),
+                style = MaterialTheme.typography.bodyMedium,
+                color = Color(0xFFFF5722)
+            )
+            Text(
+                text = "•",
+                color = Color.Gray
+            )
+            Text(
+                text = restaurant.deliveryTime,
+                style = MaterialTheme.typography.bodyMedium,
+                color = Color.Gray
+            )
+        }
+    }
 }
 @Composable
 fun FoodPage(navController: NavController) {
@@ -909,34 +1014,13 @@ fun FoodPage(navController: NavController) {
                                 .background(Color.White, RoundedCornerShape(30.dp))
                                 .padding(horizontal = 12.dp)
                         ) {
-                            Icon(
-                                imageVector = Icons.Default.Search,
-                                contentDescription = "Search icon",
-                                tint = Color.Gray,
-                                modifier = Modifier.size(20.dp)
-                            )
-
-                            BasicTextField(
-                                value = searchText,
-                                onValueChange = { searchText = it },
-                                singleLine = true,
-                                textStyle = TextStyle(
-                                    color = Color.Black,
-                                    fontSize = 14.sp
-                                ),
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .padding(horizontal = 8.dp),
-                                decorationBox = { innerTextField ->
-                                    if (searchText.text.isEmpty()) {
-                                        Text(
-                                            "Search restaurants",
-                                            color = Color.Gray,
-                                            fontSize = 14.sp
-                                        )
-                                    }
-                                    innerTextField()
-                                }
+                            SearchBar(
+                                searchText = searchText,
+                                onSearchTextChange = { searchText = it },
+                                filteredRestaurants = allRestaurants.filter {
+                                        restaurant -> restaurant.name.contains(searchText.text, ignoreCase = true)
+                                },
+                                onRestaurantClick = handleRestaurantClick
                             )
 
                             IconButton(
@@ -1023,7 +1107,7 @@ fun FoodPage(navController: NavController) {
                         CategoryItem(
                             "Meal",
                             R.drawable.meal,
-                            R.drawable.frame3,
+                            R.drawable.frame4,
                             selectedCategory
                         ) { newCategory ->
                             selectedCategory = newCategory
@@ -1091,12 +1175,7 @@ fun FoodPage(navController: NavController) {
 
 
                     Spacer(modifier = Modifier.height(16.dp))
-                    Text(
-                        "Best Offers",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Black
-                    )
+
                     val images = listOf(
                         R.drawable.download,
                         R.drawable.adv,
@@ -1105,72 +1184,11 @@ fun FoodPage(navController: NavController) {
                         R.drawable.images2
                     )
 
-                    var currentIndex by remember { mutableStateOf(0) }
 
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(200.dp)
-                    ) {
-                        Image(
-                            painter = painterResource(id = images[currentIndex]),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(200.dp)
-                                .clip(RoundedCornerShape(30.dp))
-                        )
-
-                        Icon(
-                            painter = painterResource(id = R.drawable.phone),
-                            contentDescription = "Previous Image",
-                            modifier = Modifier
-                                .size(100.dp)
-                                .align(Alignment.CenterStart)
-                                .padding(start = 16.dp)
-                                .clickable {
-                                    currentIndex =
-                                        if (currentIndex > 0) currentIndex - 1 else images.size - 1
-                                },
-                            tint = Color.Transparent
-                        )
-
-                        Icon(
-                            painter = painterResource(id = R.drawable.phone),
-                            contentDescription = "Next Image",
-                            modifier = Modifier
-                                .size(100.dp)
-                                .align(Alignment.CenterEnd)
-                                .padding(end = 16.dp)
-                                .clickable {
-                                    currentIndex =
-                                        if (currentIndex < images.size - 1) currentIndex + 1 else 0
-                                },
-                            tint = Color.Transparent
-                        )
-
-                        Row(
-                            horizontalArrangement = Arrangement.Center,
-                            modifier = Modifier
-                                .align(Alignment.BottomCenter)
-                                .padding(bottom = 8.dp)
-                        ) {
-                            images.forEachIndexed { index, _ ->
-                                Box(
-                                    modifier = Modifier
-                                        .size(8.dp)
-                                        .background(
-                                            color = if (index == currentIndex) Color(0xFFE95322) else Color(
-                                                0xFFFF7622
-                                            ),
-                                            shape = CircleShape
-                                        )
-                                        .padding(4.dp)
-                                )
-                                Spacer(modifier = Modifier.width(4.dp))
-                            }
-                        }
-                    }
+                    BestOffersCarousel(
+                        images = images,
+                        modifier = Modifier.padding(vertical = 16.dp)
+                    )
 
                     Spacer(modifier = Modifier.height(8.dp))
 
@@ -1185,8 +1203,167 @@ fun FoodPage(navController: NavController) {
 
                     RecommendedFoodSection(
                         allFoodItems = allFoodItems,
-                        restaurants = allRestaurants.associateBy { it.id }
+                        restaurants = allRestaurants.associateBy { it.id },
+                        onItemClick = { foodItem ->
+                            navController.navigate("foodDetail/${foodItem.id}")
+                        }
+
                     )
+                }
+            }
+        }
+    }
+}
+@Composable
+fun BestOffersCarousel(
+    modifier: Modifier = Modifier,
+    images: List<Int>,
+    autoSlideDuration: Long = 3000L
+) {
+    var currentIndex by remember { mutableStateOf(0) }
+    val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(Unit) {
+        while (true) {
+            delay(autoSlideDuration)
+            currentIndex = (currentIndex + 1) % images.size
+        }
+    }
+
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 12.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            Text(
+                text = "Best Offers",
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.ExtraBold,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+
+            Card(
+                shape = RoundedCornerShape(12.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+                )
+            ) {
+                Text(
+                    text = "${currentIndex + 1}/${images.size}",
+                    style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        }
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(220.dp)
+                .clip(RoundedCornerShape(24.dp))
+                .shadow(
+                    elevation = 8.dp,
+                    shape = RoundedCornerShape(24.dp),
+                    spotColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)
+                )
+        ) {
+            Image(
+                painter = painterResource(id = images[currentIndex]),
+                contentDescription = "Offer ${currentIndex + 1}",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize()
+            )
+
+            // Gradient overlays for better visibility
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(
+                                Color.Black.copy(alpha = 0.2f),
+                                Color.Black.copy(alpha = 0.4f)
+                            )
+                        )
+                    )
+            )
+
+            // Navigation buttons with improved visibility
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                FilledIconButton(
+                    onClick = {
+                        currentIndex = if (currentIndex > 0) currentIndex - 1 else images.size - 1
+                    },
+                    modifier = Modifier.size(42.dp),
+                    colors = IconButtonDefaults.filledIconButtonColors(
+                        containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.8f),
+                        contentColor = MaterialTheme.colorScheme.primary
+                    )
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.KeyboardArrowLeft,
+                        contentDescription = "Previous",
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+
+                FilledIconButton(
+                    onClick = {
+                        currentIndex = if (currentIndex < images.size - 1) currentIndex + 1 else 0
+                    },
+                    modifier = Modifier.size(42.dp),
+                    colors = IconButtonDefaults.filledIconButtonColors(
+                        containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.8f),
+                        contentColor = MaterialTheme.colorScheme.primary
+                    )
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.KeyboardArrowRight,
+                        contentDescription = "Next",
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+            }
+
+            // Enhanced indicators
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = 20.dp)
+            ) {
+                images.forEachIndexed { index, _ ->
+                    Box(
+                        modifier = Modifier
+                            .padding(horizontal = 4.dp)
+                            .size(
+                                width = if (index == currentIndex) 24.dp else 8.dp,
+                                height = 8.dp
+                            )
+                            .clip(RoundedCornerShape(4.dp))
+                            .background(
+                                color = if (index == currentIndex)
+                                    MaterialTheme.colorScheme.primary
+                                else
+                                    MaterialTheme.colorScheme.surface.copy(alpha = 0.5f)
+                            )
+                    )
+                    if (index < images.size - 1) {
+                        Spacer(modifier = Modifier.width(4.dp))
+                    }
                 }
             }
         }
@@ -1248,4 +1425,3 @@ fun AllRestaurantsScreen(
         }
     }
 }
-

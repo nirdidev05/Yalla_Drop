@@ -376,7 +376,6 @@ fun FoodDeliveryScreen(
     }
 
 
-    var searchResults by remember { mutableStateOf(emptyList<FoodItem>()) }
 
 
 

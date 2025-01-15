@@ -14,7 +14,7 @@ data class Restaurant(
     val specialties: List<String>,
     val discount: Any
 )
-data class DessertRestau(
+data class DessertShop(
     val id: Int,
     val name: String,
     val category: String,
@@ -42,8 +42,24 @@ data class FoodItem(
     val discount: Int? = null,
 
     )
+data class FoodIteme(
+    val id: Int,
+    val restaurantId: Int,
+    val imageRes: Int,
+    val name: String,
+    val price: String,
+    val category: String,
+    val description: String,
+    val calories: Int,
+    val ingredients: List<String> = emptyList(),
+    val preparationTime: Int? = null,
+    val rating: Float? = null,
+    val reviews: Int? = null,
+    val discount: Int? = null,
+
+    )
 val foodItemList = listOf(
-    FoodItem(
+    FoodIteme(
         id = 1,
         restaurantId = 1,
         imageRes = R.drawable.cake,
@@ -55,10 +71,10 @@ val foodItemList = listOf(
         ingredients = listOf("Flour", "Sugar", "Cocoa Powder", "Eggs", "Butter"),
         preparationTime = 45,
         rating = 4.8f,
-        reviews = 120,
+        reviews = 150,
 
     ),
-    FoodItem(
+    FoodIteme(
         id = 2,
         restaurantId = 2,
         imageRes = R.drawable.maccarons,
@@ -72,7 +88,7 @@ val foodItemList = listOf(
         rating = 4.6f,
         reviews = 85
     ),
-    FoodItem(
+    FoodIteme(
         id = 3,
         restaurantId = 3,
         imageRes = R.drawable.gummy_bears,
@@ -86,7 +102,7 @@ val foodItemList = listOf(
         rating = 4.3f,
         reviews = 60
     ),
-    FoodItem(
+    FoodIteme(
         id = 4,
         restaurantId = 4,
         imageRes = R.drawable.mango_smoothie,
@@ -100,7 +116,7 @@ val foodItemList = listOf(
         rating = 4.7f,
         reviews = 45
     ),
-    FoodItem(
+    FoodIteme(
         id = 5,
         restaurantId = 5,
         imageRes = R.drawable.truffles,
@@ -114,7 +130,7 @@ val foodItemList = listOf(
         rating = 4.9f,
         reviews = 90
     ),
-    FoodItem(
+    FoodIteme(
         id = 6,
         restaurantId = 6,
         imageRes = R.drawable.cappuccino,
@@ -128,7 +144,7 @@ val foodItemList = listOf(
         rating = 4.5f,
         reviews = 70
     ),
-    FoodItem(
+    FoodIteme(
         id = 7,
         restaurantId = 7,
         imageRes = R.drawable.eclair,
@@ -142,7 +158,7 @@ val foodItemList = listOf(
         rating = 4.6f,
         reviews = 95
     ),
-    FoodItem(
+    FoodIteme(
         id = 8,
         restaurantId = 8,
         imageRes = R.drawable.strawberry_milkshake,
@@ -156,7 +172,7 @@ val foodItemList = listOf(
         rating = 4.7f,
         reviews = 50
     ),
-    FoodItem(
+    FoodIteme(
         id = 9,
         restaurantId = 9,
         imageRes = R.drawable.cotton_candy,
@@ -170,7 +186,7 @@ val foodItemList = listOf(
         rating = 4.4f,
         reviews = 40
     ),
-    FoodItem(
+    FoodIteme(
         id = 10,
         restaurantId = 10,
         imageRes = R.drawable.blueberry_muffin,
@@ -184,7 +200,7 @@ val foodItemList = listOf(
         rating = 4.8f,
         reviews = 65
     ),
-    FoodItem(
+    FoodIteme(
         id = 11,
         restaurantId = 1,
         imageRes = R.drawable.cheesecake,
@@ -198,7 +214,7 @@ val foodItemList = listOf(
         rating = 4.9f,
         reviews = 110
     ),
-    FoodItem(
+    FoodIteme(
         id = 12,
         restaurantId = 2,
         imageRes = R.drawable.tart,
@@ -212,7 +228,7 @@ val foodItemList = listOf(
         rating = 4.7f,
         reviews = 75
     ),
-    FoodItem(
+    FoodIteme(
         id = 13,
         restaurantId = 3,
         imageRes = R.drawable.chocolate_bar,
@@ -226,7 +242,7 @@ val foodItemList = listOf(
         rating = 4.3f,
         reviews = 55
     ),
-    FoodItem(
+    FoodIteme(
         id = 14,
         restaurantId = 4,
         imageRes = R.drawable.iced_tea,
@@ -238,9 +254,9 @@ val foodItemList = listOf(
         ingredients = listOf("Tea", "Lemon", "Sugar", "Ice"),
         preparationTime = 10,
         rating = 4.6f,
-        reviews = 40
+        reviews = 140
     ),
-    FoodItem(
+    FoodIteme(
         id = 15,
         restaurantId = 5,
         imageRes = R.drawable.caramel_bar,
@@ -254,7 +270,7 @@ val foodItemList = listOf(
         rating = 4.5f,
         reviews = 65
     ),
-    FoodItem(
+    FoodIteme(
         id = 16,
         restaurantId = 6,
         imageRes = R.drawable.americano,
@@ -268,7 +284,7 @@ val foodItemList = listOf(
         rating = 4.4f,
         reviews = 35
     ),
-    FoodItem(
+    FoodIteme(
         id = 17,
         restaurantId = 7,
         imageRes = R.drawable.pie,
@@ -282,7 +298,7 @@ val foodItemList = listOf(
         rating = 4.8f,
         reviews = 95
     ),
-    FoodItem(
+    FoodIteme(
         id = 18,
         restaurantId = 8,
         imageRes = R.drawable.lemonade,
@@ -294,9 +310,9 @@ val foodItemList = listOf(
         ingredients = listOf("Lemons", "Water", "Sugar"),
         preparationTime = 8,
         rating = 4.7f,
-        reviews = 45
+        reviews = 145
     ),
-    FoodItem(
+    FoodIteme(
         id = 19,
         restaurantId = 9,
         imageRes = R.drawable.jelly_beans,
@@ -308,9 +324,9 @@ val foodItemList = listOf(
         ingredients = listOf("Sugar", "Corn Syrup", "Gelatin"),
         preparationTime = 15,
         rating = 4.5f,
-        reviews = 30
+        reviews = 130
     ),
-    FoodItem(
+    FoodIteme(
         id = 20,
         restaurantId = 10,
         imageRes = R.drawable.cookie,
@@ -322,12 +338,12 @@ val foodItemList = listOf(
         ingredients = listOf("Flour", "Sugar", "Butter", "Chocolate Chips"),
         preparationTime = 20,
         rating = 4.8f,
-        reviews = 80
+        reviews = 180
     )
 )
 
-val dessertRestauList = listOf(
-    DessertRestau(
+val allDessertShops = listOf(
+    DessertShop(
         id = 1,
         name = "Sweet Tooth Cafe",
         category = "Cafe",
@@ -338,7 +354,7 @@ val dessertRestauList = listOf(
         specialties = listOf("Cappuccino", "Cheesecake", "Tiramisu"),
         discount = "10% off",
     ),
-    DessertRestau(
+    DessertShop(
         id = 2,
         name = "Patissier's Delight",
         category = "Dessert",
@@ -349,7 +365,7 @@ val dessertRestauList = listOf(
         specialties = listOf("Macarons", "Eclairs", "Tarts"),
         discount = "Buy 1 Get 1 Free",
     ),
-    DessertRestau(
+    DessertShop(
         id = 3,
         name = "Candyland",
         category = "Candy",
@@ -360,7 +376,7 @@ val dessertRestauList = listOf(
         specialties = listOf("Gummies", "Lollipops", "Chocolates"),
         discount = "15% off orders over $20",
     ),
-    DessertRestau(
+    DessertShop(
         id = 4,
         name = "Juicy Bar",
         category = "Cafe",
@@ -371,7 +387,7 @@ val dessertRestauList = listOf(
         specialties = listOf("Fresh Juices", "Smoothies", "Iced Teas"),
         discount = "20% off first order",
     ),
-    DessertRestau(
+    DessertShop(
         id = 5,
         name = "Chocolate Haven",
         category = "Candy",
@@ -382,7 +398,7 @@ val dessertRestauList = listOf(
         specialties = listOf("Truffles", "Dark Chocolate", "Caramel Bars"),
         discount = "Free gift with purchase",
     ),
-    DessertRestau(
+    DessertShop(
         id = 6,
         name = "Cafe Cocoa",
         category = "Cafe",
@@ -393,7 +409,7 @@ val dessertRestauList = listOf(
         specialties = listOf("Hot Chocolate", "Espresso", "Brownies"),
         discount = "5% off",
     ),
-    DessertRestau(
+    DessertShop(
         id = 7,
         name = "Gourmet Pastries",
         category = "Dessert",
@@ -404,7 +420,7 @@ val dessertRestauList = listOf(
         specialties = listOf("Croissants", "Baklava", "Pies"),
         discount = "10% off orders over $15",
     ),
-    DessertRestau(
+    DessertShop(
         id = 8,
         name = "Fizz & Pop",
         category = "Cafe",
@@ -415,7 +431,7 @@ val dessertRestauList = listOf(
         specialties = listOf("Sodas", "Milkshakes", "Lemonades"),
         discount = "Free drink with combo",
     ),
-    DessertRestau(
+    DessertShop(
         id = 9,
         name = "Sugar Rush",
         category = "Candy",
@@ -426,7 +442,7 @@ val dessertRestauList = listOf(
         specialties = listOf("Cotton Candy", "Jelly Beans", "Chocolate Bars"),
         discount = "5% off orders over $10",
         ),
-    DessertRestau(
+    DessertShop(
         id = 10,
         name = "Sips & Bites",
         category = "Cafe",
@@ -630,7 +646,6 @@ data class CategoryItem(
 
 val allFoodItems =
     listOf(
-        // PIZZA Category
         FoodItem(
             id = 1,
             restaurantId = 1,

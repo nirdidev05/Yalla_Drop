@@ -41,7 +41,7 @@ import java.time.LocalTime
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 
-fun HomePage(navController: NavController) {
+fun HomePage(navController: NavController,planName : String) {
     var hasLocationPermission by remember { mutableStateOf(false) }
     val context = LocalContext.current
     Column(
@@ -54,7 +54,7 @@ fun HomePage(navController: NavController) {
 
         GreetingSection("Walid","oued smar,Alger, 16 ")
         Spacer(modifier = Modifier.height(16.dp))
-        YallaPaySection(balance = "2000 DA")
+        YallaPaySection(balance = planName,navController)
         Spacer(modifier = Modifier.height(16.dp))
         CategoriesSection(navController)
         Spacer(modifier = Modifier.height(16.dp))
@@ -137,7 +137,7 @@ fun GreetingSection(name: String, location: String) {
     }}
 
 @Composable
-fun YallaPaySection(balance: String) {
+fun YallaPaySection(balance: String,navController: NavController) {
     Row(
         modifier = Modifier
             .width(350.dp)
@@ -166,7 +166,7 @@ fun YallaPaySection(balance: String) {
         Box(
             modifier = Modifier
                 .padding(start = 16.dp)
-                .clickable(onClick = { /* TODO: Add click action */ })
+                .clickable(onClick = { navController.navigate("deliverySubscription") })
                 .background(Color(0xFFFF5722), RoundedCornerShape(20.dp))
                 .padding(horizontal = 12.dp, vertical = 6.dp),
             contentAlignment = Alignment.Center
@@ -229,7 +229,7 @@ fun CategoriesSection(navController: NavController) {
                     .weight(1f)
                     .aspectRatio(1f)
                     .padding(start = 4.dp)
-                    .clickable { /* Add action if needed */ }
+                    .clickable { navController.navigate("DessertPage") }
             )
         }
     }

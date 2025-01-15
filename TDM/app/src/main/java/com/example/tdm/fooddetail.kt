@@ -1,7 +1,6 @@
 package com.example.tdm
 
 import FoodItem
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -14,11 +13,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
 object FoodDataProvider {
@@ -346,48 +347,34 @@ fun FoodDetailScreen(
 
     var quantity by remember { mutableStateOf(1) }
     val backgroundColor = Color(0xFFFFF8F1)
+    val primaryAccent = Color(0xFFFB8C00)
 
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        text = "Kabeer Food",
-                        color = Color.White,
-                        fontWeight = FontWeight.Bold
-                    )
-                },
+            TopAppBar(
                 navigationIcon = {
-                    IconButton(onClick = { navController.navigateUp() }) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Back",
-                            tint = Color.White
-                        )
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
-                actions = {
-                    IconButton(onClick = { /* Handle cart click */ }) {
-                        Icon(
-                            imageVector = Icons.Default.ShoppingCart,
-                            contentDescription = "Cart",
-                            tint = Color.White
-                        )
+                title = {
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(text = "FOOD DETAILS")
                     }
-                },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = Color(0xFFFF7622)
-                )
+                }
             )
         }
-    ) { paddingValues ->
+    )
+    { innerPadding ->
         Column(
-            modifier = modifier
+            modifier = Modifier
+                .padding(innerPadding)
                 .fillMaxSize()
                 .background(backgroundColor)
-                .padding(paddingValues)
         ) {
-            // Food Image
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -404,121 +391,129 @@ fun FoodDetailScreen(
                 )
             }
 
-            // Category
-            Text(
-                text = foodItem.category,
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
+            Spacer(modifier = Modifier.height(16.dp))
 
-            // Food Name and Rating
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
+            Column(modifier = Modifier.padding(16.dp)) {
                 Text(
                     text = foodItem.name,
-                    style = MaterialTheme.typography.headlineMedium,
+                    style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold
                 )
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        imageVector = Icons.Default.Star,
-                        contentDescription = "Rating",
-                        tint = Color(0xFFFFDA7D)
-                    )
-                    Text(
-                        text = "${foodItem.rating} (${foodItem.reviews} Reviews)",
-                        style = MaterialTheme.typography.bodyMedium
-                    )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            Icons.Filled.Star,
+                            contentDescription = "Rating",
+                            tint = Color(0xFFFFD700)
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(
+                            text = "${foodItem.rating} (${foodItem.reviews} reviews)",
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    }
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "${foodItem.category} •",
+                            style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Medium),
+                            color = MaterialTheme.colorScheme.secondary
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(
+                            text = "${foodItem.price}",
+                            style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Medium),
+                            color = Color(0xFFFF6B35)
+                        )
+                    }
+                }
+
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text(
+                    text = foodItem.description,
+                    style = MaterialTheme.typography.bodyMedium
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = foodItem.description,
+                    style = MaterialTheme.typography.bodyLarge.copy(lineHeight = 24.sp),
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = "Ingredients",
+                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
+                    color = primaryAccent
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Column {
+                    foodItem.ingredients.forEach { ingredient ->
+                        Text(
+                            text = "• $ingredient",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
                 }
             }
 
-            // Ingredients Section
-            Text(
-                text = "About",
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(16.dp)
-            )
-            foodItem.ingredients.forEach { ingredient ->
-                Text(
-                    text = ingredient,
-                    style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 2.dp)
-                )
-            }
-
+            // Action Section
             Spacer(modifier = Modifier.height(16.dp))
-
-            // Quantity and Add to Cart Section
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                // Quantity Control
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    IconButton(
-                        onClick = { if (quantity > 1) quantity-- },
-                        modifier = Modifier
-                            .size(48.dp)
-                            .background(
-                                color = Color(0xFFFF7622).copy(alpha = 0.1f),
-                                shape = CircleShape
-                            )
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Clear,
-                            contentDescription = "Decrease Quantity",
-                            tint = Color(0xFFFF7622)
-                        )
-                    }
-                    Text(
-                        text = "$quantity",
-                        style = MaterialTheme.typography.titleLarge,
-                        modifier = Modifier.padding(horizontal = 16.dp)
-                    )
-                    IconButton(
-                        onClick = { quantity++ },
-                        modifier = Modifier
-                            .size(48.dp)
-                            .background(
-                                color = Color(0xFFFF7622).copy(alpha = 0.1f),
-                                shape = CircleShape
-                            )
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Add,
-                            contentDescription = "Increase Quantity",
-                            tint = Color(0xFFFF7622)
-                        )
-                    }
+                IconButton(
+                    onClick = { if (quantity > 1) quantity-- },
+                    modifier = Modifier.background(primaryAccent, shape = RoundedCornerShape(8.dp))
+                ) {
+                    Icon(Icons.Default.Remove, contentDescription = "Decrease", tint = Color.White)
                 }
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Add to Cart Button
-            Button(
-                onClick = { /* Handle Add to Cart */ },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF7622)),
-                shape = RoundedCornerShape(16.dp)
-            ) {
                 Text(
-                    text = "ADD TO CART",
-                    style = MaterialTheme.typography.titleMedium,
-                    color = Color.White,
-                    modifier = Modifier.padding(vertical = 8.dp)
+                    text = "$quantity",
+                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                    modifier = Modifier.padding(horizontal = 8.dp)
                 )
+                IconButton(
+                    onClick = { quantity++ },
+                    modifier = Modifier.background(primaryAccent, shape = RoundedCornerShape(8.dp))
+                ) {
+                    Icon(Icons.Default.Add, contentDescription = "Increase", tint = Color.White)
+                }
+                Spacer(modifier = Modifier.weight(1f))
+                Button(
+                    onClick = { /* Add to cart */ },
+                    colors = ButtonDefaults.buttonColors(containerColor = primaryAccent),
+                    shape = RoundedCornerShape(16.dp),
+                    modifier = Modifier.shadow(8.dp, RoundedCornerShape(16.dp))
+                ) {
+                    Text(
+                        "Add to Cart",
+                        style = MaterialTheme.typography.labelLarge.copy(
+                            fontWeight = FontWeight.Medium,
+                            color = Color.White
+                        )
+                    )
+                }
             }
         }
     }

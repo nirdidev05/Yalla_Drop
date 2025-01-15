@@ -1,4 +1,5 @@
 package com.example.tdm
+
 import CategoryItemsPage
 import FoodDeliveryScreen
 import UnoPartnershipPage
@@ -13,6 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.example.tdm.model.groceries
+import com.example.tdm.ui.DessertPage
 import com.example.tdm.ui.FoodPage
 import com.example.tdm.ui.theme.HomePage
 
@@ -37,9 +39,11 @@ class MainActivity : ComponentActivity() {
                     ConnectionPage(navController = navController)
                 }
 
+                // HomePage with planName argument
                 composable("homePage") {
-                    HomePage(navController = navController)
+                    HomePage(navController = navController, planName = "Get Subscription")
                 }
+
                 composable("uno") {
                     UnoPartnershipPage(navController = navController)
                 }
@@ -52,10 +56,24 @@ class MainActivity : ComponentActivity() {
                     FoodPage(navController = navController)
                 }
 
+                composable("DessertPage") {
+                    DessertPage(navController = navController)
+                }
+
                 composable("grocery") {
                     GroceryPage(navController = navController)
                 }
 
+                composable("deliverySubscription") {
+                    DeliverySubscriptionScreen(navController = navController)
+                }
+
+
+                // Handle planName in the route
+                composable("homepage/{planName}") { backStackEntry ->
+                    val planName = backStackEntry.arguments?.getString("planName")
+                    planName?.let { HomePage(navController = navController, planName = it) }
+                }
 
                 composable(
                     route = "category_items/{categoryName}",
@@ -84,6 +102,33 @@ class MainActivity : ComponentActivity() {
                     )
                 }
 
+                composable(
+                    route = "candyDelivery/{restaurantId}/{restaurantName}/{photoResId}",
+                    arguments = listOf(
+                        navArgument("restaurantId") { type = NavType.IntType },
+                        navArgument("restaurantName") { type = NavType.StringType },
+                        navArgument("photoResId") { type = NavType.IntType }
+                    )
+                ) { backStackEntry ->
+                    CandyDeliveryScreen(
+                        navController = navController,
+                        restaurantId = backStackEntry.arguments?.getInt("restaurantId") ?: 0,
+                        restaurantName = backStackEntry.arguments?.getString("restaurantName") ?: "",
+                        restaurantImage = backStackEntry.arguments?.getInt("photoResId") ?: 0
+                    )
+                }
+
+                composable(
+                    route = "candyDetail/{foodId}",
+                    arguments = listOf(
+                        navArgument("foodId") { type = NavType.IntType }
+                    )
+                ) { backStackEntry ->
+                    CandyDetailScreen(
+                        foodId = backStackEntry.arguments?.getInt("foodId") ?: 0,
+                        navController = navController
+                    )
+                }
 
                 // Route for food detail with food ID
                 composable(
